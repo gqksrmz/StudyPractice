@@ -11,7 +11,7 @@ namespace Asp.NetDemo1.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (!Page.IsPostBack)
             {
                 this.textOld.Text = "请输入内容：";
             }
