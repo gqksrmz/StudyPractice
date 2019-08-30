@@ -80,6 +80,7 @@
     <Content Include="Page\TestCookie\TestCookie.aspx" />
     <Content Include="Page\TestViewState.aspx" />
     <Content Include="Page\UserLogin\Login.aspx" />
+    <Content Include="Page\Widget\TestWidget1.aspx" />
     <Content Include="Web.config" />
     <Content Include="Page\WebForm1.aspx" />
   </ItemGroup>
@@ -163,6 +164,13 @@
     </Compile>
     <Compile Include="Page\UserLogin\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Widget\TestWidget1.aspx.cs">
+      <DependentUpon>TestWidget1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\Widget\TestWidget1.aspx.designer.cs">
+      <DependentUpon>TestWidget1.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Page\WebForm1.aspx.cs">
