@@ -81,6 +81,7 @@
     <Content Include="Page\TestCookie\TestCookie.aspx" />
     <Content Include="Page\TestViewState.aspx" />
     <Content Include="Page\UserLogin\Login.aspx" />
+    <Content Include="Page\Widget\TestButtonDemo.aspx" />
     <Content Include="Page\Widget\TestWidget1.aspx" />
     <Content Include="Page\Widget\TestWidget2.aspx" />
     <Content Include="Web.config" />
@@ -166,6 +167,13 @@
     </Compile>
     <Compile Include="Page\UserLogin\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Widget\TestButtonDemo.aspx.cs">
+      <DependentUpon>TestButtonDemo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\Widget\TestButtonDemo.aspx.designer.cs">
+      <DependentUpon>TestButtonDemo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Page\Widget\TestWidget1.aspx.cs">
       <DependentUpon>TestWidget1.aspx</DependentUpon>
