@@ -28,5 +28,11 @@ namespace Asp.NetDemo1.Page.Widget
         {
 
         }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            this.HyperLink1.NavigateUrl = "https://www.zouqibei.com";
+            this.HyperLink1.Text = "打开网页";
+        }
     }
 }

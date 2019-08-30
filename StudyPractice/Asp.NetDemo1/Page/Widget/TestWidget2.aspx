@@ -15,6 +15,13 @@
             <asp:LinkButton ID="LinkButton1" runat="server" OnClick="LinkButton1_Click">这是一个超链接按钮</asp:LinkButton>
             <br />
             <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/Content/316-1F51R02232-50.jpg" OnClick="ImageButton1_Click" Width="100px" />
+            <br />
+            <asp:RadioButton ID="RadioButton2" runat="server" Text="男" GroupName="Gender"/>
+            <asp:RadioButton ID="RadioButton1" runat="server" Text="女" GroupName="Gender"/>
+            <br />
+            <asp:HyperLink ID="HyperLink1" NavigateUrl="https://www.baidu.com" runat="server">这个是超链接控件</asp:HyperLink>
+            <br />
+            <asp:Button ID="Button2" runat="server" Text="改变链接地址" OnClick="Button2_Click" />
         </div>
     </form>
 </body>
