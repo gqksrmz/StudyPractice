@@ -71,6 +71,8 @@
     <Content Include="Page\Caculator.html" />
     <Content Include="Page\CalDemo.aspx" />
     <Content Include="Page\CopyText.aspx" />
+    <Content Include="Page\TestPageJump.aspx" />
+    <Content Include="Page\TestPageJump1.aspx" />
     <Content Include="Web.config" />
     <Content Include="Page\WebForm1.aspx" />
   </ItemGroup>
@@ -95,6 +97,20 @@
     </Compile>
     <Compile Include="Page\CopyText.aspx.designer.cs">
       <DependentUpon>CopyText.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\TestPageJump.aspx.cs">
+      <DependentUpon>TestPageJump.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\TestPageJump.aspx.designer.cs">
+      <DependentUpon>TestPageJump.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\TestPageJump1.aspx.cs">
+      <DependentUpon>TestPageJump1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\TestPageJump1.aspx.designer.cs">
+      <DependentUpon>TestPageJump1.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Page\WebForm1.aspx.cs">
