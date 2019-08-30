@@ -58,6 +58,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Global.asax" />
     <Content Include="Handlers\LoginHandler.ashx" />
     <Content Include="Handlers\CaculatorHandler.ashx" />
     <None Include="Web.Debug.config">
@@ -73,6 +74,7 @@
     <Content Include="Page\CopyText.aspx" />
     <Content Include="Page\ShoppingCart\ShoppingCart.aspx" />
     <Content Include="Page\ShoppingCart\Default.aspx" />
+    <Content Include="Page\TestGlobal\TestVisitAndUsers.aspx" />
     <Content Include="Page\TestPageJump.aspx" />
     <Content Include="Page\TestPageJump1.aspx" />
     <Content Include="Page\TestCookie\TestCookie.aspx" />
@@ -83,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\AdminService.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Handlers\CaculatorHandler.ashx.cs">
       <DependentUpon>CaculatorHandler.ashx</DependentUpon>
     </Compile>
@@ -116,6 +121,13 @@
     </Compile>
     <Compile Include="Page\ShoppingCart\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\TestGlobal\TestVisitAndUsers.aspx.cs">
+      <DependentUpon>TestVisitAndUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\TestGlobal\TestVisitAndUsers.aspx.designer.cs">
+      <DependentUpon>TestVisitAndUsers.aspx</DependentUpon>
     </Compile>
     <Compile Include="Page\TestPageJump.aspx.cs">
       <DependentUpon>TestPageJump.aspx</DependentUpon>
