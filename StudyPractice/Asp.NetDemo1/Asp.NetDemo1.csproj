@@ -73,6 +73,7 @@
     <Content Include="Page\CopyText.aspx" />
     <Content Include="Page\TestPageJump.aspx" />
     <Content Include="Page\TestPageJump1.aspx" />
+    <Content Include="Page\TestViewState.aspx" />
     <Content Include="Web.config" />
     <Content Include="Page\WebForm1.aspx" />
   </ItemGroup>
@@ -111,6 +112,13 @@
     </Compile>
     <Compile Include="Page\TestPageJump1.aspx.designer.cs">
       <DependentUpon>TestPageJump1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\TestViewState.aspx.cs">
+      <DependentUpon>TestViewState.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\TestViewState.aspx.designer.cs">
+      <DependentUpon>TestViewState.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Page\WebForm1.aspx.cs">

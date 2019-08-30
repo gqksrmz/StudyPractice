@@ -24,7 +24,9 @@ namespace Asp.NetDemo1.Page
             //输出信息
             Response.Write("浏览器机器版本信息：" + iexplorev + "<br></br>");
             Response.Write("浏览器使用的语言" + iexplorel);
-             
+            //Response.Redirect("https://www.baidu.com");//外部重定向
+            //Response.Redirect("TestPageJump.aspx");//内部重定向
+
         }
     }
 }
