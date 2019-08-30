@@ -71,6 +71,8 @@
     <Content Include="Page\Caculator.html" />
     <Content Include="Page\CalDemo.aspx" />
     <Content Include="Page\CopyText.aspx" />
+    <Content Include="Page\ShoppingCart\ShoppingCart.aspx" />
+    <Content Include="Page\ShoppingCart\WebForm1.aspx" />
     <Content Include="Page\TestPageJump.aspx" />
     <Content Include="Page\TestPageJump1.aspx" />
     <Content Include="Page\TestViewState.aspx" />
@@ -98,6 +100,20 @@
     </Compile>
     <Compile Include="Page\CopyText.aspx.designer.cs">
       <DependentUpon>CopyText.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\ShoppingCart\ShoppingCart.aspx.cs">
+      <DependentUpon>ShoppingCart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\ShoppingCart\ShoppingCart.aspx.designer.cs">
+      <DependentUpon>ShoppingCart.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\ShoppingCart\WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\ShoppingCart\WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
     <Compile Include="Page\TestPageJump.aspx.cs">
       <DependentUpon>TestPageJump.aspx</DependentUpon>
