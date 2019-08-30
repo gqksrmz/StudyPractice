@@ -30,18 +30,18 @@ namespace Asp.NetDemo1.Page.UploadFile
                 this.litMsg.Text = "<script type='text/javascript'>alert('上传文件最大不能超过"+limitedLength+"M')</script>";
                 return;
             }
-            //4.获取文件名，判断文件扩展名是否符合要求
+            //5.获取文件名，判断文件扩展名是否符合要求
             string fileName = this.fileUpload.FileName;
             if (fileName.Substring(fileName.LastIndexOf(".")).ToLower() == ".exe")
             {
                 this.litMsg.Text= "<script type='text/javascript'>alert('上传文件不能是exe文件')</script>";
                 return;
             }
-            //5.修改文件 abc.doc 改成年月日 20190830_文件名.扩展名
+            //6.修改文件 abc.doc 改成年月日 20190830_文件名.扩展名
             fileName = DateTime.Now.ToString("yyyyMMddhhssms") + "_" + fileName;
-            //6.获取服务器文件夹的路径
+            //7.获取服务器文件夹的路径
             string path = Server.MapPath("~/上传的文件");
-            //7.上传文件
+            //8.上传文件
             try
             {
                 this.fileUpload.SaveAs(path + "/" + fileName);
