@@ -75,6 +75,7 @@
     <Content Include="Page\ShoppingCart\Default.aspx" />
     <Content Include="Page\TestPageJump.aspx" />
     <Content Include="Page\TestPageJump1.aspx" />
+    <Content Include="Page\TestCookie\TestCookie.aspx" />
     <Content Include="Page\TestViewState.aspx" />
     <Content Include="Page\UserLogin\Login.aspx" />
     <Content Include="Web.config" />
@@ -129,6 +130,13 @@
     </Compile>
     <Compile Include="Page\TestPageJump1.aspx.designer.cs">
       <DependentUpon>TestPageJump1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\TestCookie\TestCookie.aspx.cs">
+      <DependentUpon>TestCookie.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\TestCookie\TestCookie.aspx.designer.cs">
+      <DependentUpon>TestCookie.aspx</DependentUpon>
     </Compile>
     <Compile Include="Page\TestViewState.aspx.cs">
       <DependentUpon>TestViewState.aspx</DependentUpon>
