@@ -37,7 +37,7 @@ namespace Asp.NetDemo1.Page.UploadFile
                 this.litMsg.Text= "<script type='text/javascript'>alert('上传文件不能是exe文件')</script>";
                 return;
             }
-            //6.修改文件 abc.doc 改成年月日 20190830_文件名.扩展名
+            //6.修改文件 abc.doc 改成年月日时分秒毫秒_文件名.扩展名
             fileName = DateTime.Now.ToString("yyyyMMddhhssms") + "_" + fileName;
             //7.获取服务器文件夹的路径
             string path = Server.MapPath("~/上传的文件");
