@@ -58,7 +58,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\316-1F51R02232-50.jpg" />
+    <Content Include="Images\316-1F51R02232-50.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Handlers\LoginHandler.ashx" />
     <Content Include="Handlers\CaculatorHandler.ashx" />
@@ -80,6 +80,7 @@
     <Content Include="Page\TestPageJump1.aspx" />
     <Content Include="Page\TestCookie\TestCookie.aspx" />
     <Content Include="Page\TestViewState.aspx" />
+    <Content Include="Page\UploadFile\TestUploadFile.aspx" />
     <Content Include="Page\UserLogin\Login.aspx" />
     <Content Include="Page\Widget\TestButtonDemo.aspx" />
     <Content Include="Page\Widget\TestWidget1.aspx" />
@@ -161,6 +162,13 @@
     <Compile Include="Page\TestViewState.aspx.designer.cs">
       <DependentUpon>TestViewState.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Page\UploadFile\TestUploadFile.aspx.cs">
+      <DependentUpon>TestUploadFile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\UploadFile\TestUploadFile.aspx.designer.cs">
+      <DependentUpon>TestUploadFile.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Page\UserLogin\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -197,6 +205,9 @@
     <Compile Include="Page\WebForm1.aspx.designer.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="上传的文件\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
