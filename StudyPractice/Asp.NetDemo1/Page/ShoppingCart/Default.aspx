@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="Asp.NetDemo1.Page.ShoppingCart.WebForm1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Asp.NetDemo1.Page.ShoppingCart.WebForm1" %>
 
 <!DOCTYPE html>
 
@@ -23,6 +23,8 @@
             <asp:Button ID="btnAdd" runat="server" Text="将所选择的商品添加到购物车" OnClick="btnAdd_Click" />
             <asp:Button ID="btnShow" runat="server" Text="显示购物车" OnClick="btnShow_Click" />
         </div>
+        <asp:Literal ID="litMsg" runat="server"></asp:Literal>
+        <asp:Button ID="btnExit" runat="server" Text="退出登录" OnClick="btnExit_Click" />
     </form>
 </body>
 </html>
