@@ -73,6 +73,8 @@
     <Content Include="Page\Caculator.html" />
     <Content Include="Page\CalDemo.aspx" />
     <Content Include="Page\CopyText.aspx" />
+    <Content Include="Page\Server\Test.aspx" />
+    <Content Include="Page\Server\TestTransfer.aspx" />
     <Content Include="Page\ShoppingCart\ShoppingCart.aspx" />
     <Content Include="Page\ShoppingCart\Default.aspx" />
     <Content Include="Page\TestGlobal\TestVisitAndUsers.aspx" />
@@ -112,6 +114,20 @@
     </Compile>
     <Compile Include="Page\CopyText.aspx.designer.cs">
       <DependentUpon>CopyText.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Server\Test.aspx.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\Server\Test.aspx.designer.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Server\TestTransfer.aspx.cs">
+      <DependentUpon>TestTransfer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\Server\TestTransfer.aspx.designer.cs">
+      <DependentUpon>TestTransfer.aspx</DependentUpon>
     </Compile>
     <Compile Include="Page\ShoppingCart\ShoppingCart.aspx.cs">
       <DependentUpon>ShoppingCart.aspx</DependentUpon>
