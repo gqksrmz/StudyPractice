@@ -62,6 +62,7 @@
     <Content Include="Global.asax" />
     <Content Include="Handlers\LoginHandler.ashx" />
     <Content Include="Handlers\CaculatorHandler.ashx" />
+    <Content Include="Page\TestMain\MainPage.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -78,6 +79,7 @@
     <Content Include="Page\ShoppingCart\ShoppingCart.aspx" />
     <Content Include="Page\ShoppingCart\Default.aspx" />
     <Content Include="Page\TestGlobal\TestVisitAndUsers.aspx" />
+    <Content Include="Page\TestMain\TestMain.aspx" />
     <Content Include="Page\TestPageJump.aspx" />
     <Content Include="Page\TestPageJump1.aspx" />
     <Content Include="Page\TestCookie\TestCookie.aspx" />
@@ -120,6 +122,13 @@
     <Compile Include="Page\CopyText.aspx.designer.cs">
       <DependentUpon>CopyText.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Page\TestMain\MainPage.Master.cs">
+      <DependentUpon>MainPage.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\TestMain\MainPage.Master.designer.cs">
+      <DependentUpon>MainPage.Master</DependentUpon>
+    </Compile>
     <Compile Include="Page\Server\Test.aspx.cs">
       <DependentUpon>Test.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -154,6 +163,13 @@
     </Compile>
     <Compile Include="Page\TestGlobal\TestVisitAndUsers.aspx.designer.cs">
       <DependentUpon>TestVisitAndUsers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\TestMain\TestMain.aspx.cs">
+      <DependentUpon>TestMain.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\TestMain\TestMain.aspx.designer.cs">
+      <DependentUpon>TestMain.aspx</DependentUpon>
     </Compile>
     <Compile Include="Page\TestPageJump.aspx.cs">
       <DependentUpon>TestPageJump.aspx</DependentUpon>
