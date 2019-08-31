@@ -84,6 +84,11 @@
     <Content Include="Page\TestViewState.aspx" />
     <Content Include="Page\UploadFile\TestUploadFile.aspx" />
     <Content Include="Page\UserLogin\Login.aspx" />
+    <Content Include="Page\Validatator\TestCompareValidator.aspx" />
+    <Content Include="Page\Validatator\TestRangeValidator.aspx" />
+    <Content Include="Page\Validatator\TestRegularExpressionValidator.aspx" />
+    <Content Include="Page\Validatator\TestRequiredFieldValidator.aspx" />
+    <Content Include="Page\Validatator\TestValidationSummary.aspx" />
     <Content Include="Page\Widget\TestButtonDemo.aspx" />
     <Content Include="Page\Widget\TestWidget1.aspx" />
     <Content Include="Page\Widget\TestWidget2.aspx" />
@@ -191,6 +196,41 @@
     </Compile>
     <Compile Include="Page\UserLogin\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Validatator\TestCompareValidator.aspx.cs">
+      <DependentUpon>TestCompareValidator.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\Validatator\TestCompareValidator.aspx.designer.cs">
+      <DependentUpon>TestCompareValidator.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Validatator\TestRangeValidator.aspx.cs">
+      <DependentUpon>TestRangeValidator.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\Validatator\TestRangeValidator.aspx.designer.cs">
+      <DependentUpon>TestRangeValidator.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Validatator\TestRegularExpressionValidator.aspx.cs">
+      <DependentUpon>TestRegularExpressionValidator.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\Validatator\TestRegularExpressionValidator.aspx.designer.cs">
+      <DependentUpon>TestRegularExpressionValidator.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Validatator\TestRequiredFieldValidator.aspx.cs">
+      <DependentUpon>TestRequiredFieldValidator.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\Validatator\TestRequiredFieldValidator.aspx.designer.cs">
+      <DependentUpon>TestRequiredFieldValidator.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page\Validatator\TestValidationSummary.aspx.cs">
+      <DependentUpon>TestValidationSummary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page\Validatator\TestValidationSummary.aspx.designer.cs">
+      <DependentUpon>TestValidationSummary.aspx</DependentUpon>
     </Compile>
     <Compile Include="Page\Widget\TestButtonDemo.aspx.cs">
       <DependentUpon>TestButtonDemo.aspx</DependentUpon>
