@@ -1,7 +1,5 @@
 ﻿[
-	{ id: "Book", text: "图书管理", iconCls: "icon-add"},
-	{ id: "bookManager", pid: "Book", text: "所有图书", iconCls: "icon-add", url: "AllBook.aspx" },
-		
-	{ id: "BookLend", text: "图书借阅管理"},
-	{ id: "bookLendManager", pid: "BookLend", text: "借阅信息", iconCls: "Note", url: "BookLendManager.aspx" },	
+	{ id: "Book", text: "图书管理"},
+	{ id: "AllBook.aspx", pid: "Book", text: "所有图书" },
+	{ id: "BookLendManager.aspx", pid: "Book", text: "借阅信息" },	
 ]
