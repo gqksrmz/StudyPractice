@@ -9,7 +9,7 @@ namespace Common
     public static class SqlHelper
     {
         //获取配置文件中的连接字符串
-        private static readonly string constr = ConfigurationManager.ConnectionStrings["sql"].ConnectionString;
+        private static readonly string constr =ConfigurationManager.ConnectionStrings["sql"].ConnectionString;
         /// <summary>
         /// 执行insert，delete，update方法
         /// </summary>

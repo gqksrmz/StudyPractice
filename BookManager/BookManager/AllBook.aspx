@@ -33,7 +33,7 @@
         </div>
     </div>
     <div id="datagrid1" class="mini-datagrid" style="width:800px;height:280px;" allowResize="true"
-        url="../data/AjaxService.aspx?method=SearchEmployees"  idField="id" multiSelect="true" 
+        url="PageAjaxService.aspx?method=LoadAllBook"  idField="id" multiSelect="true" 
     >
         <div property="columns">
             <!--<div type="indexcolumn"></div>        -->
@@ -50,10 +50,10 @@
     
 
     <script type="text/javascript">
-        //mini.parse();
+        mini.parse();
 
-        //var grid = mini.get("datagrid1");
-        //grid.load();
+        var grid = mini.get("datagrid1");
+        grid.load();
 
         function add() {
 
