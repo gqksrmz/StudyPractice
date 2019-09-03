@@ -18,17 +18,18 @@ namespace Web
         }
         public void SearchAllBook()
         {
-            //查询条件
-            string key = GetString("key");
-            //分页
-            int pageIndex = GetInt("pageIndex");
-            int pageSize = GetInt("pageSize");
-            //字段排序
-            String sortField = GetString("sortFirld");
-            String sortOrder = GetString("sortOrder");
-            //业务层：数据库操作
-            Hashtable result = bookInfoBLL.SearchBookResult(key, pageIndex, pageSize, sortField, sortOrder);
-            RenderJson(result);
+            ////查询条件
+            //string key = GetString("key");
+            ////分页
+            //int pageIndex = GetInt("pageIndex");
+            //int pageSize = GetInt("pageSize");
+            ////字段排序
+            //String sortField = GetString("sortFirld");
+            //String sortOrder = GetString("sortOrder");
+            ////业务层：数据库操作
+            //Hashtable result = bookInfoBLL.SearchBookResult(key, pageIndex, pageSize, sortField, sortOrder);
+            ArrayList result1 = bookInfoBLL.GetList();
+            RenderJson(result1);
         }
         public void SaveBooks()
         {

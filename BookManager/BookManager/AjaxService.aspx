@@ -1,1 +1,1 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AjaxService.aspx.cs" Inherits="BookManager.AjaxService" %>
+﻿<%@ Page ValidateRequest="false" Language="C#" AutoEventWireup="true" CodeBehind="AjaxService.aspx.cs" Inherits="BookManager.AjaxService" %>

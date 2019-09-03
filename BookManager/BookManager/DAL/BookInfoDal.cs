@@ -11,6 +11,7 @@ namespace DAL
 {
     public class BookInfoDal
     {
+        
         string selectSql = @"select * from BookInfo";
         //插入新数据
         public string Inert(Hashtable entity, IDbTransaction trans = null)
@@ -69,7 +70,7 @@ namespace DAL
                 p["dir"] = sortOrder;
                 sortFirlds.Add(p);
             }
-            return ;
+            return Search(key,pageIndex,pageSize,sortFirlds) ;
         }
 
         public ArrayList Search(string key,int pageIndex,int pageSize,ArrayList sortFirlds)

@@ -9,7 +9,7 @@
     <link href="Content/css/demo.css" rel="stylesheet" type="text/css" />
 
     <script src="Content/scripts/boot.js" type="text/javascript"></script>
-    <script src="Content/js/ColumnsMenu.js" type="text/javascript"></script>
+  <%--  <script src="Content/js/ColumnsMenu.js" type="text/javascript"></script>--%>
 
 </head>
 <body>
@@ -33,16 +33,16 @@
         </div>
     </div>
     <div id="datagrid1" class="mini-datagrid" style="width:800px;height:280px;" allowResize="true"
-        url="PageAjaxService.aspx?method=LoadAllBook"  idField="id" multiSelect="true" 
+        url="AjaxService.aspx?method=SearchAllBook"  idField="id" multiSelect="true" 
     >
         <div property="columns">
             <!--<div type="indexcolumn"></div>        -->
             <div type="checkcolumn" ></div>        
-            <div field="bookGuid" width="120" headerAlign="center" allowSort="true">图书编号</div>    
-            <div field="bookName" width="120" headerAlign="center" allowSort="true">图书名称</div>    
-            <div field="bookType" width="120" headerAlign="center" allowSort="true">图书类别</div>    
-            <div field="suitAble" width="120" headerAlign="center" allowSort="true">适合人群</div>    
-            <div field="buyDate" width="120" headerAlign="center" allowSort="true">入库日期</div>    
+            <div field="bookguid" width="120" headerAlign="center" allowSort="true">图书编号</div>    
+            <div field="bookname" width="120" headerAlign="center" allowSort="true">图书名称</div>    
+            <div field="booktype" width="120" headerAlign="center" allowSort="true">图书类别</div>    
+            <div field="suitable" width="120" headerAlign="center" allowSort="true">适合人群</div>    
+            <div field="buydate" width="120" headerAlign="center" allowSort="true">入库日期</div>    
             <div field="count" width="120" headerAlign="center" allowSort="true">借阅次数</div>    
             <div field="remark" width="120" headerAlign="center" allowSort="true">备注</div>  
         </div>
@@ -114,6 +114,25 @@
         function onKeyEnter(e) {
             search();
         }
+        function onBirthdayRenderer(e) {
+            var value = e.value;
+            if (value) return mini.formatDate(value, 'yyyy-MM-dd');
+            return "";
+        }
+        function onMarriedRenderer(e) {
+            if (e.value == 1) return "是";
+            else return "否";
+        }
+        var Genders = [{ id: 1, text: '男' }, { id: 2, text: '女' }];
+        function onGenderRenderer(e) {
+            for (var i = 0, l = Genders.length; i < l; i++) {
+                var g = Genders[i];
+                if (g.id == e.value) return g.text;
+            }
+            return "";
+        }
+
+
        
 
     </script>
