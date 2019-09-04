@@ -1,54 +1,53 @@
-﻿using DAL;
+﻿using BookManager.DAL;
 using Plusoft.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace Bll
+namespace BookManager.BLL
 {
-    public class BookInfoBLL
+    public class BorrowInfoBLL
     {
-        BookInfoDal bookInfoDal = new BookInfoDal();
+        BorrowInfoDal borrowInfoDal = new  BorrowInfoDal();
         //增
         public string Insert(Hashtable entity)
         {
-            return bookInfoDal.Inert(entity);
+            return borrowInfoDal.Inert(entity);
         }
         //改
         public bool Update(Hashtable entity)
         {
-            return bookInfoDal.Update(entity);
+            return borrowInfoDal.Update(entity);
         }
         //删除
         public bool Delete(string id)
         {
-            return bookInfoDal.Delete(id);
+            return borrowInfoDal.Delete(id);
         }
         //根据id获取单个实体
         public Hashtable GetEntity(string id)
         {
-            return bookInfoDal.GetEntity(id);
+            return borrowInfoDal.GetEntity(id);
         }
         //获取列表
         public ArrayList GetList()
         {
-            return bookInfoDal.GetList();
+            return borrowInfoDal.GetList();
         }
-        public ArrayList SearchBook(String key,int pageIndex,int pageSize,ArrayList sortFields=null)
+        public ArrayList SearchBorrowInfo(String key, int pageIndex, int pageSize, ArrayList sortFields = null)
         {
-            return bookInfoDal.Search(key, pageIndex, pageSize, sortFields);
+            return borrowInfoDal.Search(key, pageIndex, pageSize, sortFields);
         }
-        public ArrayList SearchBook(String key, int pageIndex, int pageSize,String sortField,String sortOrder)
+        public ArrayList SearchBorrowInfo(String key, int pageIndex, int pageSize, String sortField, String sortOrder)
         {
-            return bookInfoDal.Search(key, pageIndex, pageSize, sortField,sortOrder);
+            return borrowInfoDal.Search(key, pageIndex, pageSize, sortField, sortOrder);
         }
         //查询图书结果
-        public Hashtable SearchBookResult(String key,int pageIndex,int pageSize, ArrayList sortFields)
+        public Hashtable SearchBorrowInfoResult(String key, int pageIndex, int pageSize, ArrayList sortFields)
         {
-            ArrayList data = SearchBook(key, pageIndex, pageSize, sortFields);
+            ArrayList data = SearchBorrowInfo(key, pageIndex, pageSize, sortFields);
             int total = SearchBookTotal();
             Hashtable result = new Hashtable();
             result["data"] = data;
@@ -57,7 +56,7 @@ namespace Bll
         }
         public Hashtable SearchBookResult(String key, int pageIndex, int pageSize, String sortField, String sortOrder)
         {
-            ArrayList data = SearchBook(key, pageIndex, pageSize, sortField,sortOrder);
+            ArrayList data = SearchBorrowInfo(key, pageIndex, pageSize, sortField, sortOrder);
             int total = SearchBookTotal();
             Hashtable result = new Hashtable();
             result["data"] = data;
@@ -67,12 +66,12 @@ namespace Bll
         //总共多少图书
         public int SearchBookTotal()
         {
-            return bookInfoDal.GetCount();
+            return borrowInfoDal.GetCount();
         }
 
         public bool SaveBook(ArrayList data)
         {
-            using (var conn=DapperHelper.GetConnection())
+            using (var conn = DapperHelper.GetConnection())
             {
                 conn.Open();
                 var trans = conn.BeginTransaction();
@@ -81,26 +80,27 @@ namespace Bll
                     for (int i = 0; i < data.Count; i++)
                     {
                         Hashtable o = (Hashtable)data[i];
-                        String bookguid = o["bookguid"] != null ? o["bookguid"].ToString() : "";
+                        String bookname = o["bookname"] != null ? o["bookname"].ToString() : "";
                         //根据记录状态，进行不同的增加，删除，修改操作
                         String state = o["_state"] != null ? o["_state"].ToString() : "";
                         //新增id为空或者_state为added
-                        if (state=="added"|| bookguid == "")
+                        if (state == "added" || bookname == "")
                         {
-                            bookInfoDal.Inert(o, trans);
+                            borrowInfoDal.Inert(o, trans);
                         }
                         //删除_state为removed或deleted
-                        else if (state=="removed"||state=="deleted")
+                        else if (state == "removed" || state == "deleted")
                         {
-                            bookInfoDal.Delete(bookguid, trans);
+                            borrowInfoDal.Delete(bookname, trans);
                         }
                         //更新_state为空或modified
-                        else if (state=="modified"||state==""){
-                            bookInfoDal.Update(o, trans);
+                        else if (state == "modified" || state == "")
+                        {
+                            borrowInfoDal.Update(o, trans);
                         }
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     trans.Rollback();
                     return false;

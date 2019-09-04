@@ -22,13 +22,47 @@ namespace Plusoft.Utilities
      */
     public class DapperHelper
     {
-        private static ConnectionStringSettings connSettings = ConfigurationManager.ConnectionStrings["database"];
-        //
-        //ConfigurationManager.ConnectionStrings
+        private static ConnectionStringSettings connSettings = ConfigurationManager.ConnectionStrings["ConnectionString"];
+
+        public static bool IsMySql
+        {
+            get
+            {
+                return connSettings.ProviderName.IndexOf("MySql") != -1;
+            }
+        }
+
+        public static bool IsSqlServer
+        {
+            get
+            {
+                return connSettings.ProviderName == "System.Data.SqlClient";
+            }
+        }
+
+        public static bool IsOracle
+        {
+            get
+            {
+                return connSettings.ProviderName.IndexOf("Oracle") != -1;
+            }
+        }
+
         public static IDbConnection GetConnection()
         {
             IDbConnection conn = null;
-            conn = new SqlConnection(connSettings.ConnectionString);
+            if (IsSqlServer)
+            {
+                conn = new SqlConnection(connSettings.ConnectionString);
+            }
+            else if (IsMySql)
+            {
+                conn = new MySqlConnection(connSettings.ConnectionString);
+            }
+            else if (IsOracle)
+            {
+                //conn = new OracleConnection(connSettings.ConnectionString);
+            }
             return conn;
         }
 
@@ -62,13 +96,38 @@ namespace Plusoft.Utilities
 
                 MatchCollection ms = Regex.Matches(sql, @"@\w+");
 
+                if (IsOracle)
+                {
+                    int i = 1;
+
+                    List<String> keys = new List<string>();
+                    foreach (Match m in ms)
+                    {
+                        string key = m.Value;
+                        keys.Add(key);
+                    }
+
+                    keys = keys.OrderByDescending(str => str.Length).ToList();  //字符串数组，从长到短排列
+
+                    foreach (String key in keys)
+                    {
+                        Object value = ht_low[key.ToLower().Substring(1)];
+
+                        string newKey = "P" + i++;
+                        sql = sql.Replace(key, ":" + newKey);        //ORACLE做一下参数名替换，因为ORACLE对参数名约束比较严格，容易出错
+
+                        pars.Add(newKey, value);
+                    }
+                }
+                else
+                {
                     foreach (Match m in ms)
                     {
                         string key = m.Value.ToLower();
                         Object value = ht_low[key.Substring(1)];
                         pars.Add(key, value);
                     }
-                
+                }
 
             }
             return param;
@@ -149,7 +208,13 @@ namespace Plusoft.Utilities
 
         public static ArrayList QueryPage(string sql, object param, int pageIndex, int pageSize)
         {
-            
+            if (IsMySql)
+            {
+                sql += "\nlimit " + pageIndex * pageSize + "," + pageSize;
+                return Query(sql, param);
+            }
+            else
+            {
                 //! 非mysql暂用内存分页，不可取，实际开发中应自己编写分页SQL。
                 ArrayList dataAll = Query(sql, param);
                 //return data.GetRange(pageIndex, pageSize);        
@@ -168,7 +233,7 @@ namespace Plusoft.Utilities
                 }
                 return data;
 
-            
+            }
 
             //sqlserver 2012
             //select * from 表 OFFSET PageIndex*pagenum ROWS FETCH next pagenum rows only

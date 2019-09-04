@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -17,6 +18,31 @@ namespace Web
         {
             this.Request = Request;
             this.Response = Response;
+            String methodName = Request["method"];
+
+            try
+            {
+                Type type = this.GetType();
+                MethodInfo method = type.GetMethod(methodName);
+                if (method == null) throw new Exception("The method \"" + methodName + "\" is not found.");
+                method.Invoke(this, null);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null) ex = ex.InnerException;
+                Hashtable result = new Hashtable();
+                result["success"] = false;
+                result["error"] = -1;
+                result["message"] = ex.Message;
+                result["stackTrace"] = ex.StackTrace;
+                String json = JSON.Encode(result);
+                Response.Clear();
+                Response.Write(json);
+            }
+            finally
+            {
+               
+            }
         }
         public String GetString(String name)
         {

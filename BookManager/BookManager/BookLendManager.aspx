@@ -15,7 +15,7 @@
 <body>
     <h1>图书借阅管理</h1>      
 
-    <div style="width:800px;">
+    <div style="width:1100px;">
         <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
             <table style="width:100%;">
                 <tr>
@@ -32,29 +32,29 @@
             </table>           
         </div>
     </div>
-    <div id="datagrid1" class="mini-datagrid" style="width:800px;height:280px;" allowResize="true"
-        url="../data/AjaxService.aspx?method=SearchEmployees"  idField="id" multiSelect="true" 
+    <div id="datagrid1" class="mini-datagrid" style="width:1100px;height:350px;" allowResize="true"
+        url="AjaxService.aspx?method=SearchAllBorrowInfo"  idField="id" multiSelect="true" 
     >
         <div property="columns">
             <!--<div type="indexcolumn"></div>        -->
             <div type="checkcolumn" ></div>        
-            <div field="bookName" width="120" headerAlign="center" allowSort="true">图书名称</div>    
-            <div field="useGuid" width="120" headerAlign="center" allowSort="true">借阅标识</div>    
-            <div field="borrowPerson" width="120" headerAlign="center" allowSort="true">借阅人</div>    
+            <div field="bookname" width="120" headerAlign="center" allowSort="true">图书名称</div>    
+            <div field="useguid" width="120" headerAlign="center" allowSort="true">借阅标识</div>    
+            <div field="borrowperson" width="120" headerAlign="center" allowSort="true">借阅人</div>    
             <div field="handler" width="120" headerAlign="center" allowSort="true">办理人</div>    
-            <div field="borrowCause" width="120" headerAlign="center" allowSort="true">借阅事由</div>    
-            <div field="borrowDate" width="120" headerAlign="center" allowSort="true">借阅时间</div>    
-            <div field="returnDate" width="120" headerAlign="center" allowSort="true">归还日期</div>    
+            <div field="borrowcause" width="120" headerAlign="center" allowSort="true">借阅事由</div>    
+            <div field="borrowdate" width="120" headerAlign="center" allowSort="true">借阅时间</div>    
+            <div field="returndate" width="120" headerAlign="center" allowSort="true">归还日期</div>    
             <div field="remark" width="120" headerAlign="center" allowSort="true">备注</div> 
         </div>
     </div>
     
 
     <script type="text/javascript">
-        //mini.parse();
+        mini.parse();
 
-        //var grid = mini.get("datagrid1");
-        //grid.load();
+        var grid = mini.get("datagrid1");
+        grid.load();
 
         var menu = new ColumnsMenu(grid);
 
@@ -63,7 +63,7 @@
             mini.open({
                 targetWindow: window,
 
-                url:  "AddBook.aspx",
+                url:  "AddBorrowInfo.aspx",
                 title: "新增员工", width: 600, height: 400,
                
             });
@@ -75,7 +75,7 @@
             if (row) {
                 mini.open({
                     targetWindow: window,
-                    url:"AddBook.aspx",
+                    url:"AddBorrowInfo.aspx",
                     title: "编辑员工", width: 600, height: 400,
                     
                 });

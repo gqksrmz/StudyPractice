@@ -15,7 +15,7 @@
 <body>
     <h1>图书管理</h1>      
 
-    <div style="width:800px;">
+    <div style="width:1100px;">
         <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
             <table style="width:100%;">
                 <tr>
@@ -32,7 +32,7 @@
             </table>           
         </div>
     </div>
-    <div id="datagrid1" class="mini-datagrid" style="width:800px;height:280px;" allowResize="true"
+    <div id="datagrid1" class="mini-datagrid" style="width:1100px;height:350px;" allowResize="true"
         url="AjaxService.aspx?method=SearchAllBook"  idField="id" multiSelect="true" 
     >
         <div property="columns">
