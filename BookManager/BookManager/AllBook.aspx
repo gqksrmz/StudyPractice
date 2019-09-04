@@ -40,8 +40,8 @@
             <div type="checkcolumn" ></div>        
             <div field="bookguid" width="120" headerAlign="center" allowSort="true">图书编号</div>    
             <div field="bookname" width="120" headerAlign="center" allowSort="true">图书名称</div>    
-            <div field="booktype" width="120" headerAlign="center" allowSort="true">图书类别</div>    
-            <div field="suitable" width="120" headerAlign="center" allowSort="true">适合人群</div>    
+            <div field="booktype" width="120" headerAlign="center" allowSort="true" renderer="onBookTypeRenderer">图书类别</div>    
+            <div field="suitable" width="120" headerAlign="center" allowSort="true" renderer="onSuitableRenderer">适合人群</div>    
             <div field="buydate" width="120" headerAlign="center" allowSort="true">入库日期</div>    
             <div field="count" width="120" headerAlign="center" allowSort="true">借阅次数</div>    
             <div field="remark" width="120" headerAlign="center" allowSort="true">备注</div>  
@@ -54,6 +54,7 @@
 
         var grid = mini.get("datagrid1");
         grid.load();
+      
 
         function add() {
 
@@ -129,27 +130,27 @@
             var key = mini.get("key").getValue();
             grid.load({ key: key });
         }
-        function onKeyEnter(e) {
-            search();
-        }
-        function onBirthdayRenderer(e) {
-            var value = e.value;
-            if (value) return mini.formatDate(value, 'yyyy-MM-dd');
-            return "";
-        }
-        function onMarriedRenderer(e) {
-            if (e.value == 1) return "是";
-            else return "否";
-        }
-        var Genders = [{ id: 1, text: '男' }, { id: 2, text: '女' }];
-        function onGenderRenderer(e) {
-            for (var i = 0, l = Genders.length; i < l; i++) {
-                var g = Genders[i];
-                if (g.id == e.value) return g.text;
+        function onBookTypeRenderer(e) {
+            if (e.value == "1") {
+                return "电子科技";
+            } else if (e.value = "2") {
+                return "人文生活";
+            } else if (e.value = "3") {
+                return "时尚周刊";
+            } else if (e.value = "4") {
+                return "艺术鉴赏";
             }
-            return "";
         }
-
+        function onSuitableRenderer(e) {
+            if (e.value == "1") {
+                return "老年人";
+            } else if (e.value == "2") {
+                return "青年人";
+            }
+            else if (e.value == "3") {
+                return "儿童";
+            }
+        }
 
        
 

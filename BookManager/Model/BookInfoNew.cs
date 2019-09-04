@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Model
 {
-    public class BookInfo
+    public class BookInfoNew
     {
         private string _bookGuid;
         private string _bookName;
@@ -14,11 +14,11 @@ namespace Model
         private int _count;
         private string _remark;
 
-        public BookInfo()
+        public BookInfoNew()
         {
 
         }
-        public BookInfo(string bookGuid, string bookName, string bookType, int suitAble, DateTime buyDate, int count, string remark)
+        public BookInfoNew(string bookGuid, string bookName, string bookType, int suitAble, DateTime buyDate, int count, string remark)
         {
             this.BookGuid = bookGuid;
             this.BookName = bookName;

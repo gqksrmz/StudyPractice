@@ -9,7 +9,7 @@ namespace Model
         private string _bookGuid;
         private string _bookName;
         private string _bookType;
-        private int _suitAble;
+        private string _suitAble;
         private DateTime _buyDate;
         private int _count;
         private string _remark;
@@ -18,7 +18,7 @@ namespace Model
         {
 
         }
-        public BookInfo(string bookGuid, string bookName, string bookType, int suitAble, DateTime buyDate, int count, string remark)
+        public BookInfo(string bookGuid, string bookName, string bookType, string suitAble, DateTime buyDate, int count, string remark)
         {
             this.BookGuid = bookGuid;
             this.BookName = bookName;
@@ -68,7 +68,7 @@ namespace Model
             }
         }
 
-        public int SuitAble
+        public string SuitAble
         {
             get
             {
