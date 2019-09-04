@@ -49,12 +49,12 @@ namespace Web
         }
         public void RemoveBook()
         {
-            String id = GetString("id");
+            String id = GetString("bookguid");
             bookInfoBLL.Delete(id);
         }
         public void GetBook()
         {
-            String id = GetString("id");
+            String id = GetString("bookguid");
             Hashtable book = bookInfoBLL.GetEntity(id);
             RenderJson(book);
         }

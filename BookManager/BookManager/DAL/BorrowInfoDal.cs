@@ -39,17 +39,17 @@ namespace BookManager.DAL
             return result > 0;
         }
         //删除操作
-        public bool Delete(string bookname, IDbTransaction trans = null)
+        public bool Delete(string bookName, IDbTransaction trans = null)
         {
             string sql = @"delete from BookInfo where bookname=@bookname";
-            int result = DapperHelper.Execute(sql, new { bookname = bookname }, trans);
+            int result = DapperHelper.Execute(sql, new { bookname = bookName }, trans);
             return result > 0;
         }
         //根据id获取数据库实体对象
-        public Hashtable GetEntity(string bookname)
+        public Hashtable GetEntity(string bookGuid)
         {
-            string sql = selectSql + "wehere bookname=@bookname";
-            return DapperHelper.QuerySingle(sql, new { bookname = bookname });
+            string sql = selectSql + "where bookguid=@bookguid";
+            return DapperHelper.QuerySingle(sql, new { bookguid = bookGuid });
         }
         //获取数据库图书借阅信息列表
         public ArrayList GetList()

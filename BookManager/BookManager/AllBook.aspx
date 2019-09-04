@@ -70,7 +70,8 @@
                 ondestroy: function (action) {
 
                     grid.reload();
-                }
+                }
+
             });
         }
 
@@ -80,9 +81,18 @@
             if (row) {
                 mini.open({
                     targetWindow: window,
-                    url:  "AddBook.aspx",
+                    url:  "EditBookInfo.aspx",
                     title: "编辑图书", width: 600, height: 400,
-                   
+                    onload: function () {
+                        var iframe = this.getIFrameEl();
+                        var data = { action: "edit", id: row.bookguid };
+                        iframe.contentWindow.SetData(data);
+                    },
+                    ondestroy: function (action) {
+                        //var iframe = this.getIFrameEl();
+                        grid.reload();
+                    }
+
                 });
 
             } else {
@@ -98,12 +108,12 @@
                     var ids = [];
                     for (var i = 0, l = rows.length; i < l; i++) {
                         var r = rows[i];
-                        ids.push(r.id);
+                        ids.push(r.bookguid);
                     }
                     var id = ids.join(',');
                     grid.loading("操作中，请稍后......");
                     $.ajax({
-                        url: "../data/AjaxService.aspx?method=RemoveEmployees&id=" + id,
+                        url: "AjaxService.aspx?method=RemoveBook&bookguid=" + id,
                         success: function (text) {
                             grid.reload();
                         },

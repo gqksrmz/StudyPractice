@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AddBook.aspx.cs" Inherits="BookManager.AddBook" %>
-
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EditBookInfo.aspx.cs" Inherits="BookManager.EditBookInfo" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -96,7 +95,7 @@
                 data = mini.clone(data);
 
                 $.ajax({
-                    url: "AjaxService.aspx?method=GetBook&id=" + data.id,
+                    url: "AjaxService.aspx?method=GetBook&bookguid=" + data.id,
                     cache: false,
                     success: function (text) {
                         var o = mini.decode(text);

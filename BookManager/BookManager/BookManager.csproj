@@ -2556,6 +2556,7 @@
     <Content Include="Content\scripts\tongji.js" />
     <Content Include="BookLendManager.aspx" />
     <Content Include="Data\outlookmenu.txt" />
+    <Content Include="EditBookInfo.aspx" />
     <Content Include="Index.aspx" />
   </ItemGroup>
   <ItemGroup>
@@ -2601,6 +2602,13 @@
     <Compile Include="Common\SqlHelper.cs" />
     <Compile Include="DAL\BookInfoDal.cs" />
     <Compile Include="DAL\BorrowInfoDal.cs" />
+    <Compile Include="EditBookInfo.aspx.cs">
+      <DependentUpon>EditBookInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditBookInfo.aspx.designer.cs">
+      <DependentUpon>EditBookInfo.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
