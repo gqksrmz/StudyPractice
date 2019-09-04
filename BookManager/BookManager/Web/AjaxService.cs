@@ -36,7 +36,16 @@ namespace Web
         public void SaveBooks()
         {
             ArrayList data = GetArrayList("data");
-            bookInfoBLL.SaveBook(data);
+            bool status=bookInfoBLL.SaveBook(data);
+            if (status)
+            {
+                Response.Write("成功！");
+
+            }
+            else
+            {
+                Response.Write("失败！");
+            }
         }
         public void RemoveBook()
         {

@@ -64,7 +64,7 @@
                 targetWindow: window,
 
                 url:  "AddBorrowInfo.aspx",
-                title: "新增员工", width: 600, height: 400,
+                title: "新增借阅信息", width: 600, height: 400,
                
             });
         }
@@ -76,7 +76,7 @@
                 mini.open({
                     targetWindow: window,
                     url:"AddBorrowInfo.aspx",
-                    title: "编辑员工", width: 600, height: 400,
+                    title: "编辑借阅信息", width: 600, height: 400,
                     
                 });
                 

@@ -99,6 +99,7 @@ namespace Bll
                             bookInfoDal.Update(o, trans);
                         }
                     }
+                    trans.Commit();
                 }
                 catch(Exception e)
                 {

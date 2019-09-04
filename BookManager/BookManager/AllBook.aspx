@@ -61,8 +61,16 @@
                 targetWindow: window,
 
                 url: "AddBook.aspx",
-                title: "新增员工", width: 600, height: 400,
-               
+                title: "新增图书", width: 600, height: 400,
+                onload: function () {
+                    var iframe = this.getIFrameEl();
+                    var data = { action: "added" };
+                    iframe.contentWindow.SetData(data);
+                },
+                ondestroy: function (action) {
+
+                    grid.reload();
+                }
             });
         }
 
@@ -73,7 +81,7 @@
                 mini.open({
                     targetWindow: window,
                     url:  "AddBook.aspx",
-                    title: "编辑员工", width: 600, height: 400,
+                    title: "编辑图书", width: 600, height: 400,
                    
                 });
 
