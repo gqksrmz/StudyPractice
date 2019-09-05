@@ -2,6 +2,7 @@
 using DAL;
 using Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -46,6 +47,7 @@ namespace BLL
         //事务
         public bool SaveBook(Object obj, string state)
         {
+            BookInfo bookInfo = (BookInfo)obj;
             using (var conn = SqlHelper.GetSqlConnection())
             {
                 conn.Open();
@@ -53,17 +55,18 @@ namespace BLL
                 try
                 {
 
-                    if (state == "added")
+                    if (bookInfo.BookGuid == "")
                     {
-                        bookInfoDal.Inert((BookInfo)obj);
+                        bookInfoDal.Inert(bookInfo);
                     }
-                    else if (state == "removed")
+                    else if (state ==null)
                     {
-                        bookInfoDal.Delete((string)obj);
+                        bookInfoDal.Update(bookInfo);
+
                     }
-                    else if (state == "modified")
+                    else 
                     {
-                        bookInfoDal.Update((BookInfo)obj);
+                        bookInfoDal.Delete(bookInfo.BookGuid);
                     }
                     tran.Commit();
                 }

@@ -1,0 +1,5 @@
+﻿[
+	{ id: "Book", text: "图书管理"},
+	{ id: "AllBook.aspx", pid: "Book", text: "所有图书" },
+	{ id: "BookLendManager.aspx", pid: "Book", text: "借阅信息" },	
+]

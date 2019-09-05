@@ -9,7 +9,9 @@ namespace Common
     public static class SqlHelper
     {
         //获取配置文件中的连接字符串
-        private static readonly string constr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        //Data Source=DESKTOP-V4D9RI7;Initial Catalog=BookManager;User ID=sa;Password=123456
+        //ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private static readonly string constr = "Data Source=DESKTOP-V4D9RI7;Initial Catalog = BookManager; User ID = sa; Password=123456";
         public static SqlConnection GetSqlConnection()
         {
             SqlConnection con = new SqlConnection(constr);
@@ -23,9 +25,9 @@ namespace Common
         /// <returns></returns>
         public static int ExecuteNonQuery(string sql, CommandType type, params SqlParameter[] pms)
         {
+            SqlTransaction tran = null;
             using (SqlConnection con = GetSqlConnection())
             {
-                
                 using (SqlCommand cmd = new SqlCommand(sql, con))
                 {
                     cmd.CommandType = type;
@@ -34,11 +36,26 @@ namespace Common
                     {
                         cmd.Parameters.AddRange(pms);
                     }
-                    con.Open();
-                    
-                    return cmd.ExecuteNonQuery();
+                    try
+                    {
+                        con.Open();
+                        tran = con.BeginTransaction();
+                        tran.Commit();
+                        return cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {
+                        tran.Rollback();
+                        return 0;
+                    }
+
                 }
+
+
+
             }
+
+
         }
         /// <summary>
         /// 执行sql语句，返回单个值
@@ -48,6 +65,7 @@ namespace Common
         /// <returns></returns>
         public static Object ExecuteScalar(string sql, CommandType type, params SqlParameter[] pms)
         {
+            SqlTransaction tran = null;
             using (SqlConnection con = GetSqlConnection())
             {
                 using (SqlCommand cmd = new SqlCommand(sql, con))
@@ -58,8 +76,18 @@ namespace Common
                     {
                         cmd.Parameters.AddRange(pms);
                     }
-                    con.Open();
-                    return cmd.ExecuteScalar();
+                    try
+                    {
+                        con.Open();
+                        tran = con.BeginTransaction();
+                        tran.Commit();
+                        return cmd.ExecuteScalar();
+                    }
+                    catch (Exception e)
+                    {
+                        return null;
+                    }
+
                 }
             }
         }
@@ -73,6 +101,7 @@ namespace Common
         /// <returns></returns>
         public static SqlDataReader ExecuteReader(string sql, CommandType type, params SqlParameter[] pms)
         {
+            SqlTransaction tran = null;
             SqlConnection con = GetSqlConnection();
             using (SqlCommand cmd = new SqlCommand(sql, con))
             {
@@ -81,11 +110,24 @@ namespace Common
                 {
                     cmd.Parameters.AddRange(pms);
                 }
-                con.Open();
-                //当调用ExecuteReader方法时，如果传递一个CommandBehivior.CloseConnection参数，则表示将来用户关闭
-                //raader的时候，系统会自动将Connection也关闭掉.
-                SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-                return reader;
+
+                try
+                {
+                    con.Open();
+                    tran = con.BeginTransaction();
+                    //当调用ExecuteReader方法时，如果传递一个CommandBehivior.CloseConnection参数，则表示将来用户关闭
+                    //raader的时候，系统会自动将Connection也关闭掉.
+                    SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                    tran.Commit();
+                    return reader;
+                }
+                catch (Exception e)
+                {
+                    tran.Rollback();
+                    return null;
+                }
+
+
             }
 
         }
@@ -107,6 +149,7 @@ namespace Common
             sqlDataAdapter.Fill(dt);
             return dt;
         }
+
     }
 
 }

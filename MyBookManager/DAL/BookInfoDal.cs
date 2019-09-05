@@ -12,7 +12,7 @@ namespace DAL
     {
         string selectSql = @"select * from BookInfo";
         //插入新数据
-        public bool Inert(BookInfo entity)
+        public bool Inert( BookInfo entity)
         {
             string bookguid = Guid.NewGuid().ToString();
             entity.BookGuid = bookguid;

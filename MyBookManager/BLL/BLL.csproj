@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BookInfoBLL.cs" />
-    <Compile Include="BorroInfoDal.cs" />
     <Compile Include="BorrowInfoBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

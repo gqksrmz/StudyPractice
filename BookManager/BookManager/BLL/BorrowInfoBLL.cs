@@ -16,20 +16,6 @@ namespace BookManager.BLL
         //增
         public string Insert(Hashtable entity)
         {
-            if (entity["booktype"] == "电子科技")
-            {
-                entity["booktype"] = "1";
-            }
-            else if (entity["booktype"] == "人文生活")
-            {
-                entity["booktype"] = "2";
-            } else if (entity["booktype"] == "时尚科技")
-            {
-                entity["booktype"] = "3";
-            }else if (entity["booktype"] == "艺术鉴赏")
-            {
-                entity["booktype"] = "4";
-            }
             return borrowInfoDal.Inert(entity);
         }
         //改
@@ -46,47 +32,12 @@ namespace BookManager.BLL
         public Hashtable GetEntity(string id)
         {
             Hashtable hs= borrowInfoDal.GetEntity(id);
-            if (hs["booktype"] == "1")
-            {
-                hs["booktype"] = "电子科技";
-            }else if (hs["booktype"] == "2")
-            {
-                hs["booktype"] = "人文生活";
-            }else if (hs["booktype"] == "3")
-            {
-                hs["booktype"] = "时尚周刊";
-            }else if (hs["booktype"] == "4")
-            {
-                hs["booktype"] = "艺术鉴赏";
-            }
             return hs;
         }
         //获取列表
         public ArrayList GetList()
         {
             ArrayList arrayList = borrowInfoDal.GetList();
-            
-            for (int i = 0; i < arrayList.Count; i++)
-            {
-                BookInfo bookInfo = (BookInfo)arrayList[i];
-                if (bookInfo.BookType == "1")
-                {
-                    bookInfo.BookType = "电子科技";
-                }
-                else if (bookInfo.BookType == "2")
-                {
-                    bookInfo.BookType = "人文生活";
-                }
-                else if (bookInfo.BookType == "3")
-                {
-                    bookInfo.BookType = "时尚周刊";
-                }
-                else if (bookInfo.BookType == "4")
-                {
-                    bookInfo.BookType = "艺术鉴赏";
-                }
-                arrayList[i] = bookInfo;
-            }
             return arrayList;
         }
         public ArrayList SearchBorrowInfo(String key, int pageIndex, int pageSize, ArrayList sortFields = null)
