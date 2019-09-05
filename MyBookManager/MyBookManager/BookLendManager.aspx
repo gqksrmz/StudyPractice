@@ -42,9 +42,9 @@
             <div field="UseGuid" width="120" headerAlign="center" allowSort="true">借阅标识</div>    
             <div field="BorrowPerson" width="120" headerAlign="center" allowSort="true">借阅人</div>    
             <div field="Handler" width="120" headerAlign="center" allowSort="true">办理人</div>    
-            <div field="BorrowCause" width="120" headerAlign="center" allowSort="true">借阅事由</div>    
-            <div field="BorrowDate" width="120" headerAlign="center" allowSort="true">借阅时间</div>    
-            <div field="ReturnDate" width="120" headerAlign="center" allowSort="true">归还日期</div>    
+            <div field="BorrowCause" width="120" headerAlign="center" allowSort="true" >借阅事由</div>    
+            <div field="BorrowDate" width="120" headerAlign="center" allowSort="true" renderer="onDateRenderer">借阅时间</div>    
+            <div field="ReturnDate" width="120" headerAlign="center" allowSort="true" renderer="onDateRenderer">归还日期</div>    
             <div field="Remark" width="120" headerAlign="center" allowSort="true">备注</div> 
         </div>
     </div>
@@ -65,7 +65,14 @@
 
                 url:  "AddBorrowInfo.aspx",
                 title: "新增借阅信息", width: 600, height: 400,
-               
+                onload: function () {
+                    var iframe = this.getIFrameEl();
+                    var data = { action: "added" };
+                    iframe.contentWindow.SetData(data);
+                },
+                ondestroy: function (action) {
+                    grid.reload();
+                }
             });
         }
 
@@ -75,9 +82,17 @@
             if (row) {
                 mini.open({
                     targetWindow: window,
-                    url:"AddBorrowInfo.aspx",
+                    url:"EditBorrowInfo.aspx",
                     title: "编辑借阅信息", width: 600, height: 400,
-                    
+                    onload: function () {
+                        var iframe = this.getIFrameEl();
+                        var data = { action: "edit", id: row.UseGuid };
+                        iframe.contentWindow.SetData(data);
+                    },
+                    ondestroy: function (action) {
+                        //var iframe = this.getIFrameEl();
+                        grid.reload();
+                    }
                 });
                 
             } else {
@@ -93,12 +108,12 @@
                     var ids = [];
                     for (var i = 0, l = rows.length; i < l; i++) {
                         var r = rows[i];
-                        ids.push(r.id);
+                        ids.push(r.UseGuid);
                     }
                     var id = ids.join(',');
                     grid.loading("操作中，请稍后......");
                     $.ajax({
-                        url: "../data/AjaxService.aspx?method=RemoveEmployees&id=" +id,
+                        url: "AjaxService.aspx?method=RemoveBorrowInfo&useGuid=" +id,
                         success: function (text) {
                             grid.reload();
                         },
@@ -118,7 +133,12 @@
             search();
         }
        
+        function onDateRenderer(e) {
+            var value = e.value;
+            if (value) return mini.formatDate(value, 'yyyy-MM-dd');
+            return "";
 
+        }
 
 
 

@@ -2534,6 +2534,7 @@
     <Content Include="Content\scripts\tongji.js" />
     <Content Include="Data\outlookmenu.txt" />
     <Content Include="EditBookInfo.aspx" />
+    <Content Include="EditBorrowInfo.aspx" />
     <Content Include="Index.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -2579,6 +2580,13 @@
     </Compile>
     <Compile Include="EditBookInfo.aspx.designer.cs">
       <DependentUpon>EditBookInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditBorrowInfo.aspx.cs">
+      <DependentUpon>EditBorrowInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditBorrowInfo.aspx.designer.cs">
+      <DependentUpon>EditBorrowInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AddBorrowInfo.aspx.cs" Inherits="BookManager.AddBorrowInfo" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EditBorrowInfo.aspx.cs" Inherits="MyBookManager.EditBorrowInfo" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -23,7 +23,7 @@
 <body>
 
     <form id="form1" method="post">
-        <input name="id" class="mini-hidden" />
+        <input name="UseGuid" class="mini-hidden" />
         <div style="height: 60px;"></div>
         <div style="padding-left: 11px; padding-bottom: 5px; height: 100px; margin-left: 20px;">
             <table style="table-layout: fixed;">
@@ -95,7 +95,7 @@
                 data = mini.clone(data);
 
                 $.ajax({
-                    url: "AjaxService.aspx?method=GetBook&id=" + data.id,
+                    url: "AjaxService.aspx?method=GetBorrowInfo&useGuid=" + data.id,
                     cache: false,
                     success: function (text) {
                         var o = mini.decode(text);
@@ -138,4 +138,3 @@
     </script>
 </body>
 </html>
-

@@ -47,6 +47,7 @@ namespace BLL
         //事务
         public bool SaveBorrowInfo(Object obj, string state)
         {
+            BorrowInfo borrowInfo = (BorrowInfo)obj;
             using (var conn = SqlHelper.GetSqlConnection())
             {
                 conn.Open();
@@ -54,17 +55,19 @@ namespace BLL
                 try
                 {
 
-                    if (state == "added")
+                    if (borrowInfo.UseGuid ==null)
                     {
-                        borrowInfoDal.Inert((BorrowInfo)obj);
+                        borrowInfo.UseGuid = Guid.NewGuid().ToString();
+                        borrowInfoDal.Inert(borrowInfo);
                     }
-                    else if (state == "removed")
+                    else if (state == null)
                     {
-                        borrowInfoDal.Delete((string)obj);
+                        borrowInfoDal.Update(borrowInfo);
+
                     }
-                    else if (state == "modified")
+                    else
                     {
-                        borrowInfoDal.Update((BorrowInfo)obj);
+                        borrowInfoDal.Delete(borrowInfo.UseGuid);
                     }
                     tran.Commit();
                 }

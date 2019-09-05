@@ -82,9 +82,22 @@ namespace Web
         //保存所有借阅信息
         public void SaveBorrowInfo()
         {
-            List<BorrowInfo> borrowInfoList = (List<BorrowInfo>)GetObject("data");
+            ArrayList arrayList = (ArrayList)GetObject("data");
+            BorrowInfo borrowInfo = new BorrowInfo();
             string status = GetString("status");
-            bool r = borrowInfoBLL.SaveBorrowInfo(borrowInfoList, status);
+            foreach (var item in arrayList)
+            {
+                Hashtable i = (Hashtable)item;
+                borrowInfo.BookName = (string)i["BookName"];
+                borrowInfo.UseGuid = (string)i["UseGuid"];
+                borrowInfo.BorrowPerson = (string)i["BorrowPerson"];
+                borrowInfo.Handler = (string)i["Handler"];
+                borrowInfo.BorrowCause = (string)i["BorrowCause"];
+                borrowInfo.BorrowDate =(DateTime) i["BorrowDate"];
+                borrowInfo.ReturnDate = (DateTime)i["ReturnDate"];
+                borrowInfo.Remark =(string)i["Remark"];
+            }
+            bool r = borrowInfoBLL.SaveBorrowInfo(borrowInfo, status);
             if (r)
             {
                 Response.Write("成功!");
@@ -93,6 +106,13 @@ namespace Web
             {
                 Response.Write("失败！");
             }
+        }
+        //查询单个图书借阅信息
+        public void GetBorrowInfo()
+        {
+            string useGuid = GetString("useGuid");
+            BorrowInfo borrowInfo = borrowInfoBLL.GetBorrowInfo(useGuid);
+            RenderJson(borrowInfo);
         }
         //根据useGuid删除图书借阅信息
         public void RemoveBorrowInfo()
