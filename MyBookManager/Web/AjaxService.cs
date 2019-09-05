@@ -33,13 +33,13 @@ namespace Web
             foreach (var item in arrayList)
             {
                 Hashtable i = (Hashtable)item;
-                bookInfo.BookGuid = ((string)i["bookguid"] == null) ? (string)i["bookguid"] : Guid.NewGuid().ToString();
-                bookInfo.BookName = (string)i["bookname"];
-                bookInfo.BookType = (string)i["booktype"];
-                bookInfo.SuitAble = (string)i["suitable"];
-                bookInfo.BuyDate = (DateTime)i["buydate"];
-                bookInfo.Count = Convert.ToInt32(i["count"]);
-                bookInfo.Remark = (string)i["remark"];
+                bookInfo.BookGuid = (string)i["BookGuid"];
+                bookInfo.BookName = (string)i["BookName"];
+                bookInfo.BookType = (string)i["BookType"];
+                bookInfo.SuitAble = (string)i["SuitAble"];
+                bookInfo.BuyDate = (DateTime)i["BuyDate"];
+                bookInfo.Count = Convert.ToInt32(i["Count"]);
+                bookInfo.Remark = (string)i["Remark"];
             }
             string status = GetString("status");
             bool r = bookInfoBLL.SaveBook(bookInfo, status);
@@ -95,7 +95,7 @@ namespace Web
             }
         }
         //根据useGuid删除图书借阅信息
-        public void RemoveBookInfo()
+        public void RemoveBorrowInfo()
         {
             string useGuid = GetString("useGuid");
             bool r = borrowInfoBLL.Delete(useGuid);

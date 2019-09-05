@@ -82,7 +82,21 @@ namespace DAL
         {
             string sql = selectSql + " where bookguid=@bookguid";
             SqlParameter pms = new SqlParameter("@bookguid", bookGuid);
-            BookInfo bookInfo = (BookInfo)SqlHelper.ExecuteScalar(sql, CommandType.Text, pms);
+            SqlDataReader reader= SqlHelper.ExecuteReader(sql, CommandType.Text, pms);
+            BookInfo bookInfo = new BookInfo();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    bookInfo.BookGuid = reader.GetString(0);
+                    bookInfo.BookName = reader.GetString(1);
+                    bookInfo.BookType = reader.GetString(2);
+                    bookInfo.SuitAble = reader.GetString(3);
+                    bookInfo.BuyDate = reader.GetDateTime(4);
+                    bookInfo.Count = reader.GetInt32(5);
+                    bookInfo.Remark = reader.GetString(6);
+                }
+            }
             return bookInfo;
         }
         //获取图书列表

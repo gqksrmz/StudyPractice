@@ -25,7 +25,6 @@ namespace Common
         /// <returns></returns>
         public static int ExecuteNonQuery(string sql, CommandType type, params SqlParameter[] pms)
         {
-            SqlTransaction tran = null;
             using (SqlConnection con = GetSqlConnection())
             {
                 using (SqlCommand cmd = new SqlCommand(sql, con))
@@ -36,26 +35,10 @@ namespace Common
                     {
                         cmd.Parameters.AddRange(pms);
                     }
-                    try
-                    {
-                        con.Open();
-                        tran = con.BeginTransaction();
-                        tran.Commit();
-                        return cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception e)
-                    {
-                        tran.Rollback();
-                        return 0;
-                    }
-
+                    con.Open();
+                    return cmd.ExecuteNonQuery();
                 }
-
-
-
             }
-
-
         }
         /// <summary>
         /// 执行sql语句，返回单个值
@@ -65,7 +48,6 @@ namespace Common
         /// <returns></returns>
         public static Object ExecuteScalar(string sql, CommandType type, params SqlParameter[] pms)
         {
-            SqlTransaction tran = null;
             using (SqlConnection con = GetSqlConnection())
             {
                 using (SqlCommand cmd = new SqlCommand(sql, con))
@@ -76,18 +58,8 @@ namespace Common
                     {
                         cmd.Parameters.AddRange(pms);
                     }
-                    try
-                    {
-                        con.Open();
-                        tran = con.BeginTransaction();
-                        tran.Commit();
-                        return cmd.ExecuteScalar();
-                    }
-                    catch (Exception e)
-                    {
-                        return null;
-                    }
-
+                    con.Open();
+                    return cmd.ExecuteScalar();
                 }
             }
         }
@@ -101,7 +73,6 @@ namespace Common
         /// <returns></returns>
         public static SqlDataReader ExecuteReader(string sql, CommandType type, params SqlParameter[] pms)
         {
-            SqlTransaction tran = null;
             SqlConnection con = GetSqlConnection();
             using (SqlCommand cmd = new SqlCommand(sql, con))
             {
@@ -110,24 +81,11 @@ namespace Common
                 {
                     cmd.Parameters.AddRange(pms);
                 }
-
-                try
-                {
-                    con.Open();
-                    tran = con.BeginTransaction();
-                    //当调用ExecuteReader方法时，如果传递一个CommandBehivior.CloseConnection参数，则表示将来用户关闭
-                    //raader的时候，系统会自动将Connection也关闭掉.
-                    SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-                    tran.Commit();
-                    return reader;
-                }
-                catch (Exception e)
-                {
-                    tran.Rollback();
-                    return null;
-                }
-
-
+                con.Open();
+                //当调用ExecuteReader方法时，如果传递一个CommandBehivior.CloseConnection参数，则表示将来用户关闭
+                //raader的时候，系统会自动将Connection也关闭掉.
+                SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                return reader;
             }
 
         }

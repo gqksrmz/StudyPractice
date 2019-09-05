@@ -22,17 +22,17 @@
 <body>
 
     <form id="form1" method="post">
-        <input name="bookguid" class="mini-hidden" />
+        <input name="BookGuid" class="mini-hidden" />
         <div style="padding-left: 11px; padding-bottom: 5px;  margin-left: 20px;">
             <table style="table-layout: fixed;">
                 <tr>
                     <td style="width: 80px;">图书名称：</td>
                     <td style="width: 150px;">
-                        <input name="bookname" class="mini-textbox" required="true" emptytext="请输入图书名称" />
+                        <input name="BookName" class="mini-textbox" required="true" emptytext="请输入图书名称" />
                     </td>
                     <td style="width: 80px;">图书类别：</td>
                     <td style="width: 150px;">
-                        <input name="booktype" class="mini-combobox" valuefield="id" textfield="text"
+                        <input name="BookType" class="mini-combobox" valuefield="id" textfield="text"
                             url="Data/booktype.Json"
                             onvaluechanged="onBookTypeChanged" required="true"
                             emptytext="请选择图书类别" />
@@ -41,7 +41,7 @@
                 <tr>
                     <td>适合人群：</td>
                     <td>
-                        <select name="suitable" class="mini-radiobuttonlist">
+                        <select name="SuitAble" class="mini-radiobuttonlist">
                             <option value="1">老年人</option>
                             <option value="2">青年人</option>
                             <option value="3">儿童</option>
@@ -49,18 +49,18 @@
                     </td>
                     <td>入库日期</td>
                     <td>
-                        <input name="buydate" class="mini-datepicker" required="true" emptytext="请选择日期" />
+                        <input name="BuyDate" class="mini-datepicker" required="true" emptytext="请选择日期" />
                     </td>
                 </tr>
 
                 <tr>
                     <td>借阅次数：</td>
                     <td>
-                        <input name="count" class="mini-textbox" valuefield="id" textfield="name" url="" />
+                        <input name="Count" class="mini-textbox" valuefield="id" textfield="name" url="" />
                     </td>
                     <td>备注：</td>
                     <td>
-                        <input name="remark" class="mini-textbox" />
+                        <input name="Remark" class="mini-textbox" />
                     </td>
                 </tr>
             </table>
@@ -95,15 +95,12 @@
                 data = mini.clone(data);
 
                 $.ajax({
-                    url: "AjaxService.aspx?method=GetBook&bookguid=" + data.id,
+                    url: "AjaxService.aspx?method=GetBook&bookGuid=" + data.id,
                     cache: false,
                     success: function (text) {
                         var o = mini.decode(text);
                         form.setData(o);
                         form.setChanged(false);
-
-                        onDeptChanged();
-                        mini.getbyName("position").setValue(o.position);
                     }
                 });
             }

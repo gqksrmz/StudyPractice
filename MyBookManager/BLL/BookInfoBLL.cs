@@ -57,6 +57,7 @@ namespace BLL
 
                     if (bookInfo.BookGuid == "")
                     {
+                        bookInfo.BookGuid= Guid.NewGuid().ToString();
                         bookInfoDal.Inert(bookInfo);
                     }
                     else if (state ==null)
