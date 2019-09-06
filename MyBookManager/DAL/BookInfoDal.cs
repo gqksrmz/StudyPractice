@@ -11,7 +11,7 @@ namespace DAL
 {
     public class BookInfoDal
     {
-        string selectSql = @"select * from BookInfo";
+        string selectSql = @"select * from BookInfo ";
         //插入新数据
         public bool Inert(BookInfo entity)
         {
@@ -106,11 +106,37 @@ namespace DAL
             if (!string.IsNullOrEmpty(key))
             {
                 sql = selectSql + " where booktype='" + key + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
-                
+                if (beginDate != null && endDate == null)
+                {
+                    sql = selectSql + "where booktype='" + key + "'and buydate > '" + beginDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                }
+                else if(beginDate==null&&endDate!=null)
+                {
+                    sql = selectSql + "where booktype='" + key + "'and buydate < '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+
+                }
+                else if (beginDate != null && endDate != null)
+                {
+                    sql = selectSql + "where booktype='" + key + "'and buydate between '" + beginDate + "'and '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                }
             }
             else
             {
                 sql =selectSql+ " order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                if (beginDate != null && endDate == null)
+                {
+                    sql = selectSql + "where  buydate > '" + beginDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                }
+                else if (beginDate == null && endDate != null)
+                {
+                    sql = selectSql + "where  buydate < '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+
+                }
+                else if (beginDate != null && endDate != null)
+                {
+                    sql = selectSql + "where  buydate between '" + beginDate + "'and '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+
+                }
             }
             List<BookInfo> bookList = new List<BookInfo>();
             SqlParameter[] pms = new SqlParameter[]

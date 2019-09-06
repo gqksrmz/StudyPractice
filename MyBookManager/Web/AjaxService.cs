@@ -24,8 +24,23 @@ namespace Web
         {
             //string key,string beginDate,string endDate
             string strKey = GetString("SelectBookType");
-            DateTime? beginDate = GetDateTime("BeginDate");
-            DateTime? endDate = GetDateTime("EndDate");
+            string begin = GetString("BeginDate");
+            string end = GetString("EndDate");
+            DateTime? beginDate = null;
+            DateTime? endDate = null;
+            if (!string.IsNullOrEmpty(begin) && !string.IsNullOrEmpty(end))
+            {
+                beginDate = Convert.ToDateTime(begin);
+                endDate = Convert.ToDateTime(end);
+            }
+            else if (string.IsNullOrEmpty(begin) && !string.IsNullOrEmpty(end))
+            {
+                endDate = Convert.ToDateTime(end);
+            }
+            else if (!string.IsNullOrEmpty(begin) && string.IsNullOrEmpty(end))
+            {
+                beginDate = Convert.ToDateTime(begin);
+            }
             string key = null;
             if (strKey == "电子科技")
             {

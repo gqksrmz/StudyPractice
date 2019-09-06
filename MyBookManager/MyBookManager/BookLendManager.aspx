@@ -46,6 +46,7 @@
             <div field="BorrowDate" width="120" headerAlign="center" allowSort="true" renderer="onDateRenderer">借阅时间</div>    
             <div field="ReturnDate" width="120" headerAlign="center" allowSort="true" renderer="onDateRenderer">归还日期</div>    
             <div field="Remark" width="120" headerAlign="center" allowSort="true">备注</div> 
+            <div field="Operation" width="120" headeralign="center" allowsort="true" renderer="onActionRenderer">操作</div>
         </div>
     </div>
     
@@ -142,7 +143,16 @@
             var key = mini.get("key").getValue();
             grid.load({ key: key });
         }
+        function onActionRenderer(e) {
+            var grid = e.sender;
+            var record = e.record;
+            var uid = record._uid;
+            var rowIndex = e.rowIndex;
 
+            var s = '<a class="Edit_Button" href="javascript:edit(\'' + uid + '\')">修改</a> '
+                + '<a class="Delete_Button" href="javascript:remove(\'' + uid + '\')">删除</a> ';
+            return s;
+        }
 
 
 

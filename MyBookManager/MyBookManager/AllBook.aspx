@@ -47,6 +47,7 @@
             <div field="BuyDate" width="120" headeralign="center" allowsort="true" renderer="onBuyDateRenderer">入库日期</div>
             <div field="Count" width="120" headeralign="center" allowsort="true" renderer="oncountrenderer">借阅次数</div>
             <div field="Remark" width="120" headeralign="center" allowsort="true">备注</div>
+            <div field="Operation" width="120" headeralign="center" allowsort="true" renderer="onActionRenderer">操作</div>
         </div>
     </div>
 
@@ -174,6 +175,16 @@
             var BeginDate = mini.formatDate(mini.getByName("BeginDate").getValue(), 'yyyy-MM-dd HH:mm:ss');
             var EndDate = mini.formatDate(mini.getByName("EndDate").getValue(), 'yyyy-MM-dd HH:mm:ss');
             grid.load({ SelectBookType: SelectBookType, BeginDate: BeginDate, EndDate: EndDate });
+        }
+        function onActionRenderer(e) {
+            var grid = e.sender;
+            var record = e.record;
+            var uid = record._uid;
+            var rowIndex = e.rowIndex;
+
+            var s =  '<a class="Edit_Button" href="javascript:edit(\'' + uid + '\')">修改</a> '
+                + '<a class="Delete_Button" href="javascript:remove(\'' + uid + '\')">删除</a> ';
+            return s;
         }
     </script>
 </body>
