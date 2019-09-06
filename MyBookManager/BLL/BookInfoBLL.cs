@@ -36,9 +36,9 @@ namespace BLL
             return bookInfoDal.GetEntity(bookGuid);
         }
         //分页获取图书列表
-        public List<BookInfo> GetList(int pageIndex, int pageSize)
+        public List<BookInfo> GetList(int pageIndex, int pageSize, string key, DateTime? beginDate,DateTime? endDate)
         {
-            return bookInfoDal.GetBookList(pageIndex,pageSize);
+            return bookInfoDal.GetBookList(pageIndex,pageSize,key,beginDate,endDate);
         }
         //获取总共多少图书
         public int GetBookCount()

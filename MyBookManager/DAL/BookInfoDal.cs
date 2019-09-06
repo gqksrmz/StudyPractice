@@ -99,9 +99,19 @@ namespace DAL
             return bookInfo;
         }
         //查询分页的图书列表
-        public List<BookInfo> GetBookList(int pageIndex, int pageSize)
+        public List<BookInfo> GetBookList(int pageIndex, int pageSize, string key, DateTime? beginDate,DateTime? endDate)
         {
-            string sql = selectSql+ " order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+            //  " order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+            string sql = null ;
+            if (!string.IsNullOrEmpty(key))
+            {
+                sql = selectSql + " where booktype='" + key + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                
+            }
+            else
+            {
+                sql =selectSql+ " order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+            }
             List<BookInfo> bookList = new List<BookInfo>();
             SqlParameter[] pms = new SqlParameter[]
             {

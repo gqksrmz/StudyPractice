@@ -83,7 +83,7 @@ namespace DAL
         {
             string sql = selectSql + " where useguid=@useguid";
             SqlParameter pms = new SqlParameter("@useguid", useGuid);
-            SqlDataReader reader=SqlHelper.ExecuteReader(sql, CommandType.Text, pms);
+            SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text, pms);
             BorrowInfo borrowInfo = new BorrowInfo();
             if (reader.HasRows)
             {
@@ -104,14 +104,14 @@ namespace DAL
         //获取数据库图书借阅信息列表
         public List<BorrowInfo> GetBorrowInfoList(int pageIndex, int pageSize)
         {
-            string sql = selectSql+ " order by useguid offset(@pageIndex)*@pageSize rows fetch next 10 rows only";
+            string sql = selectSql + " order by useguid offset(@pageIndex)*@pageSize rows fetch next 10 rows only";
             List<BorrowInfo> borrowInfoList = new List<BorrowInfo>();
             SqlParameter[] pms = new SqlParameter[]
             {
                 new SqlParameter("@pageIndex",pageIndex),
                 new SqlParameter("@pageSize",pageSize)
             };
-            SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text,pms);
+            SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text, pms);
             if (reader.HasRows)
             {
                 while (reader.Read())
@@ -152,6 +152,36 @@ namespace DAL
                 }
             }
             return strList;
+        }
+        //根据key查询图书借阅信息
+        public List<BorrowInfo> GetBorrowInfoByKey(string key, int pageIndex, int pageSize)
+        {
+            string sql = selectSql + "\nwhere bookname like '%"+key+"%'" +
+                " order by useguid offset(@pageIndex)*@pageSize rows fetch next 10 rows only";
+            List<BorrowInfo> borrowInfoList = new List<BorrowInfo>();
+            SqlParameter[] pms = new SqlParameter[]
+            {
+                new SqlParameter("@pageIndex",pageIndex),
+                new SqlParameter("@pageSize",pageSize)
+            };
+            SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text, pms);
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    BorrowInfo borrowInfo = new BorrowInfo();
+                    borrowInfo.BookName = reader.GetString(0);
+                    borrowInfo.UseGuid = reader.GetString(1);
+                    borrowInfo.BorrowPerson = reader.GetString(2);
+                    borrowInfo.Handler = reader.GetString(3);
+                    borrowInfo.BorrowCause = reader.GetString(4);
+                    borrowInfo.BorrowDate = reader.GetDateTime(5);
+                    borrowInfo.ReturnDate = reader.GetDateTime(6);
+                    borrowInfo.Remark = reader.GetString(7);
+                    borrowInfoList.Add(borrowInfo);
+                }
+            }
+            return borrowInfoList;
         }
     }
 }

@@ -92,6 +92,12 @@ namespace BLL
             string result = r1 + r2;
             return result;
         }
+        //根据key查询图书借阅信息
+        public List<BorrowInfo> GetBorrowInfoByKey(string key, int pageIndex, int pageSize)
+        {
+            List<BorrowInfo> borrowInfoList = borrowInfoDal.GetBorrowInfoByKey(key,pageIndex,pageSize);
+            return borrowInfoList;
+        }
 
     }
 }

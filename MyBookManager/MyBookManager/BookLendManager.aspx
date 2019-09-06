@@ -56,7 +56,6 @@
         var grid = mini.get("datagrid1");
         grid.load();
 
-        var menu = new ColumnsMenu(grid);
 
         function add() {
 
@@ -138,6 +137,10 @@
             if (value) return mini.formatDate(value, 'yyyy-MM-dd');
             return "";
 
+        }
+        function search() {
+            var key = mini.get("key").getValue();
+            grid.load({ key: key });
         }
 
 

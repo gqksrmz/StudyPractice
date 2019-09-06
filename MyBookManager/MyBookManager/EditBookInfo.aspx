@@ -32,7 +32,7 @@
                             url="Data/booktypelist.Json"
                             onvaluechanged="" required="true"
                             emptytext="请选择图书类别" />
-                        <input name="BookName" class="mini-textbox" required="true" emptytext="请输入图书名称" />
+                        <input name="BookName" class="mini-textbox" required="true" emptytext="请输入图书名称"  readonly="readonly"/>
                     </td>
                     <td style="width: 80px;">图书类别：</td>
                     <td style="width: 150px;">

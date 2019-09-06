@@ -22,10 +22,31 @@ namespace Web
         //查询所有图书
         public void SearchAllBook()
         {
+            //string key,string beginDate,string endDate
+            string strKey = GetString("SelectBookType");
+            DateTime? beginDate = GetDateTime("BeginDate");
+            DateTime? endDate = GetDateTime("EndDate");
+            string key = null;
+            if (strKey == "电子科技")
+            {
+                key = "1";
+            }
+            else if (strKey == "人文生活")
+            {
+                key = "2";
+            }
+            else if (strKey == "时尚周刊")
+            {
+                key = "3";
+            }
+            else if (strKey == "艺术鉴赏")
+            {
+                key = "4";
+            }
             //分页
             int pageIndex = GetInt("pageIndex");
             int pageSize = GetInt("pageSize");
-            List<BookInfo> bookInfo = bookInfoBLL.GetList(pageIndex, pageSize);
+            List<BookInfo> bookInfo = bookInfoBLL.GetList(pageIndex, pageSize, key, beginDate, endDate);
             List<BookInfo> bookInfoList = new List<BookInfo>();
             foreach (var item in bookInfo)
             {
@@ -84,30 +105,54 @@ namespace Web
         //根据useGuid获取单个图书
         public void GetBook()
         {
+            string bookNameList = null;
             string bookGuid = GetString("bookGuid");
             BookInfo book = bookInfoBLL.GetEntity(bookGuid);
-            RenderJson(book);
+            string name = book.BookName;
+            book.BookName = book.BookName.Substring(book.BookName.LastIndexOf("-") + 1);
+            bookNameList = name.Substring(0, name.Length - book.BookName.Length - 1);
+            Hashtable hs = new Hashtable();
+            hs["BookNameList"] = bookNameList;
+            hs["BookName"] = book.BookName;
+            hs["BookGuid"] = book.BookGuid;
+            hs["BookType"] = book.BookType;
+            hs["BuyDate"] = book.BuyDate;
+            hs["Count"] = book.Count;
+            hs["Remark"] = book.Remark;
+            hs["SuitAble"] = book.SuitAble;
+            RenderJson(hs);
         }
         //查询所有图书借阅信息
         public void SearchAllBorrowInfo()
         {
-            //分页
-            int pageIndex = GetInt("pageIndex");
-            int pageSize = GetInt("pageSize");
-            List<BorrowInfo> borrowList = borrowInfoBLL.GetList(pageIndex, pageSize);
-            List<BorrowInfo> borroInfoList = new List<BorrowInfo>();
-            foreach (var item in borrowList)
+            string key = GetString("key");
+            if (!string.IsNullOrEmpty(key))
             {
-                BorrowInfo borrow = new BorrowInfo();
-                borrow = item;
-                borrow.BookName = borrow.BookName.Substring(borrow.BookName.LastIndexOf('-') + 1);
-                borroInfoList.Add(borrow);
+                int pageIndex = GetInt("pageIndex");
+                int pageSize = GetInt("pageSize");
+                List<BorrowInfo> borrowInfoList = borrowInfoBLL.GetBorrowInfoByKey(key, pageIndex, pageSize);
+                RenderJson(borrowInfoList);
             }
-            int total = borrowInfoBLL.GetBorrowInfoCount();
-            Hashtable result = new Hashtable();
-            result["data"] = borroInfoList;
-            result["total"] = total;
-            RenderJson(result);
+            else
+            {
+                //分页
+                int pageIndex = GetInt("pageIndex");
+                int pageSize = GetInt("pageSize");
+                List<BorrowInfo> borrowList = borrowInfoBLL.GetList(pageIndex, pageSize);
+                List<BorrowInfo> borroInfoList = new List<BorrowInfo>();
+                foreach (var item in borrowList)
+                {
+                    BorrowInfo borrow = new BorrowInfo();
+                    borrow = item;
+                    borrow.BookName = borrow.BookName.Substring(borrow.BookName.LastIndexOf('-') + 1);
+                    borroInfoList.Add(borrow);
+                }
+                int total = borrowInfoBLL.GetBorrowInfoCount();
+                Hashtable result = new Hashtable();
+                result["data"] = borroInfoList;
+                result["total"] = total;
+                RenderJson(result);
+            }
         }
         //保存所有借阅信息
         public void SaveBorrowInfo()
@@ -161,23 +206,14 @@ namespace Web
         //查询所有图书姓名
         public void SearchAllBookName()
         {
+            string key = GetString("SelectBookType");
+            DateTime beginDate = GetDateTime("BeginDate");
+            DateTime endDate = GetDateTime("EndDate");
             //分页
             int pageIndex = GetInt("pageIndex");
             int pageSize = GetInt("pageSize");
-            List<BookInfo> bookList = bookInfoBLL.GetList(pageIndex, pageSize);
+            List<BookInfo> bookList = bookInfoBLL.GetList(pageIndex, pageSize, key, beginDate, endDate);
             RenderJson(bookList);
-        }
-        //分页根据key查询所有图书
-        public void SearchAllBookInfo()
-        {
-            //查询条件
-            string key = GetString("key");
-            //分页
-            int pageIndex = GetInt("pageIndex");
-            int pageSize = GetInt("pageSize");
-            //字段排序
-            string sortField = GetString("sortField");
-            string sortOrder = GetString("sortOrder");
         }
         //不分页获取所有图书
         public void GetAllBookWithoutPaging()

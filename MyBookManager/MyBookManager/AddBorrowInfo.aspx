@@ -53,11 +53,11 @@
                 <tr>
                     <td>借阅日期：</td>
                     <td>
-                        <input name="BorrowDate" class="mini-datepicker" required="true" emptytext="请选择日期" />
+                        <input name="BorrowDate" class="mini-datepicker" required="true" emptytext="请选择日期" minDate="2019-09-06"/>
                     </td>
                     <td>归还日期：</td>
                     <td>
-                        <input name="ReturnDate" class="mini-datepicker" required="true" emptytext="请选择日期" />
+                        <input name="ReturnDate" class="mini-datepicker" required="true" emptytext="请选择日期"  minDate="2019-09-06"/>
                     </td>
                 </tr>
                 <tr>
@@ -129,7 +129,7 @@
             CloseWindow("cancel");
         }
         //////////////////////////////////
-
+      
 
 
 

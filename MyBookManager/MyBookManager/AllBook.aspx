@@ -24,10 +24,10 @@
                         <a class="mini-button" iconcls="icon-remove" onclick="remove()">删除</a>
                     </td>
                     <td style="white-space: nowrap;">
-                        <input name="SelectBookType" class="mini-combobox" valuefield="id" textfield="text"
+                        <input name="SelectBookType" class="mini-combobox" valuefield="text" textfield="text"
                             url="Data/booktype.Json"
                             onvaluechanged="" emptytext="请选择图书类别" />
-                                                <input name="BeginDate" class="mini-datepicker" required="true" emptytext="请选择日期" />
+                        <input name="BeginDate" class="mini-datepicker" required="true" emptytext="请选择日期" />
                         <input name="EndDate" class="mini-datepicker" required="true" emptytext="请选择日期" />
                         <a class="mini-button" onclick="search()">查询</a>
                     </td>
@@ -168,6 +168,12 @@
             if (value) return mini.formatDate(value, 'yyyy-MM-dd');
             return "";
 
+        }
+        function search() {
+            var SelectBookType = mini.getByName("SelectBookType").getValue();
+            var BeginDate = mini.formatDate(mini.getByName("BeginDate").getValue(), 'yyyy-MM-dd HH:mm:ss');
+            var EndDate = mini.formatDate(mini.getByName("EndDate").getValue(), 'yyyy-MM-dd HH:mm:ss');
+            grid.load({ SelectBookType: SelectBookType, BeginDate: BeginDate, EndDate: EndDate });
         }
     </script>
 </body>
