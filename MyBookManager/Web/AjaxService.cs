@@ -22,8 +22,23 @@ namespace Web
         //查询所有图书
         public void SearchAllBook()
         {
-            List<BookInfo> bookInfoList = bookInfoBLL.GetList();
-            RenderJson(bookInfoList);
+            //分页
+            int pageIndex = GetInt("pageIndex");
+            int pageSize = GetInt("pageSize");
+            List<BookInfo> bookInfo = bookInfoBLL.GetList(pageIndex, pageSize);
+            List<BookInfo> bookInfoList = new List<BookInfo>();
+            foreach (var item in bookInfo)
+            {
+                BookInfo book = new BookInfo();
+                book = item;
+                book.BookName = book.BookName.Substring(book.BookName.LastIndexOf('-') + 1);
+                bookInfoList.Add(book);
+            }
+            int total = bookInfoBLL.GetBookCount();
+            Hashtable result = new Hashtable();
+            result["data"] = bookInfoList;
+            result["total"] = total;
+            RenderJson(result);
         }
         //保存图书
         public void SaveBooks()
@@ -34,7 +49,7 @@ namespace Web
             {
                 Hashtable i = (Hashtable)item;
                 bookInfo.BookGuid = (string)i["BookGuid"];
-                bookInfo.BookName = (string)i["BookName"];
+                bookInfo.BookName = (string)i["BookNameList"] + "-" + (string)i["BookName"];
                 bookInfo.BookType = (string)i["BookType"];
                 bookInfo.SuitAble = (string)i["SuitAble"];
                 bookInfo.BuyDate = (DateTime)i["BuyDate"];
@@ -76,8 +91,23 @@ namespace Web
         //查询所有图书借阅信息
         public void SearchAllBorrowInfo()
         {
-            List<BorrowInfo> borrowInfoList = borrowInfoBLL.GetList();
-            RenderJson(borrowInfoList);
+            //分页
+            int pageIndex = GetInt("pageIndex");
+            int pageSize = GetInt("pageSize");
+            List<BorrowInfo> borrowList = borrowInfoBLL.GetList(pageIndex, pageSize);
+            List<BorrowInfo> borroInfoList = new List<BorrowInfo>();
+            foreach (var item in borrowList)
+            {
+                BorrowInfo borrow = new BorrowInfo();
+                borrow = item;
+                borrow.BookName = borrow.BookName.Substring(borrow.BookName.LastIndexOf('-') + 1);
+                borroInfoList.Add(borrow);
+            }
+            int total = borrowInfoBLL.GetBorrowInfoCount();
+            Hashtable result = new Hashtable();
+            result["data"] = borroInfoList;
+            result["total"] = total;
+            RenderJson(result);
         }
         //保存所有借阅信息
         public void SaveBorrowInfo()
@@ -93,9 +123,9 @@ namespace Web
                 borrowInfo.BorrowPerson = (string)i["BorrowPerson"];
                 borrowInfo.Handler = (string)i["Handler"];
                 borrowInfo.BorrowCause = (string)i["BorrowCause"];
-                borrowInfo.BorrowDate =(DateTime) i["BorrowDate"];
+                borrowInfo.BorrowDate = (DateTime)i["BorrowDate"];
                 borrowInfo.ReturnDate = (DateTime)i["ReturnDate"];
-                borrowInfo.Remark =(string)i["Remark"];
+                borrowInfo.Remark = (string)i["Remark"];
             }
             bool r = borrowInfoBLL.SaveBorrowInfo(borrowInfo, status);
             if (r)
@@ -128,5 +158,33 @@ namespace Web
                 Response.Write("失败！");
             }
         }
+        //查询所有图书姓名
+        public void SearchAllBookName()
+        {
+            //分页
+            int pageIndex = GetInt("pageIndex");
+            int pageSize = GetInt("pageSize");
+            List<BookInfo> bookList = bookInfoBLL.GetList(pageIndex, pageSize);
+            RenderJson(bookList);
+        }
+        //分页根据key查询所有图书
+        public void SearchAllBookInfo()
+        {
+            //查询条件
+            string key = GetString("key");
+            //分页
+            int pageIndex = GetInt("pageIndex");
+            int pageSize = GetInt("pageSize");
+            //字段排序
+            string sortField = GetString("sortField");
+            string sortOrder = GetString("sortOrder");
+        }
+        //不分页获取所有图书
+        public void GetAllBookWithoutPaging()
+        {
+            List<BookInfo> bookList = bookInfoBLL.GetAllBookWithoutPaging();
+            RenderJson(bookList);
+        }
+
     }
 }

@@ -30,7 +30,10 @@
                 <tr>
                     <td style="width: 80px;">图书名称：</td>
                     <td style="width: 150px;">
-                        <input name="BookName" class="mini-textbox" required="true" emptytext="请输入图书名称" />
+                        <input name="BookName" class="mini-combobox" valuefield="id" textfield="text"
+                            url=""
+                            onvaluechanged="" required="true"
+                            emptytext="请选择图书" />
                     </td>
                     <td>借阅人：</td>
                     <td style="width: 150px;">

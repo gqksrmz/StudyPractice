@@ -14,6 +14,7 @@ namespace BLL
     public class BookInfoBLL
     {
         BookInfoDal bookInfoDal = new BookInfoDal();
+        
         //增
         public bool Insert(BookInfo entity)
         {
@@ -34,10 +35,10 @@ namespace BLL
         {
             return bookInfoDal.GetEntity(bookGuid);
         }
-        //获取图书列表
-        public List<BookInfo> GetList()
+        //分页获取图书列表
+        public List<BookInfo> GetList(int pageIndex, int pageSize)
         {
-            return bookInfoDal.GetBookList();
+            return bookInfoDal.GetBookList(pageIndex,pageSize);
         }
         //获取总共多少图书
         public int GetBookCount()
@@ -48,38 +49,56 @@ namespace BLL
         public bool SaveBook(Object obj, string state)
         {
             BookInfo bookInfo = (BookInfo)obj;
-            using (var conn = SqlHelper.GetSqlConnection())
+            try
             {
-                conn.Open();
-                SqlTransaction tran = conn.BeginTransaction();
-                try
+                if (bookInfo.BookGuid == "")
                 {
-
-                    if (bookInfo.BookGuid == "")
-                    {
-                        bookInfo.BookGuid= Guid.NewGuid().ToString();
-                        bookInfoDal.Inert(bookInfo);
-                    }
-                    else if (state ==null)
-                    {
-                        bookInfoDal.Update(bookInfo);
-
-                    }
-                    else 
-                    {
-                        bookInfoDal.Delete(bookInfo.BookGuid);
-                    }
-                    tran.Commit();
+                    bookInfo.BookGuid = GenerateIdentification(GetBookGuidList());
+                    bookInfoDal.Inert(bookInfo);
                 }
-                catch (Exception e)
+                else if (state == null)
                 {
-                    tran.Rollback();
-                    return false;
+                    bookInfoDal.Update(bookInfo);
                 }
-                return true;
+                else
+                {
+                    bookInfoDal.Delete(bookInfo.BookGuid);
+                }
             }
-
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+        //查询图书编号
+        public List<string> GetBookGuidList()
+        {
+            return bookInfoDal.GetBookGuidList();
+        }
+        //生成编号
+        public string GenerateIdentification(List<string> numberList)
+        {
+            List<int> number = new List<int>();
+            foreach (var item in numberList)
+            {
+                number.Add(Convert.ToInt32(item));
+            }
+            number.Sort(); 
+            string r1 = "KC";
+            string r2 = (number.Last()+1).ToString("D4");
+            string result = r1 + r2;
+            return result;
+        }
+        //不分页获取所有图书
+        public List<BookInfo> GetAllBookWithoutPaging()
+        {
+            List<BookInfo> bookList = bookInfoDal.SearchAllBookWithoutPaging();
+            return bookList;
         }
 
+
     }
+
 }
+

@@ -28,6 +28,10 @@
                 <tr>
                     <td style="width: 80px;">图书名称：</td>
                     <td style="width: 150px;">
+                         <input name="BookNameList" class="mini-combobox" valuefield="text" textfield="text"
+                            url="Data/booktypelist.Json"
+                            onvaluechanged="" required="true"
+                            emptytext="请选择图书类别" />
                         <input name="BookName" class="mini-textbox" required="true" emptytext="请输入图书名称" />
                     </td>
                     <td style="width: 80px;">图书类别：</td>
@@ -73,9 +77,16 @@
     </form>
     <script type="text/javascript">
         mini.parse();
-
-
         var form = new mini.Form("form1");
+        $.ajax({
+            url: "AjaxService.aspx?method=GetBook&bookGuid=" + data.id,
+            cache: false,
+            success: function (text) {
+                var o = mini.decode(text);
+                form.setData(o);
+                form.setChanged(false);
+            }
+        });
 
         function SaveData() {
             saveForm(form, {
@@ -125,13 +136,7 @@
         function onCancel(e) {
             CloseWindow("cancel");
         }
-        //////////////////////////////////
-        function onBookChanged(e) {
-            var bookTypeCombox = mini.getbyName("booktype");
-            var bookTypeId = bookTypeCombox.getValue();
-
-            bookTypeCombox.setValue(bookTypeId);
-        }
+        
 
 
 

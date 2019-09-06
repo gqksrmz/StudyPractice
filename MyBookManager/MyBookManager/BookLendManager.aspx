@@ -25,7 +25,7 @@
                         <a class="mini-button" iconCls="icon-remove" onclick="remove()">删除</a>       
                     </td>
                     <td style="white-space:nowrap;">
-                        <input id="key" class="mini-textbox" emptyText="请输入图书借阅人" style="width:150px;" onenter="onKeyEnter"/>   
+                        <input id="key" class="mini-textbox" emptyText="请输入图书名称" style="width:150px;" onenter="onKeyEnter"/>   
                         <a class="mini-button" onclick="search()">查询</a>
                     </td>
                 </tr>

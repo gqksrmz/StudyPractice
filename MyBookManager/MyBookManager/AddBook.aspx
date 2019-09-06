@@ -24,18 +24,22 @@
 
     <form id="form1" method="post">
         <input name="BookGuid" class="mini-hidden" />
-        <div style="padding-left: 11px; padding-bottom: 5px;  margin-left: 20px;">
+        <div style="padding-left: 11px; padding-bottom: 5px; margin-left: 20px;">
             <table style="table-layout: fixed;">
                 <tr>
                     <td style="width: 80px;">图书名称：</td>
                     <td style="width: 150px;">
+                        <input name="BookNameList" class="mini-combobox" valuefield="text" textfield="text"
+                            url="Data/booktypelist.Json"
+                            onvaluechanged="onBookTypeChanged" required="true"
+                            emptytext="请选择图书类别" />
                         <input name="BookName" class="mini-textbox" required="true" emptytext="请输入图书名称" />
                     </td>
                     <td style="width: 80px;">图书类别：</td>
                     <td style="width: 150px;">
                         <input name="BookType" class="mini-combobox" valuefield="id" textfield="text"
                             url="Data/booktype.Json"
-                            onvaluechanged="onBookTypeChanged" required="true"
+                            onvaluechanged="" required="true"
                             emptytext="请选择图书类别" />
                     </td>
                 </tr>
@@ -59,8 +63,10 @@
                     <td>
                         <input name="Count" class="mini-textbox" valuefield="id" textfield="name" url="" />
                     </td>
+                </tr>
+                <tr>
                     <td>备注：</td>
-                    <td>
+                    <td colspan="3">
                         <input name="Remark" class="mini-textbox" />
                     </td>
                 </tr>
@@ -126,13 +132,8 @@
         function onCancel(e) {
             CloseWindow("cancel");
         }
-        //////////////////////////////////
-        function onBookChanged(e) {
-            var bookTypeCombox = mini.getbyName("booktype");
-            var bookTypeId = bookTypeCombox.getValue();
-
-            bookTypeCombox.setValue(bookTypeId);
-        }
+        
+        
 
 
 

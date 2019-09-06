@@ -102,11 +102,16 @@ namespace DAL
             return borrowInfo;
         }
         //获取数据库图书借阅信息列表
-        public List<BorrowInfo> GetBorrowInfoList()
+        public List<BorrowInfo> GetBorrowInfoList(int pageIndex, int pageSize)
         {
-            string sql = selectSql;
+            string sql = selectSql+ " order by useguid offset(@pageIndex)*@pageSize rows fetch next 10 rows only";
             List<BorrowInfo> borrowInfoList = new List<BorrowInfo>();
-            SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text);
+            SqlParameter[] pms = new SqlParameter[]
+            {
+                new SqlParameter("@pageIndex",pageIndex),
+                new SqlParameter("@pageSize",pageSize)
+            };
+            SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text,pms);
             if (reader.HasRows)
             {
                 while (reader.Read())
@@ -131,6 +136,22 @@ namespace DAL
             string sql = @"select count(*) from BorrowInfo";
             int r = (int)SqlHelper.ExecuteScalar(sql, CommandType.Text);
             return r;
+        }
+        //查询借阅标识
+        public List<string> GetUseGuidList()
+        {
+            string sql = @"select useguid from BorrowInfo";
+            SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text);
+            List<string> strList = new List<string>();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    string str = reader.GetString(0).Substring(3);
+                    strList.Add(str);
+                }
+            }
+            return strList;
         }
     }
 }

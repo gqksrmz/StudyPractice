@@ -23,14 +23,17 @@
 <body>
 
     <form id="form1" method="post">
-        <input name="id" class="mini-hidden" />
+        <%--<input name="id" class="mini-hidden" />--%>
         <div style="height: 60px;"></div>
         <div style="padding-left: 11px; padding-bottom: 5px; height: 100px; margin-left: 20px;">
             <table style="table-layout: fixed;">
                 <tr>
                     <td style="width: 80px;">图书名称：</td>
                     <td style="width: 150px;">
-                        <input name="BookName" class="mini-textbox" required="true" emptytext="请输入图书名称" />
+                        <input name="BookName" class="mini-combobox" valuefield="BookName" textfield="BookName"
+                            url="AjaxService.aspx?method=GetAllBookWithoutPaging"
+                            onvaluechanged="" required="true"
+                            emptytext="请选择图书" />
                     </td>
                     <td>借阅人：</td>
                     <td style="width: 150px;">
@@ -59,8 +62,8 @@
                 </tr>
                 <tr>
                     <td>备注：</td>
-                    <td>
-                        <input name="Remark" class="mini-textbox" required="true" emptytext="请输入备注" />
+                    <td colspan="3">
+                        <input name="Remark" class="mini-textbox" required="true" />
                     </td>
                 </tr>
             </table>
@@ -126,12 +129,7 @@
             CloseWindow("cancel");
         }
         //////////////////////////////////
-        function onBookChanged(e) {
-            var bookTypeCombox = mini.getbyName("booktype");
-            var bookTypeId = bookTypeCombox.getValue();
 
-            bookTypeCombox.setValue(bookTypeId);
-        }
 
 
 

@@ -24,7 +24,11 @@
                         <a class="mini-button" iconcls="icon-remove" onclick="remove()">删除</a>
                     </td>
                     <td style="white-space: nowrap;">
-                        <input id="key" class="mini-textbox" emptytext="请输入图书名称" style="width: 150px;" onenter="onKeyEnter" />
+                        <input name="SelectBookType" class="mini-combobox" valuefield="id" textfield="text"
+                            url="Data/booktype.Json"
+                            onvaluechanged="" emptytext="请选择图书类别" />
+                                                <input name="BeginDate" class="mini-datepicker" required="true" emptytext="请选择日期" />
+                        <input name="EndDate" class="mini-datepicker" required="true" emptytext="请选择日期" />
                         <a class="mini-button" onclick="search()">查询</a>
                     </td>
                 </tr>
