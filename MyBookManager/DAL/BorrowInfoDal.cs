@@ -10,13 +10,13 @@ namespace DAL
     public class BorrowInfoDal
     {
         string selectSql = @"select * from BorrowInfo";
-        //插入新数据
+        //插入新数据并且更新图书表的借阅次数
         public bool Inert(BorrowInfo entity)
         {
 
-            string sql = "insert into BorrowInfo(bookname,useguid,borrowperson,handler,borrowcause,borrowdate,returndate,remark)" +
+            string sql1 = "insert into BorrowInfo(bookname,useguid,borrowperson,handler,borrowcause,borrowdate,returndate,remark)" +
                 "values(@bookname,@useguid,@borrowperson,@handler,@borrowcause,@borrowdate,@returndate,@remark)";
-            SqlParameter[] pms = new SqlParameter[]
+            SqlParameter[] pms1 = new SqlParameter[]
             {
                 new SqlParameter("@bookname",entity.BookName),
                 new SqlParameter("@useguid",entity.UseGuid),
@@ -27,15 +27,63 @@ namespace DAL
                 new SqlParameter("@returndate",entity.ReturnDate),
                 new SqlParameter("@remark",entity.Remark),
             };
-            int r = SqlHelper.ExecuteNonQuery(sql, CommandType.Text, pms);
-            if (r > 0)
+
+            string sql2 = "update BookInfo set count=count+1 where bookname=@bookname";
+            SqlParameter pms2 = new SqlParameter("@bookname", entity.BookName);
+
+            string sql3 = "select count(*) from BorrowInfo where bookname=@bookname";
+            SqlParameter pms3 = new SqlParameter("@bookname", entity.BookName);
+
+            int count = (int)SqlHelper.ExecuteScalar(sql3, CommandType.Text, pms3);
+            if (count > 0)
             {
-                return true;
+                string sql4 = "select returndate from BorrowInfo where bookname=@bookname";
+                SqlParameter pms4 = new SqlParameter("@bookname", entity.BookName);
+
+                SqlDataReader reader = SqlHelper.ExecuteReader(sql4, CommandType.Text, pms4);
+                List<DateTime> dateList = new List<DateTime>();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        dateList.Add(reader.GetDateTime(0));
+                    }
+                }
+                reader.Close();
+                dateList.Sort();
+                if (entity.BorrowDate < dateList[dateList.Count - 1])
+                {
+                    return false;
+                }
+                else
+                {
+                    int r1 = SqlHelper.ExecuteNonQuery(sql1, CommandType.Text, pms1);
+                    int r2 = SqlHelper.ExecuteNonQuery(sql2, CommandType.Text, pms2);
+                    if (r1 > 0 && r2 > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
             else
             {
-                return false;
+                int r1 = SqlHelper.ExecuteNonQuery(sql1, CommandType.Text, pms1);
+                int r2 = SqlHelper.ExecuteNonQuery(sql2, CommandType.Text, pms2);
+                if (r1 > 0 && r2 > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
+
+
         }
         //更新数据
         public bool Update(BorrowInfo entity)
@@ -99,6 +147,7 @@ namespace DAL
                     borrowInfo.Remark = reader.GetString(7);
                 }
             }
+            reader.Close();
             return borrowInfo;
         }
         //获取数据库图书借阅信息列表
@@ -128,6 +177,7 @@ namespace DAL
                     borrowInfoList.Add(borrowInfo);
                 }
             }
+            reader.Close();
             return borrowInfoList;
         }
         //获取总共多少条数据
@@ -151,12 +201,13 @@ namespace DAL
                     strList.Add(str);
                 }
             }
+            reader.Close();
             return strList;
         }
         //根据key查询图书借阅信息
         public List<BorrowInfo> GetBorrowInfoByKey(string key, int pageIndex, int pageSize)
         {
-            string sql = selectSql + "\nwhere bookname like '%"+key+"%'" +
+            string sql = selectSql + "\nwhere bookname like '%" + key + "%'" +
                 " order by useguid offset(@pageIndex)*@pageSize rows fetch next 10 rows only";
             List<BorrowInfo> borrowInfoList = new List<BorrowInfo>();
             SqlParameter[] pms = new SqlParameter[]
@@ -181,6 +232,7 @@ namespace DAL
                     borrowInfoList.Add(borrowInfo);
                 }
             }
+            reader.Close();
             return borrowInfoList;
         }
     }

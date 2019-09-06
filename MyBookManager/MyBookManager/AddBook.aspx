@@ -61,7 +61,7 @@
                 <tr>
                     <td>借阅次数：</td>
                     <td>
-                        <input name="Count" class="mini-textbox" valuefield="id" textfield="name" url="" />
+                        <input name="Count" class="mini-textbox" valuefield="id" textfield="name" url="" value="0" readonly="readonly"/>
                     </td>
                 </tr>
                 <tr>

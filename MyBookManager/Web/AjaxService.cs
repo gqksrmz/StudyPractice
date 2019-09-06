@@ -190,11 +190,11 @@ namespace Web
             bool r = borrowInfoBLL.SaveBorrowInfo(borrowInfo, status);
             if (r)
             {
-                Response.Write("成功!");
+                RenderText("添加成功!");
             }
             else
             {
-                Response.Write("失败！");
+                RenderJson("添加失败！");
             }
         }
         //查询单个图书借阅信息

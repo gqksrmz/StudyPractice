@@ -64,10 +64,15 @@ namespace DAL
         //删除数据
         public bool Delete(string bookGuid)
         {
-            string sql = @"delete from BookInfo where bookguid=@bookguid";
-            SqlParameter pms = new SqlParameter("@bookguid", bookGuid);
-            int r = SqlHelper.ExecuteNonQuery(sql, CommandType.Text, pms);
-            if (r > 0)
+            string sql1 = "delete from BookInfo" +
+                " where bookguid = '@bookguid'";
+            SqlParameter pms1 = new SqlParameter("@bookguid", bookGuid);
+            string sql2 = "delete from BorrowInfo" +
+                " where bookname = (select bookname from BookInfo where bookguid='@bookguid')";
+            SqlParameter pms2 = new SqlParameter("@bookguid", bookGuid);
+            int r1 = SqlHelper.ExecuteNonQuery(sql1, CommandType.Text, pms1);
+            int r2 = SqlHelper.ExecuteNonQuery(sql2, CommandType.Text, pms2);
+            if (r1>0&&r2>0)
             {
                 return true;
             }
@@ -96,6 +101,7 @@ namespace DAL
                     bookInfo.Remark = reader.GetString(6);
                 }
             }
+            reader.Close();
             return bookInfo;
         }
         //查询分页的图书列表
@@ -160,6 +166,7 @@ namespace DAL
                     bookList.Add(bookInfo);
                 }
             }
+            reader.Close();
             return bookList;
 
         }
@@ -185,6 +192,7 @@ namespace DAL
                     strList.Add(str);
                 }
             }
+            reader.Close();
             return strList;
         }
         //根据key分页查询图书
@@ -217,6 +225,7 @@ namespace DAL
                     bookList.Add(bookInfo);
                 }
             }
+            reader.Close();
             return bookList;
         }
         //获取全部图书 不分页
@@ -240,6 +249,7 @@ namespace DAL
                     bookList.Add(bookInfo);
                 }
             }
+            reader.Close();
             return bookList;
         }
     }

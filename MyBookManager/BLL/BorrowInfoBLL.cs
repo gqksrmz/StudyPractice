@@ -36,7 +36,7 @@ namespace BLL
         //获取图书借阅列表
         public List<BorrowInfo> GetList(int pageIndex, int pageSize)
         {
-            List<BorrowInfo> borrowInfoList = borrowInfoDal.GetBorrowInfoList(pageIndex,pageSize);
+            List<BorrowInfo> borrowInfoList = borrowInfoDal.GetBorrowInfoList(pageIndex, pageSize);
             return borrowInfoList;
         }
         //总共多少借阅信息
@@ -48,30 +48,61 @@ namespace BLL
         public bool SaveBorrowInfo(Object obj, string state)
         {
             BorrowInfo borrowInfo = (BorrowInfo)obj;
-
             try
             {
 
                 if (borrowInfo.UseGuid == null)
                 {
-                    borrowInfo.UseGuid = GenerateIdentification(GetUseGuidList());
-                    borrowInfoDal.Inert(borrowInfo);
+
+                    List<string> strList = GetUseGuidList();
+                    if (strList.Count <= 0)
+                    {
+                        borrowInfo.UseGuid = "JY0001";
+                    }
+                    else
+                    {
+                        borrowInfo.UseGuid = GenerateIdentification(GetUseGuidList());
+                    }
+
+                    bool r = borrowInfoDal.Inert(borrowInfo);
+                    if (r)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else if (state == null)
                 {
-                    borrowInfoDal.Update(borrowInfo);
-
+                    bool r = borrowInfoDal.Update(borrowInfo);
+                    if (r)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
-                    borrowInfoDal.Delete(borrowInfo.UseGuid);
+                    bool r = borrowInfoDal.Delete(borrowInfo.UseGuid);
+                    if (r)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
             catch (Exception e)
             {
                 return false;
             }
-            return true;
         }
         //查询借阅标识
         public List<string> GetUseGuidList()
@@ -95,7 +126,7 @@ namespace BLL
         //根据key查询图书借阅信息
         public List<BorrowInfo> GetBorrowInfoByKey(string key, int pageIndex, int pageSize)
         {
-            List<BorrowInfo> borrowInfoList = borrowInfoDal.GetBorrowInfoByKey(key,pageIndex,pageSize);
+            List<BorrowInfo> borrowInfoList = borrowInfoDal.GetBorrowInfoByKey(key, pageIndex, pageSize);
             return borrowInfoList;
         }
 

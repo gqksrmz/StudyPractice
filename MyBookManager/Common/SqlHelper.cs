@@ -36,7 +36,9 @@ namespace Common
                         cmd.Parameters.AddRange(pms);
                     }
                     con.Open();
-                    return cmd.ExecuteNonQuery();
+                    int r = cmd.ExecuteNonQuery();
+                    return r;
+
                 }
             }
         }
