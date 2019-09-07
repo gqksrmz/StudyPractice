@@ -2621,6 +2621,7 @@
     <Content Include="Content\scripts\miniui\themes\olive2003\images\buttonedit\Thumbs.db" />
     <Content Include="Content\scripts\miniui\themes\olive2003\images\tree\Thumbs.db" />
     <Content Include="Data\booktypelist.Json" />
+    <Content Include="Data\booktypesearch.Json" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

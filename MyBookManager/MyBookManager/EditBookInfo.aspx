@@ -60,7 +60,7 @@
                 <tr>
                     <td>借阅次数：</td>
                     <td>
-                        <input name="Count" class="mini-textbox" valuefield="id" textfield="name" url="" />
+                        <input name="Count" class="mini-textbox" valuefield="id" textfield="name" url="" vtype="int"/>
                     </td>
                     <td>备注：</td>
                     <td>

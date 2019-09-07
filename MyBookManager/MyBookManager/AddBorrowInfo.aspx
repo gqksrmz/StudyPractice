@@ -23,6 +23,9 @@
 <body>
 
     <form id="form1" method="post">
+        <%
+                            var date = DateTime.Now.AddDays(-1);
+                            %>
         <%--<input name="id" class="mini-hidden" />--%>
         <div style="height: 60px;"></div>
         <div style="padding-left: 11px; padding-bottom: 5px; height: 100px; margin-left: 20px;">
@@ -53,11 +56,12 @@
                 <tr>
                     <td>借阅日期：</td>
                     <td>
-                        <input name="BorrowDate" class="mini-datepicker" required="true" emptytext="请选择日期" minDate="2019-09-06"/>
+                        <input name="BorrowDate" class="mini-datepicker" required="true" emptytext="请选择日期" minDate="<%=date %>" />
                     </td>
                     <td>归还日期：</td>
                     <td>
-                        <input name="ReturnDate" class="mini-datepicker" required="true" emptytext="请选择日期"  minDate="2019-09-06"/>
+                        
+                        <input name="ReturnDate" class="mini-datepicker" required="true" emptytext="请选择日期"  minDate="<%=date %>"/>
                     </td>
                 </tr>
                 <tr>
@@ -129,7 +133,11 @@
             CloseWindow("cancel");
         }
         //////////////////////////////////
-      
+        function myDate() {
+            var myDate = new Date();
+            var mytime = myDate.toLocaleTimeString();  
+            return mytime;
+        }
 
 
 

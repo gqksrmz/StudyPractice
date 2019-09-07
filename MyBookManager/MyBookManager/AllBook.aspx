@@ -25,7 +25,7 @@
                     </td>
                     <td style="white-space: nowrap;">
                         <input name="SelectBookType" class="mini-combobox" valuefield="text" textfield="text"
-                            url="Data/booktype.Json"
+                            url="Data/booktypesearch.Json"
                             onvaluechanged="" emptytext="请选择图书类别" />
                         <input name="BeginDate" class="mini-datepicker" required="true" emptytext="请选择日期" />
                         <input name="EndDate" class="mini-datepicker" required="true" emptytext="请选择日期" />

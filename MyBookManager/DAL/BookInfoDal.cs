@@ -64,14 +64,16 @@ namespace DAL
         //删除数据
         public bool Delete(string bookGuid)
         {
-            string sql1 = "delete from BookInfo" +
-                " where bookguid = '@bookguid'";
+            string sql1= "delete from BookInfo" +
+                " where bookguid = @bookguid";
             SqlParameter pms1 = new SqlParameter("@bookguid", bookGuid);
-            string sql2 = "delete from BorrowInfo" +
-                " where bookname = (select bookname from BookInfo where bookguid='@bookguid')";
+
+            string sql2 = "delete from BorrowInfo " +
+                "where bookname=(select bookname from BookInfo where bookguid=@bookguid)";
             SqlParameter pms2 = new SqlParameter("@bookguid", bookGuid);
-            int r1 = SqlHelper.ExecuteNonQuery(sql1, CommandType.Text, pms1);
+
             int r2 = SqlHelper.ExecuteNonQuery(sql2, CommandType.Text, pms2);
+            int r1 = SqlHelper.ExecuteNonQuery(sql1, CommandType.Text, pms1);
             if (r1>0&&r2>0)
             {
                 return true;
@@ -111,20 +113,29 @@ namespace DAL
             string sql = null ;
             if (!string.IsNullOrEmpty(key))
             {
-                sql = selectSql + " where booktype='" + key + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
-                if (beginDate != null && endDate == null)
+                if (key == "全部")
                 {
-                    sql = selectSql + "where booktype='" + key + "'and buydate > '" + beginDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
-                }
-                else if(beginDate==null&&endDate!=null)
-                {
-                    sql = selectSql + "where booktype='" + key + "'and buydate < '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    sql = selectSql + " order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
 
                 }
-                else if (beginDate != null && endDate != null)
+                else
                 {
-                    sql = selectSql + "where booktype='" + key + "'and buydate between '" + beginDate + "'and '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    sql = selectSql + " where booktype='" + key + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    if (beginDate != null && endDate == null)
+                    {
+                        sql = selectSql + "where booktype='" + key + "'and buydate > '" + beginDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
+                    else if (beginDate == null && endDate != null)
+                    {
+                        sql = selectSql + "where booktype='" + key + "'and buydate < '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+
+                    }
+                    else if (beginDate != null && endDate != null)
+                    {
+                        sql = selectSql + "where booktype='" + key + "'and buydate between '" + beginDate + "'and '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
                 }
+                
             }
             else
             {

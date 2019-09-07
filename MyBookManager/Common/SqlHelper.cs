@@ -14,6 +14,7 @@ namespace Common
         private static readonly string constr = "Data Source=DESKTOP-V4D9RI7;Initial Catalog = BookManager; User ID = sa; Password=123456";
         public static SqlConnection GetSqlConnection()
         {
+
             SqlConnection con = new SqlConnection(constr);
             return con;
         }
@@ -38,6 +39,7 @@ namespace Common
                     con.Open();
                     int r = cmd.ExecuteNonQuery();
                     return r;
+
 
                 }
             }
