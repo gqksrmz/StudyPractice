@@ -64,7 +64,7 @@ namespace DAL
         //删除数据
         public bool Delete(string bookGuid)
         {
-            string sql1= "delete from BookInfo" +
+            string sql1 = "delete from BookInfo" +
                 " where bookguid = @bookguid";
             SqlParameter pms1 = new SqlParameter("@bookguid", bookGuid);
 
@@ -74,7 +74,7 @@ namespace DAL
 
             int r2 = SqlHelper.ExecuteNonQuery(sql2, CommandType.Text, pms2);
             int r1 = SqlHelper.ExecuteNonQuery(sql1, CommandType.Text, pms1);
-            if (r1>0&&r2>0)
+            if (r1 > 0 && r2 > 0)
             {
                 return true;
             }
@@ -107,53 +107,141 @@ namespace DAL
             return bookInfo;
         }
         //查询分页的图书列表
-        public List<BookInfo> GetBookList(int pageIndex, int pageSize, string key, DateTime? beginDate,DateTime? endDate)
+        public List<BookInfo> GetBookList(int pageIndex, int pageSize, string key, DateTime? beginDate, DateTime? endDate, string sortField, string sortOrder)
         {
             //  " order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
-            string sql = null ;
+            string sql = null;
             if (!string.IsNullOrEmpty(key))
             {
                 if (key == "全部")
                 {
-                    sql = selectSql + " order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
-
+                    if (string.IsNullOrEmpty(sortField))
+                    {
+                        sql = selectSql + " order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
+                    else if (!string.IsNullOrEmpty(sortField) && string.IsNullOrEmpty(sortOrder))
+                    {
+                        sql = selectSql + " order by " + sortField + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
+                    else if (!string.IsNullOrEmpty(sortField) && !string.IsNullOrEmpty(sortOrder))
+                    {
+                        sql = selectSql + " order by " + sortField + " "+sortOrder+" offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
                 }
                 else
                 {
-                    sql = selectSql + " where booktype='" + key + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    if (string.IsNullOrEmpty(sortField))
+                    {
+                        sql = selectSql + " where booktype='" + key + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                        if (beginDate != null && endDate == null)
+                        {
+                            sql = selectSql + "where booktype='" + key + "'and buydate > '" + beginDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                        }
+                        else if (beginDate == null && endDate != null)
+                        {
+                            sql = selectSql + "where booktype='" + key + "'and buydate < '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+
+                        }
+                        else if (beginDate != null && endDate != null)
+                        {
+                            sql = selectSql + "where booktype='" + key + "'and buydate between '" + beginDate + "'and '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                        }
+                    }
+                    else if (!string.IsNullOrEmpty(sortField) && string.IsNullOrEmpty(sortOrder))
+                    {
+
+                        sql = selectSql + " where booktype='" + key + "' order by " + sortField + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                        if (beginDate != null && endDate == null)
+                        {
+                            sql = selectSql + "where booktype='" + key + "'and buydate > '" + beginDate + "' order by " + sortField + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                        }
+                        else if (beginDate == null && endDate != null)
+                        {
+                            sql = selectSql + "where booktype='" + key + "'and buydate < '" + endDate + "' order by " + sortField + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+
+                        }
+                        else if (beginDate != null && endDate != null)
+                        {
+                            sql = selectSql + "where booktype='" + key + "'and buydate between '" + beginDate + "'and '" + endDate + "' order by " + sortField + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                        }
+                    }
+                    else if (!string.IsNullOrEmpty(sortField) && !string.IsNullOrEmpty(sortOrder))
+                    {
+                        sql = selectSql + " where booktype='" + key + "' order by " + sortField + " " + sortOrder + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                        if (beginDate != null && endDate == null)
+                        {
+                            sql = selectSql + "where booktype='" + key + "'and buydate > '" + beginDate + "' order by " + sortField + " " + sortOrder + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                        }
+                        else if (beginDate == null && endDate != null)
+                        {
+                            sql = selectSql + "where booktype='" + key + "'and buydate < '" + endDate + "' order by " + sortField + " " + sortOrder + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+
+                        }
+                        else if (beginDate != null && endDate != null)
+                        {
+                            sql = selectSql + "where booktype='" + key + "'and buydate between '" + beginDate + "'and '" + endDate + "' order by " + sortField + " " + sortOrder + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                        }
+                    }
+
+
+                }
+
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(sortField))
+                {
+                    sql = selectSql + " order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
                     if (beginDate != null && endDate == null)
                     {
-                        sql = selectSql + "where booktype='" + key + "'and buydate > '" + beginDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                        sql = selectSql + "where  buydate > '" + beginDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
                     }
                     else if (beginDate == null && endDate != null)
                     {
-                        sql = selectSql + "where booktype='" + key + "'and buydate < '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                        sql = selectSql + "where  buydate < '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
 
                     }
                     else if (beginDate != null && endDate != null)
                     {
-                        sql = selectSql + "where booktype='" + key + "'and buydate between '" + beginDate + "'and '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                        sql = selectSql + "where  buydate between '" + beginDate + "'and '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
+                }
+                else if (!string.IsNullOrEmpty(sortField) && string.IsNullOrEmpty(sortOrder))
+                {
+
+                    sql = selectSql + " order by " + sortField + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    if (beginDate != null && endDate == null)
+                    {
+                        sql = selectSql + "where  buydate > '" + beginDate + "' order by " + sortField + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
+                    else if (beginDate == null && endDate != null)
+                    {
+                        sql = selectSql + "where  buydate < '" + endDate + "' order by " + sortField + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+
+                    }
+                    else if (beginDate != null && endDate != null)
+                    {
+                        sql = selectSql + "where  buydate between '" + beginDate + "'and '" + endDate + "' order by " + sortField + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
+                }else if(!string.IsNullOrEmpty(sortField) && !string.IsNullOrEmpty(sortOrder))
+                {
+
+                    sql = selectSql + " order by " + sortField + " " + sortOrder + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    if (beginDate != null && endDate == null)
+                    {
+                        sql = selectSql + "where  buydate > '" + beginDate + "' order by " + sortField + " " + sortOrder + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
+                    else if (beginDate == null && endDate != null)
+                    {
+                        sql = selectSql + "where  buydate < '" + endDate + "' order by " + sortField + " " + sortOrder + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+
+                    }
+                    else if (beginDate != null && endDate != null)
+                    {
+                        sql = selectSql + "where  buydate between '" + beginDate + "'and '" + endDate + "' order by " + sortField + " " + sortOrder + " offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
                     }
                 }
                 
-            }
-            else
-            {
-                sql =selectSql+ " order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
-                if (beginDate != null && endDate == null)
-                {
-                    sql = selectSql + "where  buydate > '" + beginDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
-                }
-                else if (beginDate == null && endDate != null)
-                {
-                    sql = selectSql + "where  buydate < '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
-
-                }
-                else if (beginDate != null && endDate != null)
-                {
-                    sql = selectSql + "where  buydate between '" + beginDate + "'and '" + endDate + "' order by bookguid offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
-
-                }
             }
             List<BookInfo> bookList = new List<BookInfo>();
             SqlParameter[] pms = new SqlParameter[]
@@ -161,7 +249,7 @@ namespace DAL
                 new SqlParameter("@pageIndex", pageIndex),
                 new SqlParameter("@pageSize", pageSize)
             };
-            SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text,pms);
+            SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text, pms);
             if (reader.HasRows)
             {
                 while (reader.Read())

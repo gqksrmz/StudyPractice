@@ -34,9 +34,9 @@ namespace BLL
             return borrowInfoDal.GetBorrowInfo(useGuid);
         }
         //获取图书借阅列表
-        public List<BorrowInfo> GetList(int pageIndex, int pageSize)
+        public List<BorrowInfo> GetList(int pageIndex, int pageSize, string sortField, string sortOrder)
         {
-            List<BorrowInfo> borrowInfoList = borrowInfoDal.GetBorrowInfoList(pageIndex, pageSize);
+            List<BorrowInfo> borrowInfoList = borrowInfoDal.GetBorrowInfoList(pageIndex, pageSize,sortField,sortOrder);
             return borrowInfoList;
         }
         //总共多少借阅信息
@@ -124,9 +124,9 @@ namespace BLL
             return result;
         }
         //根据key查询图书借阅信息
-        public List<BorrowInfo> GetBorrowInfoByKey(string key, int pageIndex, int pageSize)
+        public List<BorrowInfo> GetBorrowInfoByKey(string key, int pageIndex, int pageSize, string sortField, string sortOrder)
         {
-            List<BorrowInfo> borrowInfoList = borrowInfoDal.GetBorrowInfoByKey(key, pageIndex, pageSize);
+            List<BorrowInfo> borrowInfoList = borrowInfoDal.GetBorrowInfoByKey(key, pageIndex, pageSize,sortField,sortOrder);
             return borrowInfoList;
         }
 

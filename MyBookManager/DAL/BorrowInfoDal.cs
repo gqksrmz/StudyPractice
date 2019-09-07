@@ -151,9 +151,21 @@ namespace DAL
             return borrowInfo;
         }
         //获取数据库图书借阅信息列表
-        public List<BorrowInfo> GetBorrowInfoList(int pageIndex, int pageSize)
+        public List<BorrowInfo> GetBorrowInfoList(int pageIndex, int pageSize, string sortField, string sortOrder)
         {
-            string sql = selectSql + " order by useguid offset(@pageIndex)*@pageSize rows fetch next 10 rows only";
+            string sql=null;
+            if (string.IsNullOrEmpty(sortField))
+            {
+                 sql = selectSql + " order by useguid offset(@pageIndex)*@pageSize rows fetch next 10 rows only";
+            }
+            else if (!string.IsNullOrEmpty(sortField) && string.IsNullOrEmpty(sortOrder))
+            {
+                 sql = selectSql + " order by " + sortField + " offset(@pageIndex)*@pageSize rows fetch next 10 rows only";
+            }
+            else if (!string.IsNullOrEmpty(sortField) && !string.IsNullOrEmpty(sortOrder))
+            {
+                 sql = selectSql + " order by " + sortField + " "+sortOrder+" offset(@pageIndex)*@pageSize rows fetch next 10 rows only";
+            }
             List<BorrowInfo> borrowInfoList = new List<BorrowInfo>();
             SqlParameter[] pms = new SqlParameter[]
             {
@@ -205,10 +217,24 @@ namespace DAL
             return strList;
         }
         //根据key查询图书借阅信息
-        public List<BorrowInfo> GetBorrowInfoByKey(string key, int pageIndex, int pageSize)
+        public List<BorrowInfo> GetBorrowInfoByKey(string key, int pageIndex, int pageSize, string sortField, string sortOrder)
         {
-            string sql = selectSql + "\nwhere bookname like '%" + key + "%'" +
-                " order by useguid offset(@pageIndex)*@pageSize rows fetch next 10 rows only";
+            string sql=null;
+            if (string.IsNullOrEmpty(sortField))
+            {
+                 sql = selectSql + "\nwhere bookname like '%" + key + "%'" +
+    " order by useguid offset(@pageIndex)*@pageSize rows fetch next 10 rows only";
+            }
+            else if (!string.IsNullOrEmpty(sortField) && string.IsNullOrEmpty(sortOrder))
+            {
+                 sql = selectSql + "\nwhere bookname like '%" + key + "%'" +
+    " order by " + sortField + " offset(@pageIndex)*@pageSize rows fetch next 10 rows only";
+            }
+            else if (!string.IsNullOrEmpty(sortField) && !string.IsNullOrEmpty(sortOrder))
+            {
+                 sql = selectSql + "\nwhere bookname like '%" + key + "%'" +
+    " order by " + sortField + " " + sortOrder + " offset(@pageIndex)*@pageSize rows fetch next 10 rows only";
+            }
             List<BorrowInfo> borrowInfoList = new List<BorrowInfo>();
             SqlParameter[] pms = new SqlParameter[]
             {

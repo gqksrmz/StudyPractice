@@ -46,8 +46,8 @@
             <div field="SuitAble" width="120" headeralign="center" allowsort="true" renderer="onSuitableRenderer">适合人群</div>
             <div field="BuyDate" width="120" headeralign="center" allowsort="true" renderer="onBuyDateRenderer">入库日期</div>
             <div field="Count" width="120" headeralign="center" allowsort="true" renderer="oncountrenderer">借阅次数</div>
-            <div field="Remark" width="120" headeralign="center" allowsort="true">备注</div>
-            <div field="Operation" width="120" headeralign="center" allowsort="true" renderer="onActionRenderer">操作</div>
+            <div field="Remark" width="120" headeralign="center">备注</div>
+            <div field="Operation" width="120" headeralign="center" renderer="onActionRenderer">操作</div>
         </div>
     </div>
 

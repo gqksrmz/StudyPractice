@@ -45,8 +45,8 @@
             <div field="BorrowCause" width="120" headerAlign="center" allowSort="true" >借阅事由</div>    
             <div field="BorrowDate" width="120" headerAlign="center" allowSort="true" renderer="onDateRenderer">借阅时间</div>    
             <div field="ReturnDate" width="120" headerAlign="center" allowSort="true" renderer="onDateRenderer">归还日期</div>    
-            <div field="Remark" width="120" headerAlign="center" allowSort="true">备注</div> 
-            <div field="Operation" width="120" headeralign="center" allowsort="true" renderer="onActionRenderer">操作</div>
+            <div field="Remark" width="120" headerAlign="center">备注</div> 
+            <div field="Operation" width="120" headeralign="center" renderer="onActionRenderer">操作</div>
         </div>
     </div>
     

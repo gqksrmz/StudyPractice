@@ -26,6 +26,9 @@ namespace Web
             string strKey = GetString("SelectBookType");
             string begin = GetString("BeginDate");
             string end = GetString("EndDate");
+            string sortField = GetString("sortField");
+            string sortOrder = GetString("sortOrder");
+            //string sortField,string sortOrder
             DateTime? beginDate = null;
             DateTime? endDate = null;
             if (!string.IsNullOrEmpty(begin) && !string.IsNullOrEmpty(end))
@@ -61,7 +64,7 @@ namespace Web
             //分页
             int pageIndex = GetInt("pageIndex");
             int pageSize = GetInt("pageSize");
-            List<BookInfo> bookInfo = bookInfoBLL.GetList(pageIndex, pageSize, key, beginDate, endDate);
+            List<BookInfo> bookInfo = bookInfoBLL.GetList(pageIndex, pageSize, key, beginDate, endDate,sortField,sortOrder);
             List<BookInfo> bookInfoList = new List<BookInfo>();
             foreach (var item in bookInfo)
             {
@@ -141,11 +144,13 @@ namespace Web
         public void SearchAllBorrowInfo()
         {
             string key = GetString("key");
+            string sortField = GetString("sortField");
+            string sortOrder = GetString("sortOrder");//string sortField,string sortOrder
             if (!string.IsNullOrEmpty(key))
             {
                 int pageIndex = GetInt("pageIndex");
                 int pageSize = GetInt("pageSize");
-                List<BorrowInfo> borrowInfoList = borrowInfoBLL.GetBorrowInfoByKey(key, pageIndex, pageSize);
+                List<BorrowInfo> borrowInfoList = borrowInfoBLL.GetBorrowInfoByKey(key, pageIndex, pageSize,sortField,sortOrder);
                 RenderJson(borrowInfoList);
             }
             else
@@ -153,7 +158,7 @@ namespace Web
                 //分页
                 int pageIndex = GetInt("pageIndex");
                 int pageSize = GetInt("pageSize");
-                List<BorrowInfo> borrowList = borrowInfoBLL.GetList(pageIndex, pageSize);
+                List<BorrowInfo> borrowList = borrowInfoBLL.GetList(pageIndex, pageSize,sortField,sortOrder);
                 List<BorrowInfo> borroInfoList = new List<BorrowInfo>();
                 foreach (var item in borrowList)
                 {
@@ -227,7 +232,9 @@ namespace Web
             //分页
             int pageIndex = GetInt("pageIndex");
             int pageSize = GetInt("pageSize");
-            List<BookInfo> bookList = bookInfoBLL.GetList(pageIndex, pageSize, key, beginDate, endDate);
+            string sortField = GetString("sortField");
+            string sortOrder = GetString("sortOrder");
+            List<BookInfo> bookList = bookInfoBLL.GetList(pageIndex, pageSize, key, beginDate, endDate,sortField,sortOrder);
             RenderJson(bookList);
         }
         //不分页获取所有图书
