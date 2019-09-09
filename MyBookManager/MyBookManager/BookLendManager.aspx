@@ -139,10 +139,6 @@
             return "";
 
         }
-        function search() {
-            var key = mini.get("key").getValue();
-            grid.load({ key: key });
-        }
         function onActionRenderer(e) {
             var grid = e.sender;
             var record = e.record;

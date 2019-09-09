@@ -72,10 +72,8 @@
                     iframe.contentWindow.SetData(data);
                 },
                 ondestroy: function (action) {
-
                     grid.reload();
                 }
-
             });
         }
 
@@ -96,7 +94,6 @@
                         //var iframe = this.getIFrameEl();
                         grid.reload();
                     }
-
                 });
 
             } else {
@@ -128,10 +125,6 @@
             } else {
                 alert("请选中一条记录");
             }
-        }
-        function search() {
-            var key = mini.get("key").getValue();
-            grid.load({ key: key });
         }
         function onBookTypeRenderer(e) {
             if (e.value == "1") {
