@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>图书管理</title>
+    <title>餐桌信息管理</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <%--<link href="Content/css/demo.css" rel="stylesheet" type="text/css" />--%>
 
@@ -11,7 +11,7 @@
     <%--  <script src="Content/js/ColumnsMenu.js" type="text/javascript"></script>--%>
 </head>
 <body>
-    <h1>图书管理</h1>
+    <h1>餐桌信息管理</h1>
 
     <div style="width: 1100px;">
         <div class="mini-toolbar" style="border-bottom: 0; padding: 0px;">
@@ -23,8 +23,7 @@
                         <a class="mini-button" iconcls="icon-remove" onclick="remove()">删除</a>
                     </td>
                     <td style="white-space: nowrap;">
-                        <input name="BeginDate" class="mini-datepicker" required="true" emptytext="请选择日期" />
-                        <input name="EndDate" class="mini-datepicker" required="true" emptytext="请选择日期" />
+                        <input name="Count" class="mini-textbox" valuefield="id" textfield="name" url="" emptytext="请输入查询内容"/>
                         <a class="mini-button" onclick="search()">查询</a>
                     </td>
                 </tr>
@@ -32,14 +31,14 @@
         </div>
     </div>
     <div id="datagrid1" class="mini-datagrid" style="width: 1100px; height: 350px;" allowresize="true"
-        url="AjaxService.aspx?action=SearchAllTable" idfield="id" multiselect="true">
+        url="TableInfoService.ashx?action=SearchAllTable" idfield="id" multiselect="true">
         <div property="columns">
             <!--<div type="indexcolumn"></div>        -->
             <div type="checkcolumn"></div>
             <div field="TableNo" width="120" headeralign="center" allowsort="true">餐桌编号</div>
-            <div field="HoldNum" width="120" headeralign="center" allowsort="true">餐桌类型</div>
-            <div field="IsUse" width="120" headeralign="center" allowsort="true" renderer="">是否使用中</div>
-            <div field="Notes" width="120" headeralign="center" allowsort="true" renderer="">备注</div>
+            <div field="HoldNum" width="120" headeralign="center" allowsort="true" renderer="onTableTypeRender">餐桌类型</div>
+            <div field="IsUse" width="120" headeralign="center" allowsort="true" renderer="onIsUseRender">是否使用中</div>
+            <div field="Notes" width="120" headeralign="center" allowsort="true" >备注</div>
             </div>
     </div>
 
@@ -118,43 +117,23 @@
                 alert("请选中一条记录");
             }
         }
-        function onBookTypeRenderer(e) {
-            if (e.value == "1") {
-                return "电子科技";
-            } else if (e.value = "2") {
-                return "人文生活";
-            } else if (e.value = "3") {
-                return "时尚周刊";
-            } else if (e.value = "4") {
-                return "艺术鉴赏";
-            }
+        function onIsUseRender(e) {
+            if (e.value == 1) {
+                return "是";
+            } else if (e.value = 0) {
+                return "否";
+            } 
         }
-        function onSuitableRenderer(e) {
-            if (e.value == "1") {
-                return "老年人";
-            } else if (e.value == "2") {
-                return "青年人";
-            }
-            else if (e.value == "3") {
-                return "儿童";
-            }
+        function onTableTypeRender(e) {
+            if (e.value == 2) {
+                return "二人桌";
+            } else if (e.value = 4) {
+                return "四人桌";
+            } else if (e.value = 6) {
+                return "六人桌";
+            } 
         }
-        function oncountrenderer(e) {
-            if (e.value > 10) {
-                e.rowStyle = 'color:red;';
-
-            } else {
-                e.rowStyle = 'color:green;';
-            }
-            return e.value
-
-        }
-        function onBuyDateRenderer(e) {
-            var value = e.value;
-            if (value) return mini.formatDate(value, 'yyyy-MM-dd');
-            return "";
-
-        }
+        
         function search() {
             var SelectBookType = mini.getByName("SelectBookType").getValue();
             var BeginDate = mini.formatDate(mini.getByName("BeginDate").getValue(), 'yyyy-MM-dd HH:mm:ss');
