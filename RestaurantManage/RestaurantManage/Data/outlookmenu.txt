@@ -1,0 +1,5 @@
+﻿[
+	{ id: "Restaurant", text: "餐厅预约管理系统"},
+	{ id: "AllTableInfo.aspx", pid: "Restaurant", text: "餐桌信息管理" },
+	{ id: "AllReserveInfo.aspx", pid: "Restaurant", text: "预约信息管理" },	
+]

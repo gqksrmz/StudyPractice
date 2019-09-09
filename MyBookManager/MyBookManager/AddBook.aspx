@@ -31,7 +31,7 @@
                     <td style="width: 150px;">
                         <input name="BookNameList" class="mini-combobox" valuefield="text" textfield="text"
                             url="Data/booktypelist.Json"
-                            onvaluechanged="onBookTypeChanged" required="true"
+                            onvaluechanged="" required="true"
                             emptytext="请选择图书类别" />
                         <input name="BookName" class="mini-textbox" required="true" emptytext="请输入图书名称" />
                     </td>
