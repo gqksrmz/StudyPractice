@@ -104,12 +104,12 @@
                     var ids = [];
                     for (var i = 0, l = rows.length; i < l; i++) {
                         var r = rows[i];
-                        ids.push(r.BookGuid);
+                        ids.push(r.ReserveNo);
                     }
                     var id = ids.join(',');
                     grid.loading("操作中，请稍后......");
                     $.ajax({
-                        url: "AjaxService.aspx?method=RemoveBook&bookGuid=" + id,
+                        url: "ReserveInfoService.ashx?action=RemoveReserveInfo&ReserveNo=" + id,
                         success: function (text) {
                             grid.reload();
                         },

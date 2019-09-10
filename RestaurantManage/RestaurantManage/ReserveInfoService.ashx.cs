@@ -97,6 +97,23 @@ namespace RestaurantManage
             String json = JSON.Encode(hs);
             context.Response.Write(json);
         }
+        /// <summary>
+        /// 根据ReserveNo删除预约信息
+        /// </summary>
+        /// <param name="context"></param>
+        public void RemoveReserveInfo(HttpContext context)
+        {
+            string ReserveNo = context.Request["ReserveNo"];
+            bool r = reserveInfoBLL.Delete(ReserveNo);
+            if (r)
+            {
+                context.Response.Write("成功!");
+            }
+            else
+            {
+                context.Response.Write("失败！");
+            }
+        }
         public bool IsReusable
         {
             get
