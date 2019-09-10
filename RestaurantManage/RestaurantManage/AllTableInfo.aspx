@@ -19,7 +19,6 @@
                 <tr>
                     <td style="width: 100%;">
                         <a class="mini-button" iconcls="icon-add" onclick="add()">增加</a>
-                        <a class="mini-button" iconcls="icon-add" onclick="edit()">编辑</a>
                         <a class="mini-button" iconcls="icon-remove" onclick="remove()">删除</a>
                     </td>
                     <td style="white-space: nowrap;">
@@ -55,8 +54,8 @@
             mini.open({
                 targetWindow: window,
 
-                url: "AddBook.aspx",
-                title: "新增图书", width: 600, height: 400,
+                url: "AddTableInfo.aspx",
+                title: "新增餐桌", width: 600, height: 400,
                 onload: function () {
                     var iframe = this.getIFrameEl();
                     var data = { action: "added" };
@@ -66,31 +65,6 @@
                     grid.reload();
                 }
             });
-        }
-
-        function edit() {
-
-            var row = grid.getSelected();
-            if (row) {
-                mini.open({
-                    targetWindow: window,
-                    url: "EditBookInfo.aspx",
-                    title: "编辑图书", width: 600, height: 400,
-                    onload: function () {
-                        var iframe = this.getIFrameEl();
-                        var data = { action: "edit", id: row.BookGuid };
-                        iframe.contentWindow.SetData(data);
-                    },
-                    ondestroy: function (action) {
-                        //var iframe = this.getIFrameEl();
-                        grid.reload();
-                    }
-                });
-
-            } else {
-                alert("请选中一条记录");
-            }
-
         }
         function remove() {
 
@@ -118,10 +92,10 @@
             }
         }
         function onIsUseRender(e) {
-            if (e.value == 1) {
-                return "是";
-            } else if (e.value = 0) {
+            if (e.value == 0) {
                 return "否";
+            } else if (e.value = 1) {
+                return "是";
             } 
         }
         function onTableTypeRender(e) {

@@ -10,6 +10,6 @@
 namespace RestaurantManage {
     
     
-    public partial class AllReserveInfo {
+    public partial class AddReserveInfo {
     }
 }

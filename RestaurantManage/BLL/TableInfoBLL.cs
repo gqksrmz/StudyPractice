@@ -65,5 +65,34 @@ namespace BLL
         {
             return tableInfoDal.GetTableCount();
         }
+        public bool SaveTableInfo(Object obj,string status)
+        {
+            TableInfo tableInfo = (TableInfo)obj;
+            try
+            {
+                if (status == "added")
+                {
+                    tableInfoDal.Insert(tableInfo);
+                }
+                else if (status == "edit")
+                {
+                    tableInfoDal.Update(tableInfo);
+                }
+                else
+                {
+                    tableInfoDal.Delete(tableInfo.TableNo);
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+        public List<TableInfo> GetAllTableNo()
+        {
+            return tableInfoDal.GetAllTableNo();
+        }
+
     }
 }

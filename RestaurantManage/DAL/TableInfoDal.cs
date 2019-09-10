@@ -20,12 +20,12 @@ namespace DAL
         /// <returns></returns>
         public bool Insert(TableInfo entity)
         {
-            string sql = "insert into TableInfo(tableno,holdno,isuse,notes) " +
-                "values(@tableno,@holdno,@isuse,@notes)";
+            string sql = "insert into TableInfo(tableno,holdnum,isuse,notes) " +
+                "values(@tableno,@holdnum,@isuse,@notes)";
             SqlParameter[] pms = new SqlParameter[]
             {
                 new SqlParameter("@tableno",entity.TableNo),
-                new SqlParameter("@holdno",entity.HoldNum),
+                new SqlParameter("@holdnum",entity.HoldNum),
                 new SqlParameter("@isuse",entity.IsUse),
                 new SqlParameter("@notes",entity.Notes)
             };
@@ -46,11 +46,11 @@ namespace DAL
         /// <returns></returns>
         public bool Update(TableInfo entity)
         {
-            string sql = @"update TableInfo set tableno=@tableno,holdno=@holdno,isuse=@isuse,notes=@notes where tableno=@tableno";
+            string sql = @"update TableInfo set tableno=@tableno,holdnum=@holdnum,isuse=@isuse,notes=@notes where tableno=@tableno";
             SqlParameter[] pms = new SqlParameter[]
            {
                 new SqlParameter("@tableno",entity.TableNo),
-                new SqlParameter("@holdno",entity.HoldNum),
+                new SqlParameter("@holdnum",entity.HoldNum),
                 new SqlParameter("@isuse",entity.IsUse),
                 new SqlParameter("@notes",entity.Notes)
            };
@@ -148,6 +148,31 @@ namespace DAL
             string sql = @"select count(*) from TableInfo";
             int r = (int)SqlHelper.ExecuteScalar(sql, CommandType.Text);
             return r;
+        }
+        /// <summary>
+        /// 查询所有餐桌编号
+        /// </summary>
+        /// <returns></returns>
+        public List<TableInfo> GetAllTableNo()
+        {
+            string sql = selectSql;
+            List<TableInfo> tableList = new List<TableInfo>();
+            
+            SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text);
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    TableInfo tableInfo = new TableInfo();
+                    tableInfo.TableNo = reader.GetString(0);
+                    tableInfo.HoldNum = reader.GetInt32(1);
+                    tableInfo.IsUse = reader.GetInt32(2);
+                    tableInfo.Notes = reader.GetString(3);
+                    tableList.Add(tableInfo);
+                }
+            }
+            reader.Close();
+            return tableList;
         }
     }
 }

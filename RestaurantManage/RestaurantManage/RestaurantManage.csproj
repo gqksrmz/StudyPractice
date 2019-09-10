@@ -67,6 +67,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AddReserveInfo.aspx" />
+    <Content Include="AddTableInfo.aspx" />
     <Content Include="AllReserveInfo.aspx" />
     <Content Include="AllTableInfo.aspx" />
     <Content Include="Content\res\css\common.css" />
@@ -2529,10 +2531,25 @@
     <Content Include="Content\scripts\miniui\themes\pure\skin.css" />
     <Content Include="Content\scripts\tongji.js" />
     <Content Include="Data\outlookmenu.txt" />
+    <Content Include="EditReserveInfo.aspx" />
     <Content Include="Index.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddReserveInfo.aspx.cs">
+      <DependentUpon>AddReserveInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddReserveInfo.aspx.designer.cs">
+      <DependentUpon>AddReserveInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AddTableInfo.aspx.cs">
+      <DependentUpon>AddTableInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddTableInfo.aspx.designer.cs">
+      <DependentUpon>AddTableInfo.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AllReserveInfo.aspx.cs">
       <DependentUpon>AllReserveInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2547,6 +2564,13 @@
     <Compile Include="AllTableInfo.aspx.designer.cs">
       <DependentUpon>AllTableInfo.aspx</DependentUpon>
     </Compile>
+    <Compile Include="EditReserveInfo.aspx.cs">
+      <DependentUpon>EditReserveInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditReserveInfo.aspx.designer.cs">
+      <DependentUpon>EditReserveInfo.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2555,6 +2579,9 @@
       <DependentUpon>Index.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReserveInfoService.ashx.cs">
+      <DependentUpon>ReserveInfoService.ashx</DependentUpon>
+    </Compile>
     <Compile Include="TableInfoService.ashx.cs">
       <DependentUpon>TableInfoService.ashx</DependentUpon>
     </Compile>
@@ -2581,8 +2608,10 @@
     <Content Include="Content\scripts\miniui\themes\blue2010\images\treegrid\Thumbs.db" />
     <Content Include="Content\scripts\miniui\themes\olive2003\images\buttonedit\Thumbs.db" />
     <Content Include="Content\scripts\miniui\themes\olive2003\images\tree\Thumbs.db" />
+    <Content Include="Data\holdnum.Json" />
     <None Include="packages.config" />
     <Content Include="TableInfoService.ashx" />
+    <Content Include="ReserveInfoService.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -65,5 +65,30 @@ namespace BLL
         {
             return reserveInfoDal.GetReserveCount();
         }
+
+        public bool SaveReserveInfo(Object obj, string status)
+        {
+            ReserveInfo reserveInfo = (ReserveInfo)obj;
+            try
+            {
+                if (status == "added")
+                {
+                    reserveInfoDal.Insert(reserveInfo);
+                }
+                else if (status == "edit")
+                {
+                    reserveInfoDal.Update(reserveInfo);
+                }
+                else
+                {
+                    reserveInfoDal.Delete(reserveInfo.ReserveNo);
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
