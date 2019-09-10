@@ -27,14 +27,14 @@
         <div style="padding-left: 11px; padding-bottom: 5px; margin-left: 20px;">
             <table style="table-layout: fixed;">
                 <tr>
-                    <td style="width: 80px;">预定编号：</td>
+                    <td style="width: 80px;">用餐编号：</td>
                     <td style="width: 150px;">
-                        <input name="ReserveNo" class="mini-textbox" required="true" emptytext="请输入预定标号" />
+                        <input name="ReserveNo" class="mini-textbox" required="true" emptytext="请输入预定标号" readonly="readonly" />
                     </td>
                     <td style="width: 80px;">餐桌编号：</td>
                     <td style="width: 150px;">
                         <input name="TableNo" class="mini-combobox" valuefield="TableNo" textfield="TableNo"
-                            url="TableInfoService.ashx?action=GetAllTableNo"
+                            url=""
                             onvaluechanged="" required="true"
                             emptytext="餐桌类型" />
                     </td>
@@ -42,31 +42,31 @@
                 <tr>
                     <td>用餐人数：</td>
                     <td>
-                        <input name="PeopleNum" class="mini-textbox" emptytext="请输入用餐人数" />
+                        <input name="PeopleNum" class="mini-textbox" emptytext="请输入用餐人数" onvaluechanged="onPeopleNumChanged" />
                     </td>
                     <td>用餐开始时间：</td>
                     <td>
-                        <input name="StartTime" class="mini-datepicker" required="true" emptytext="请选择日期" />
+                        <input name="StartTime" class="mini-datepicker" required="true" emptytext="请选择日期" format="yyyy-MM-dd HH:mm:ss" showtime="true" showokbutton="true"/>
                     </td>
                 </tr>
                 <tr>
                     <td>用餐结束时间：</td>
                     <td>
-                        <input name="EndTime" class="mini-datepicker" required="true" emptytext="请选择日期" />
+                        <input name="EndTime" class="mini-datepicker" required="true" emptytext="请选择日期" format="yyyy-MM-dd HH:mm:ss" showtime="true"showokbutton="true" />
                     </td>
                     <td>状态：</td>
                     <td>
-                        <select name="ReserveStatus" class="mini-radiobuttonlist" value="0">
-                            <option value="0">预约中</option>
+                        <select name="ReserveStatus" class="mini-radiobuttonlist" onvaluechanged="onReserveStateChanged">
+                            <option value="0" selected="selected">预约中</option>
                             <option value="1">用餐中</option>
                             <option value="2">取消</option>
                         </select>
                     </td>
                 </tr>
-                 <tr>
+                <tr>
                     <td>备注：</td>
                     <td>
-                        <input name="Notes" class="mini-textbox"  />
+                        <input name="Notes" class="mini-textbox" />
                     </td>
                 </tr>
             </table>
@@ -82,6 +82,15 @@
 
 
         var form = new mini.Form("form1");
+        $.ajax({
+            url: "ReserveInfoService.ashx?action=ShowNo",
+            data: {},
+            type: "post",
+            success: function (text) {
+                var s = mini.getByName("ReserveNo").setValue(text);
+            }
+
+        });
 
         function SaveData() {
             saveForm(form, {
@@ -131,8 +140,37 @@
         function onCancel(e) {
             CloseWindow("cancel");
         }
+        function onReserveStateChanged() {
+            var s = mini.getByName("ReserveStatus").setValue(0);
+        }
+        function onPeopleNumChanged() {
+            var s = mini.getByName("PeopleNum").getValue();
+            if (s > 6 || s < 0 || s == 0) {
+                mini.alert("输入错误");
+                mini.getByName("PeopleNum").setValue("");
+            }
+            else {
+                if (s > 0 && s <= 2) {
+                    s = 2;
+                } else if (s > 2 && s <= 4) {
+                    s = 4;
+                } else if (s > 4 && s <= 6) {
+                    s = 6;
+                }
+                $.ajax({
+                    url: "ReserveInfoService.ashx?action=ShowTable",
+                    data: { data: s },
+                    type: "post",
+                    success: function (data) {
+                        mini.getByName("TableNo").setValue(data);
+                    }
+
+                });
+            }
+            
 
 
+        }
 
 
     </script>

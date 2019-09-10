@@ -30,30 +30,30 @@
                 <tr>
                     <td style="width: 80px;">预定编号：</td>
                     <td style="width: 150px;">
-                        <input name="ReserveNo" class="mini-textbox" required="true" emptytext="请输入预定标号" />
+                        <input name="ReserveNo" class="mini-textbox" required="true" emptytext="请输入预定标号" readonly="readonly"/>
                     </td>
                     <td style="width: 80px;">餐桌编号：</td>
                     <td style="width: 150px;">
                         <input name="TableNo" class="mini-combobox" valuefield="TableNo" textfield="TableNo"
                             url="TableInfoService.ashx?action=GetAllTableNo"
                             onvaluechanged="" required="true"
-                            emptytext="餐桌类型" />
+                            emptytext="餐桌类型" readonly="readonly"/>
                     </td>
                 </tr>
                 <tr>
                     <td>用餐人数：</td>
                     <td>
-                        <input name="PeopleNum" class="mini-textbox" emptytext="请输入用餐人数" />
+                        <input name="PeopleNum" class="mini-textbox" emptytext="请输入用餐人数" readonly="readonly"/>
                     </td>
                     <td>用餐开始时间：</td>
                     <td>
-                        <input name="StartTime" class="mini-datepicker" required="true" emptytext="请选择日期" renderer="onTimeRenderer"/>
+                        <input name="StartTime" class="mini-datepicker" required="true" emptytext="请选择日期" renderer="onTimeRenderer" readonly="readonly"/>
                     </td>
                 </tr>
                 <tr>
                     <td>用餐结束时间：</td>
                     <td>
-                        <input name="EndTime" class="mini-datepicker" required="true" emptytext="请选择日期" renderer="onTimeRenderer"/>
+                        <input name="EndTime" class="mini-datepicker" required="true" emptytext="请选择日期" renderer="onTimeRenderer" readonly="readonly"/>
                     </td>
                     <td>状态：</td>
                     <td>
@@ -67,7 +67,7 @@
                  <tr>
                     <td>备注：</td>
                     <td>
-                        <input name="Notes" class="mini-textbox"  />
+                        <input name="Notes" class="mini-textbox"  readonly="readonly"/>
                     </td>
                 </tr>
             </table>

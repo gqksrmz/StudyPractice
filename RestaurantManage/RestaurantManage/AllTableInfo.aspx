@@ -32,7 +32,7 @@
     <div id="datagrid1" class="mini-datagrid" style="width: 1100px; height: 350px;" allowresize="true"
         url="TableInfoService.ashx?action=SearchAllTable" idfield="id" multiselect="true">
         <div property="columns">
-            <!--<div type="indexcolumn"></div>        -->
+            <div type="indexcolumn"></div>        
             <div type="checkcolumn"></div>
             <div field="TableNo" width="120" headeralign="center" allowsort="true">餐桌编号</div>
             <div field="HoldNum" width="120" headeralign="center" allowsort="true" renderer="onTableTypeRender">餐桌类型</div>
@@ -94,7 +94,7 @@
         function onIsUseRender(e) {
             if (e.value == 0) {
                 return "否";
-            } else if (e.value = 1) {
+            } else if (e.value ==1) {
                 return "是";
             } 
         }

@@ -150,14 +150,13 @@ namespace DAL
             return r;
         }
         /// <summary>
-        /// 查询所有餐桌编号
+        /// 查询所有餐桌 获取里面的编号信息
         /// </summary>
         /// <returns></returns>
         public List<TableInfo> GetAllTableNo()
         {
             string sql = selectSql;
             List<TableInfo> tableList = new List<TableInfo>();
-            
             SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text);
             if (reader.HasRows)
             {
@@ -173,6 +172,25 @@ namespace DAL
             }
             reader.Close();
             return tableList;
+        }
+        /// <summary>
+        /// 查询所有的餐桌编号
+        /// </summary>
+        /// <returns></returns>
+        public List<string> SearchAllTableNo()
+        {
+            string sql = @"select tableno from TableInfo";
+            List<string> tableNoList = new List<string>();
+            SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text);
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    tableNoList.Add(reader.GetString(0));
+                }
+            }
+            reader.Close();
+            return tableNoList;
         }
     }
 }

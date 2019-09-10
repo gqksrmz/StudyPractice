@@ -36,7 +36,7 @@ namespace RestaurantManage
         /// <param name="context"></param>
         public void SearchAllTable(HttpContext context)
         {
-            int pageIndex = Convert.ToInt32 (context.Request["pageIndex"]);
+            int pageIndex = Convert.ToInt32(context.Request["pageIndex"]);
             int pageSize = Convert.ToInt32(context.Request["pageSize"]);
             List<TableInfo> tableInfoList = tableInfoBLL.GetList(pageIndex, pageSize);
             Hashtable result = new Hashtable
@@ -55,12 +55,12 @@ namespace RestaurantManage
         {
             ArrayList arrayList = (ArrayList)JSON.Decode(context.Request["data"]);
             TableInfo tableInfo = new TableInfo();
-            string status=null;
+            string status = null;
             foreach (var item in arrayList)
             {
                 Hashtable i = (Hashtable)item;
                 tableInfo.TableNo = (string)i["TableNo"];
-                tableInfo.HoldNum = Convert.ToInt32( i["HoldNum"]);
+                tableInfo.HoldNum = Convert.ToInt32(i["HoldNum"]);
                 tableInfo.IsUse = Convert.ToInt32(i["IsUse"]);
                 tableInfo.Notes = (string)i["Notes"];
                 status = (string)i["Status"];
@@ -120,6 +120,45 @@ namespace RestaurantManage
                 ["data"] = tableNoList
             };
             String json = JSON.Encode(result);
+            context.Response.Write(json);
+        }
+        /// <summary>
+        /// 生成序号
+        /// </summary>
+        /// <param name="no"></param>
+        /// <returns></returns>
+        public string GenernateNo(int no)
+        {
+            List<string> tableNoList = tableInfoBLL.SearchAllTableNo();
+            List<int> tableNo = new List<int>();
+            foreach (var item in tableNoList)
+            {
+                tableNo.Add(Convert.ToInt32(item.Substring(1, 2)));
+            }
+            tableNo.Sort();
+            int s = tableNo.Last() + 1;
+            string r1 = s.ToString("D2");
+            string r2 = null;
+            if (no == 1)
+            {
+                r2 = "2";
+            }
+            else if (no == 2)
+            {
+                r2 = "4";
+            }
+            else if (no == 3)
+            {
+                r2 = "6";
+            }
+            string result = r2 + r1;
+            return result;
+        }
+        public void ShowNo(HttpContext context)
+        {
+            int i = Convert.ToInt32(context.Request["data"]);
+            string s = GenernateNo(i);
+            String json = JSON.Encode(s);
             context.Response.Write(json);
         }
 

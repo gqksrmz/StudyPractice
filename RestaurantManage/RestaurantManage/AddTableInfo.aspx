@@ -23,36 +23,36 @@
 <body>
 
     <form id="form1" method="post">
-        <input name="Status" class="mini-hidden" value="added"/>
+        <input name="Status" class="mini-hidden" value="added" />
         <div style="padding-left: 11px; padding-bottom: 5px; margin-left: 20px;">
             <table style="table-layout: fixed;">
                 <tr>
                     <td style="width: 80px;">餐桌标号：</td>
                     <td style="width: 150px;">
-                        <input name="TableNo" class="mini-textbox" required="true" emptytext="请输入餐桌标号" />
+                        <input name="TableNo" class="mini-textbox" required="true" emptytext="请输入餐桌标号" readonly="readonly" />
                     </td>
                     <td style="width: 80px;">餐桌类型：</td>
                     <td style="width: 150px;">
                         <input name="HoldNum" class="mini-combobox" valuefield="id" textfield="text"
                             url="Data/holdnum.Json"
-                            onvaluechanged="" required="true"
+                            onvaluechanged="onHoldNumChanged" required="true"
                             emptytext="餐桌类型" />
                     </td>
                 </tr>
                 <tr>
                     <td>是否使用中：</td>
                     <td>
-                        <select name="IsUse" class="mini-radiobuttonlist"  >
-                            <option value="0">是</option>
-                            <option value="1" selected="selected">否</option>
+                        <select name="IsUse" class="mini-radiobuttonlist" onvaluechanged="onIsUseChanged">
+                            <option value="0" selected="selected">否</option>
+                            <option value="1">是</option>
                         </select>
-                    </td>               
-                <tr>
-                    <td>备注：</td>
-                    <td colspan="3">
-                        <input name="Notes" class="mini-textbox" />
                     </td>
-                </tr>
+                    <tr>
+                        <td>备注：</td>
+                        <td colspan="3">
+                            <input name="Notes" class="mini-textbox" />
+                        </td>
+                    </tr>
             </table>
         </div>
 
@@ -66,7 +66,6 @@
 
 
         var form = new mini.Form("form1");
-
         function SaveData() {
             saveForm(form, {
                 url: "TableInfoService.ashx?action=SaveTableInfo",
@@ -115,8 +114,21 @@
         function onCancel(e) {
             CloseWindow("cancel");
         }
-        
+        function onHoldNumChanged() {
+            var json = mini.getByName("HoldNum").getValue();
+            $.ajax({
+                url: "TableInfoService.ashx?action=ShowNo",
+                data: { data: json },
+                type: "post",
+                success: function (text) {
+                    var s = mini.getByName("TableNo").setValue(text);
+                }
 
+            });
+        }
+        function onIsUseChanged() {
+                var s = mini.getByName("IsUse").setValue(0);
+        }
 
 
     </script>

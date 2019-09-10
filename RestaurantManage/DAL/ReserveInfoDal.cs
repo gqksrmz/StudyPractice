@@ -125,7 +125,7 @@ namespace DAL
         /// <returns></returns>
         public List<ReserveInfo> GetReserveList(int pageIndex, int pageSize)
         {
-            string sql = selectSql + " order by reserveno offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+            string sql = selectSql + " order by starttime desc offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
             List<ReserveInfo> reserveList = new List<ReserveInfo>();
             SqlParameter[] pms = new SqlParameter[]
             {
@@ -160,6 +160,26 @@ namespace DAL
             string sql = @"select count(*) from ReserveInfo";
             int r = (int)SqlHelper.ExecuteScalar(sql, CommandType.Text);
             return r;
+        }
+        /// <summary>
+        /// 根据人数查询没有使用的桌子编号
+        /// </summary>
+        /// <param name="peopleNum"></param>
+        /// <returns></returns>
+        public List<string> SearchTable(string peopleNum)
+        {
+            string sql = @"select tableno from TableInfo where tableno like '" + peopleNum + "%' and isuse=0";
+            List<string> tableNoList = new List<string>();
+            SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text);
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    tableNoList.Add(reader.GetString(0));
+                }
+            }
+            reader.Close();
+            return tableNoList;
         }
     }
 }

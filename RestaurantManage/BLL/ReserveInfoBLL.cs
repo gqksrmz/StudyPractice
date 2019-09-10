@@ -65,6 +65,12 @@ namespace BLL
         {
             return reserveInfoDal.GetReserveCount();
         }
+        /// <summary>
+        /// 保存信息
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
 
         public bool SaveReserveInfo(Object obj, string status)
         {
@@ -89,6 +95,15 @@ namespace BLL
                 return false;
             }
             return true;
+        }
+        /// <summary>
+        /// 根据人数查询没有使用的桌子编号
+        /// </summary>
+        /// <param name="peopleNum">人数</param>
+        /// <returns></returns>
+        public List<string> SearchTable(string peopleNum)
+        {
+            return reserveInfoDal.SearchTable(peopleNum);
         }
     }
 }

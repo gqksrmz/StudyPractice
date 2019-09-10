@@ -89,9 +89,21 @@ namespace BLL
             }
             return true;
         }
+        /// <summary>
+        /// 查询所有餐桌 获取里面的编号信息
+        /// </summary>
+        /// <returns></returns>
         public List<TableInfo> GetAllTableNo()
         {
             return tableInfoDal.GetAllTableNo();
+        }
+        /// <summary>
+        /// 查询所有的餐桌编号
+        /// </summary>
+        /// <returns></returns>
+        public List<string> SearchAllTableNo()
+        {
+            return tableInfoDal.SearchAllTableNo();
         }
 
     }

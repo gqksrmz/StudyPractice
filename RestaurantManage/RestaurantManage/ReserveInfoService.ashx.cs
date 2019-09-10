@@ -39,9 +39,33 @@ namespace RestaurantManage
             int pageIndex = Convert.ToInt32(context.Request["pageIndex"]);
             int pageSize = Convert.ToInt32(context.Request["pageSize"]);
             List<ReserveInfo> tableInfoList = reserveInfoBLL.GetList(pageIndex, pageSize);
+            ArrayList arrayList = new ArrayList(10);
+            for (int i = 0; i < tableInfoList.Count; i++)
+            {
+                Hashtable hs = new Hashtable();
+                hs["ReserveNo"] = tableInfoList[i].ReserveNo;
+                hs["TableNo"] = tableInfoList[i].TableNo; 
+                hs["PeopleNum"] = tableInfoList[i].PeopleNum;
+                hs["StartTime"] = tableInfoList[i].StartTime;
+                hs["EndTime"] = tableInfoList[i].EndTime;
+                hs["ReserveStatus"] = tableInfoList[i].ReserveStatus;
+                hs["Notes"] = tableInfoList[i].Notes;
+                DateTime startTime= tableInfoList[i].StartTime;
+                DateTime endTime= tableInfoList[i].EndTime;
+                int minutes = (60-Convert.ToInt32( startTime.Minute.ToString()))+ Convert.ToInt32(endTime.Minute.ToString());
+                if(minutes>15&& tableInfoList[i].ReserveStatus == 0)
+                {
+                    hs["Hide"] = true;
+                }
+                else
+                {
+                    hs["Hide"] = false;
+                }
+                arrayList.Add( hs);
+            }
             Hashtable result = new Hashtable
             {
-                ["data"] = tableInfoList,
+                ["data"] = arrayList,
                 ["total"] = reserveInfoBLL.GetTableCount()
             };
             String json = JSON.Encode(result);
@@ -88,12 +112,12 @@ namespace RestaurantManage
             ReserveInfo reserveInfo = reserveInfoBLL.GetEntity(reserveNo);
             Hashtable hs = new Hashtable();
             hs["ReserveNo"] = reserveInfo.ReserveNo;
-            hs["TableNo"]=reserveInfo.TableNo;
-            hs["PeopleNum"]=reserveInfo.PeopleNum ;
-            hs["StartTime"]=reserveInfo.StartTime;
-            hs["EndTime"]=reserveInfo.EndTime;
-            hs["ReserveStatus"]=reserveInfo.ReserveStatus;
-            hs["Notes"]=reserveInfo.Notes;
+            hs["TableNo"] = reserveInfo.TableNo;
+            hs["PeopleNum"] = reserveInfo.PeopleNum;
+            hs["StartTime"] = reserveInfo.StartTime;
+            hs["EndTime"] = reserveInfo.EndTime;
+            hs["ReserveStatus"] = reserveInfo.ReserveStatus;
+            hs["Notes"] = reserveInfo.Notes;
             String json = JSON.Encode(hs);
             context.Response.Write(json);
         }
@@ -114,6 +138,41 @@ namespace RestaurantManage
                 context.Response.Write("失败！");
             }
         }
+        /// <summary>
+        /// 自动生成用餐编号
+        /// </summary>
+        /// <returns></returns>
+        public string GenernateNo()
+        {
+            string number = Guid.NewGuid().ToString();
+            return number;
+        }
+        /// <summary>
+        /// 显示自动生成的编号
+        /// </summary>
+        /// <param name="context"></param>
+        public void ShowNo(HttpContext context)
+        {
+
+            string s = GenernateNo();
+            String json = JSON.Encode(s);
+            context.Response.Write(json);
+        }
+        /// <summary>
+        /// 根据人数查询没有使用的桌子列表
+        /// </summary>
+        /// <param name="context"></param>
+        public void ShowTable(HttpContext context)
+        {
+            string peopleNum = context.Request["data"];
+            List<string> tableNoList = reserveInfoBLL.SearchTable(peopleNum);
+
+            String json = JSON.Encode(tableNoList[0]);
+            context.Response.Write(json);
+
+
+        }
+
         public bool IsReusable
         {
             get
