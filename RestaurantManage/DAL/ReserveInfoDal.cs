@@ -60,15 +60,64 @@ namespace DAL
                 new SqlParameter("@reservestatus",entity.ReserveStatus),
                 new SqlParameter("@notes",entity.Notes),
              };
-            int r = SqlHelper.ExecuteNonQuery(sql, CommandType.Text, pms);
-            if (r > 0)
+            if (entity.ReserveStatus == 1)
             {
-                return true;
+                string sql2 = @"update TableInfo set isuse=1 where  tableno=@tableno";
+                SqlParameter pms2 = new SqlParameter("@tableno", entity.TableNo);
+                int r = SqlHelper.ExecuteNonQuery(sql, CommandType.Text, pms);
+                int r2 = SqlHelper.ExecuteNonQuery(sql2, CommandType.Text, pms2);
+                if (r > 0 && r2 > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if(entity.ReserveStatus == 0)
+            {
+                string sql2 = @"update TableInfo set isuse=0 where  tableno=@tableno";
+                SqlParameter pms2 = new SqlParameter("@tableno", entity.TableNo);
+                int r = SqlHelper.ExecuteNonQuery(sql, CommandType.Text, pms);
+                int r2 = SqlHelper.ExecuteNonQuery(sql2, CommandType.Text, pms2);
+                if (r > 0 && r2 > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (entity.ReserveStatus == 2)
+            {
+                string sql2 = @"update TableInfo set isuse=0 where  tableno=@tableno";
+                SqlParameter pms2 = new SqlParameter("@tableno", entity.TableNo);
+                int r = SqlHelper.ExecuteNonQuery(sql, CommandType.Text, pms);
+                int r2 = SqlHelper.ExecuteNonQuery(sql2, CommandType.Text, pms2);
+                if (r > 0 && r2 > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return false;
+                int r = SqlHelper.ExecuteNonQuery(sql, CommandType.Text, pms);
+                if (r > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
+
         }
         /// <summary>
         /// 删除数据
@@ -80,8 +129,12 @@ namespace DAL
             string sql = "delete from ReserveInfo" +
                 " where reserveno = @reserveno";
             SqlParameter pms1 = new SqlParameter("@reserveno", reserveNo);
-            int r = SqlHelper.ExecuteNonQuery(sql, CommandType.Text, pms1);
-            if (r > 0)
+            string sql2 = @"update TableInfo set isuse=0 where tableno=(select tableno from ReserveInfo where reserveno = @reserveno)";
+            SqlParameter pms2 = new SqlParameter("@reserveno", reserveNo);
+
+            int r2 = SqlHelper.ExecuteNonQuery(sql2, CommandType.Text, pms2);
+            int r1= SqlHelper.ExecuteNonQuery(sql, CommandType.Text, pms1);
+            if (r1 > 0&&r2>0)
             {
                 return true;
             }
@@ -90,15 +143,37 @@ namespace DAL
                 return false;
             }
         }
+        public ReserveInfo GetEntityByReserveNo(string reserveNo)
+        {
+            string sql = selectSql + " where reserveno=@reserveno";
+            SqlParameter pms = new SqlParameter("@reserveno", reserveNo);
+            SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text, pms);
+            ReserveInfo reserveInfo = new ReserveInfo();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    reserveInfo.ReserveNo = reader.GetString(0);
+                    reserveInfo.TableNo = reader.GetString(1);
+                    reserveInfo.PeopleNum = reader.GetInt32(2);
+                    reserveInfo.StartTime = reader.GetDateTime(3);
+                    reserveInfo.EndTime = reader.GetDateTime(4);
+                    reserveInfo.ReserveStatus = reader.GetInt32(5);
+                    reserveInfo.Notes = reader.GetString(6);
+                }
+            }
+            reader.Close();
+            return reserveInfo;
+        }
         /// <summary>
         /// 查询单个实体对象
         /// </summary>
         /// <param name="reserveNo">要查询的对象的编号</param>
         /// <returns></returns>
-        public ReserveInfo GetEntity(string reserveNo)
+        public ReserveInfo GetEntityByTableNo(string tableNo)
         {
-            string sql = selectSql + " where reserveno=@reserveno";
-            SqlParameter pms = new SqlParameter("@reserveno", reserveNo);
+            string sql = selectSql + " where tableno=@tableno";
+            SqlParameter pms = new SqlParameter("@tableno", tableNo);
             SqlDataReader reader = SqlHelper.ExecuteReader(sql, CommandType.Text, pms);
             ReserveInfo reserveInfo = new ReserveInfo();
             if (reader.HasRows)

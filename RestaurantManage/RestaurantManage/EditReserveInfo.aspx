@@ -30,12 +30,12 @@
                 <tr>
                     <td style="width: 80px;">预定编号：</td>
                     <td style="width: 150px;">
-                        <input name="ReserveNo" class="mini-textbox" required="true" emptytext="请输入预定标号" readonly="readonly"/>
+                        <input name="ReserveNo" class="mini-textbox" required="true" emptytext="预约编号" readonly="readonly"/>
                     </td>
                     <td style="width: 80px;">餐桌编号：</td>
                     <td style="width: 150px;">
                         <input name="TableNo" class="mini-combobox" valuefield="TableNo" textfield="TableNo"
-                            url="TableInfoService.ashx?action=GetAllTableNo"
+                            url=""
                             onvaluechanged="" required="true"
                             emptytext="餐桌类型" readonly="readonly"/>
                     </td>
@@ -43,7 +43,7 @@
                 <tr>
                     <td>用餐人数：</td>
                     <td>
-                        <input name="PeopleNum" class="mini-textbox" emptytext="请输入用餐人数" readonly="readonly"/>
+                        <input name="PeopleNum" class="mini-textbox" emptytext="用餐人数" readonly="readonly"/>
                     </td>
                     <td>用餐开始时间：</td>
                     <td>
@@ -102,7 +102,7 @@
                 data = mini.clone(data);
 
                 $.ajax({
-                    url: "ReserveInfoService.ashx?action=GetReserveInfo&ReserveNo=" + data.id,
+                    url: "ReserveInfoService.ashx?action=GetEntityByReserveNo&ReserveNo=" + data.id,
                     cache: false,
                     success: function (text) {
                         var o = mini.decode(text);

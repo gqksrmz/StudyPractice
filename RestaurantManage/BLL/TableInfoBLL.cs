@@ -53,9 +53,9 @@ namespace BLL
         /// <param name="pageIndex">第几页</param>
         /// <param name="pageSize">每页几条数据</param>
         /// <returns></returns>
-        public List<TableInfo> GetList(int pageIndex,int pageSize)
+        public List<TableInfo> GetList(int pageIndex,int pageSize, string searchHoldNum, string searchIsUse)
         {
-            return tableInfoDal.GetTableList(pageIndex, pageSize);
+            return tableInfoDal.GetTableList(pageIndex, pageSize,searchHoldNum,searchIsUse);
         }
         /// <summary>
         /// 获取餐桌信息表总共多少条数据

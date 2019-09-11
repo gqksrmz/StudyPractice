@@ -43,9 +43,13 @@ namespace BLL
         /// </summary>
         /// <param name="tableNo"></param>
         /// <returns></returns>
-        public ReserveInfo GetEntity(string reserveNo)
+        public ReserveInfo GetEntityByTableNo(string tableNo)
         {
-            return reserveInfoDal.GetEntity(reserveNo);
+            return reserveInfoDal.GetEntityByTableNo(tableNo);
+        }
+        public ReserveInfo GetEntityByReserveNo(string reserveNo)
+        {
+            return reserveInfoDal.GetEntityByReserveNo(reserveNo);
         }
         /// <summary>
         /// 分页获取餐桌信息列表

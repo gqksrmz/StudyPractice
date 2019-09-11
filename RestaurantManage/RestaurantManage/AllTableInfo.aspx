@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AllTableInfo.aspx.cs" Inherits="RestaurantManage.AllTableInfo" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -22,7 +23,14 @@
                         <a class="mini-button" iconcls="icon-remove" onclick="remove()">删除</a>
                     </td>
                     <td style="white-space: nowrap;">
-                        <input name="Count" class="mini-textbox" valuefield="id" textfield="name" url="" emptytext="请输入查询内容"/>
+                        <input name="SearchHoldNum" class="mini-combobox" valuefield="id" textfield="text"
+                            url="Data/holdnum.Json"
+                            onvaluechanged="" required="true"
+                            emptytext="请选择餐桌类型" />
+                        <input name="SearchIsUse" class="mini-combobox" valuefield="id" textfield="text"
+                            url="Data/isuse.Json"
+                            onvaluechanged="" required="true"
+                            emptytext="是否使用中" />
                         <a class="mini-button" onclick="search()">查询</a>
                     </td>
                 </tr>
@@ -32,13 +40,15 @@
     <div id="datagrid1" class="mini-datagrid" style="width: 1100px; height: 350px;" allowresize="true"
         url="TableInfoService.ashx?action=SearchAllTable" idfield="id" multiselect="true">
         <div property="columns">
-            <div type="indexcolumn"></div>        
+            <div type="indexcolumn"></div>
             <div type="checkcolumn"></div>
-            <div field="TableNo" width="120" headeralign="center" allowsort="true">餐桌编号</div>
-            <div field="HoldNum" width="120" headeralign="center" allowsort="true" renderer="onTableTypeRender">餐桌类型</div>
-            <div field="IsUse" width="120" headeralign="center" allowsort="true" renderer="onIsUseRender">是否使用中</div>
-            <div field="Notes" width="120" headeralign="center" allowsort="true" >备注</div>
-            </div>
+            <div field="TableNo" width="120" headeralign="center">餐桌编号</div>
+            <div field="HoldNum" width="120" headeralign="center" renderer="onHoldNumRenderer">餐桌类型</div>
+            <div field="IsUse" width="120" headeralign="center" renderer="onIsUseRender">是否使用中</div>
+            <div field="Notes" width="120" headeralign="center">备注</div>
+            <div field="Operation" width="120" headeralign="center" renderer="onActionRenderer">操作</div>
+
+        </div>
     </div>
 
 
@@ -93,26 +103,29 @@
         }
         function onIsUseRender(e) {
             if (e.value == 0) {
+                e.rowStyle = 'color:green;';
                 return "否";
-            } else if (e.value ==1) {
+            } else if (e.value == 1) {
                 return "是";
-            } 
+            }
         }
-        function onTableTypeRender(e) {
+        function onHoldNumRenderer(e) {
             if (e.value == 2) {
                 return "二人桌";
-            } else if (e.value = 4) {
+            }
+            else if (e.value ==4) {
                 return "四人桌";
-            } else if (e.value = 6) {
-                return "六人桌";
-            } 
+            }
+            else if (e.value == 6) {
+                return "六人桌"
+            }
+
         }
-        
+
         function search() {
-            var SelectBookType = mini.getByName("SelectBookType").getValue();
-            var BeginDate = mini.formatDate(mini.getByName("BeginDate").getValue(), 'yyyy-MM-dd HH:mm:ss');
-            var EndDate = mini.formatDate(mini.getByName("EndDate").getValue(), 'yyyy-MM-dd HH:mm:ss');
-            grid.load({ SelectBookType: SelectBookType, BeginDate: BeginDate, EndDate: EndDate });
+            var SearchHoldNum = mini.getByName("SearchHoldNum").getValue();
+            var SearchIsUse = mini.getByName("SearchIsUse").getValue();
+            grid.load({ SearchHoldNum: SearchHoldNum, SearchIsUse: SearchIsUse });
         }
         function onActionRenderer(e) {
             var grid = e.sender;
@@ -120,8 +133,7 @@
             var uid = record._uid;
             var rowIndex = e.rowIndex;
 
-            var s = '<a class="Edit_Button" href="javascript:edit(\'' + uid + '\')">修改</a> '
-                + '<a class="Delete_Button" href="javascript:remove(\'' + uid + '\')">删除</a> ';
+            var s = '<a class="Delete_Button" href="javascript:remove(\'' + uid + '\')">删除</a> ';
             return s;
         }
     </script>

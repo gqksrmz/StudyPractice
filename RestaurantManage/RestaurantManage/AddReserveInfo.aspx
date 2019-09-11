@@ -46,13 +46,13 @@
                     </td>
                     <td>用餐开始时间：</td>
                     <td>
-                        <input name="StartTime" class="mini-datepicker" required="true" emptytext="请选择日期" format="yyyy-MM-dd HH:mm:ss" showtime="true" showokbutton="true"/>
+                        <input name="StartTime" class="mini-datepicker" required="true" emptytext="请选择日期" format="yyyy-MM-dd HH:mm:ss" showtime="true" showokbutton="true" />
                     </td>
                 </tr>
                 <tr>
                     <td>用餐结束时间：</td>
                     <td>
-                        <input name="EndTime" class="mini-datepicker" required="true" emptytext="请选择日期" format="yyyy-MM-dd HH:mm:ss" showtime="true"showokbutton="true" />
+                        <input name="EndTime" class="mini-datepicker" required="true" emptytext="请选择日期" format="yyyy-MM-dd HH:mm:ss" showtime="true" showokbutton="true" />
                     </td>
                     <td>状态：</td>
                     <td>
@@ -65,8 +65,8 @@
                 </tr>
                 <tr>
                     <td>备注：</td>
-                    <td>
-                        <input name="Notes" class="mini-textbox" />
+                    <td colspan="3">
+                        <input name="Notes" class="mini-textarea" style="width: 386px;" />
                     </td>
                 </tr>
             </table>
@@ -97,7 +97,10 @@
                 url: "ReserveInfoService.ashx?action=SaveReserveInfo",
                 callback: function (success) {
                     if (success) CloseWindow("save");
-                    else CloseWindow();
+                    else {
+                        mini.alert("失败！");
+                        CloseWindow();
+                    }
                 }
             });
         }
@@ -167,7 +170,7 @@
 
                 });
             }
-            
+
 
 
         }

@@ -36,7 +36,7 @@
                         <input name="HoldNum" class="mini-combobox" valuefield="id" textfield="text"
                             url="Data/holdnum.Json"
                             onvaluechanged="onHoldNumChanged" required="true"
-                            emptytext="餐桌类型" />
+                            emptytext="请选择餐桌类型" />
                     </td>
                 </tr>
                 <tr>
@@ -50,7 +50,7 @@
                     <tr>
                         <td>备注：</td>
                         <td colspan="3">
-                            <input name="Notes" class="mini-textbox" />
+                            <input name="Notes" class="mini-textarea" style="width: 386px;" required="true"/>
                         </td>
                     </tr>
             </table>
@@ -127,7 +127,7 @@
             });
         }
         function onIsUseChanged() {
-                var s = mini.getByName("IsUse").setValue(0);
+            var s = mini.getByName("IsUse").setValue(0);
         }
 
 

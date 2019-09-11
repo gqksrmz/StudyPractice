@@ -44,16 +44,16 @@ namespace RestaurantManage
             {
                 Hashtable hs = new Hashtable();
                 hs["ReserveNo"] = tableInfoList[i].ReserveNo;
-                hs["TableNo"] = tableInfoList[i].TableNo; 
+                hs["TableNo"] = tableInfoList[i].TableNo;
                 hs["PeopleNum"] = tableInfoList[i].PeopleNum;
                 hs["StartTime"] = tableInfoList[i].StartTime;
                 hs["EndTime"] = tableInfoList[i].EndTime;
                 hs["ReserveStatus"] = tableInfoList[i].ReserveStatus;
                 hs["Notes"] = tableInfoList[i].Notes;
-                DateTime startTime= tableInfoList[i].StartTime;
-                DateTime endTime= tableInfoList[i].EndTime;
-                int minutes = (60-Convert.ToInt32( startTime.Minute.ToString()))+ Convert.ToInt32(endTime.Minute.ToString());
-                if(minutes>15&& tableInfoList[i].ReserveStatus == 0)
+                DateTime startTime = tableInfoList[i].StartTime;
+                DateTime endTime = tableInfoList[i].EndTime;
+                int minutes = (60 - Convert.ToInt32(startTime.Minute.ToString())) + Convert.ToInt32(endTime.Minute.ToString());
+                if (minutes > 15 && tableInfoList[i].ReserveStatus == 0)
                 {
                     hs["Hide"] = true;
                 }
@@ -61,7 +61,7 @@ namespace RestaurantManage
                 {
                     hs["Hide"] = false;
                 }
-                arrayList.Add( hs);
+                arrayList.Add(hs);
             }
             Hashtable result = new Hashtable
             {
@@ -79,6 +79,7 @@ namespace RestaurantManage
         {
             ArrayList arrayList = (ArrayList)JSON.Decode(context.Request["data"]);
             ReserveInfo reserveInfo = new ReserveInfo();
+            ReserveInfo r1 = new ReserveInfo();
             string status = null;
             foreach (var item in arrayList)
             {
@@ -91,25 +92,50 @@ namespace RestaurantManage
                 reserveInfo.ReserveStatus = Convert.ToInt32(i["ReserveStatus"]);
                 reserveInfo.Notes = (string)i["Notes"];
                 status = (string)i["Status"];
+                r1 = reserveInfoBLL.GetEntityByTableNo((string)i["TableNo"]);
             }
-            bool r = reserveInfoBLL.SaveReserveInfo(reserveInfo, status);
-            if (r)
+            if (status == "edit")
             {
-                context.Response.Write("成功!");
+                bool r = reserveInfoBLL.SaveReserveInfo(reserveInfo, status);
+                if (r)
+                {
+                    context.Response.Write("成功！");
+                }
+                else
+                {
+                    context.Response.Write("失败！");
+                }
             }
             else
             {
-                context.Response.Write("失败！");
+                if (reserveInfo.StartTime >= r1.StartTime && reserveInfo.EndTime <= r1.EndTime ||
+                reserveInfo.EndTime <= r1.EndTime && reserveInfo.EndTime >= r1.StartTime)
+                {
+                    context.Response.Write("失败！");
+                }
+                else
+                {
+                    bool r = reserveInfoBLL.SaveReserveInfo(reserveInfo, status);
+                    if (r)
+                    {
+                        context.Response.Write("成功！");
+                    }
+                    else
+                    {
+                        context.Response.Write("失败！");
+                    }
+                }
             }
         }
+
         /// <summary>
         /// 根据ReserveNo获取单个预约信息
         /// </summary>
         /// <param name="context"></param>
-        public void GetReserveInfo(HttpContext context)
+        public void GetEntityByReserveNo(HttpContext context)
         {
             string reserveNo = context.Request["ReserveNo"];
-            ReserveInfo reserveInfo = reserveInfoBLL.GetEntity(reserveNo);
+            ReserveInfo reserveInfo = reserveInfoBLL.GetEntityByReserveNo(reserveNo);
             Hashtable hs = new Hashtable();
             hs["ReserveNo"] = reserveInfo.ReserveNo;
             hs["TableNo"] = reserveInfo.TableNo;
@@ -127,15 +153,19 @@ namespace RestaurantManage
         /// <param name="context"></param>
         public void RemoveReserveInfo(HttpContext context)
         {
-            string ReserveNo = context.Request["ReserveNo"];
-            bool r = reserveInfoBLL.Delete(ReserveNo);
-            if (r)
+            string reserveNo = context.Request["ReserveNo"];
+            string[] reserveNoList = reserveNo.Split(',');
+            for (int i = 0; i < reserveNoList.Length; i++)
             {
-                context.Response.Write("成功!");
-            }
-            else
-            {
-                context.Response.Write("失败！");
+                bool r = reserveInfoBLL.Delete(reserveNoList[i]);
+                if (r)
+                {
+                    context.Response.Write("成功!");
+                }
+                else
+                {
+                    context.Response.Write("失败！");
+                }
             }
         }
         /// <summary>

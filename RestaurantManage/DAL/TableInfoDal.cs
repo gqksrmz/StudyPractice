@@ -71,18 +71,44 @@ namespace DAL
         /// <returns></returns>
         public bool Delete(string tableNo)
         {
-            string sql = "delete from TableInfo" +
+            string sql1 = "delete from TableInfo" +
                 " where tableno = @tableno";
             SqlParameter pms1 = new SqlParameter("@tableno", tableNo);
-            int r = SqlHelper.ExecuteNonQuery(sql, CommandType.Text, pms1);
-            if (r > 0)
+            string sql2 = @"select count(*) from ReserveInfo where tableno = @tableno";
+            SqlParameter pms2 = new SqlParameter("@tableno", tableNo);
+
+            int r2 =(int) SqlHelper.ExecuteScalar(sql2, CommandType.Text,pms2);
+            if (r2 > 0)
             {
-                return true;
+                string sql3 = "delete from ReserveInfo where tableno = @tableno";
+                SqlParameter pms3 = new SqlParameter("@tableno", tableNo);
+                int r3 = SqlHelper.ExecuteNonQuery(sql3, CommandType.Text, pms3);
+                int r1 = SqlHelper.ExecuteNonQuery(sql1, CommandType.Text, pms1);
+                if (r1 > 0&&r3>0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return false;
+                int r1 = SqlHelper.ExecuteNonQuery(sql1, CommandType.Text, pms1);
+                if (r1 > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
+
+
+
+            
         }
         /// <summary>
         /// 查询单个实体对象
@@ -114,9 +140,67 @@ namespace DAL
         /// <param name="pageIndex">第几页</param>
         /// <param name="pageSize">每页多少条</param>
         /// <returns></returns>
-        public List<TableInfo> GetTableList(int pageIndex, int pageSize)
+        public List<TableInfo> GetTableList(int pageIndex, int pageSize, string searchHoldNum, string searchIsUse)
         {
-            string sql = selectSql + " order by tableno offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+            string sql = null;
+            if (string.IsNullOrEmpty(searchHoldNum) && string.IsNullOrEmpty(searchIsUse))
+            {
+                sql = selectSql + " order by tableno offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+
+            }
+            else if (!string.IsNullOrEmpty(searchHoldNum) && string.IsNullOrEmpty(searchIsUse))
+            {
+                if (searchHoldNum == "1")
+                {
+                    sql = selectSql + " where holdnum=2 order by tableno offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                }
+                else if (searchHoldNum == "2")
+                {
+                    sql = selectSql + " where holdnum=4 order by tableno offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                }
+                else if (searchHoldNum == "3")
+                {
+                    sql = selectSql + " where holdnum=6 order by tableno offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                }
+            }
+            else if (!string.IsNullOrEmpty(searchHoldNum) && !string.IsNullOrEmpty(searchIsUse))
+            {
+                if (searchHoldNum == "1")
+                {
+                    if (searchIsUse == "1")
+                    {
+                        sql = selectSql + " where holdnum=2 and isuse=1 order by tableno offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
+                    else
+                    {
+                        sql = selectSql + " where holdnum=2 and isuse=0 order by tableno offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
+                }
+                else if (searchHoldNum == "2")
+                {
+
+                    if (searchIsUse == "1")
+                    {
+                        sql = selectSql + " where holdnum=4 and isuse=1 order by tableno offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
+                    else
+                    {
+                        sql = selectSql + " where holdnum=4 and isuse=0 order by tableno offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
+                }
+                else if (searchHoldNum == "3")
+                {
+
+                    if (searchIsUse == "1")
+                    {
+                        sql = selectSql + " where holdnum=6 and isuse=1 order by tableno offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
+                    else
+                    {
+                        sql = selectSql + " where holdnum=6 and isuse=0 order by tableno offset(@pageIndex)*@pageSize rows fetch next @pageSize rows only";
+                    }
+                }
+            }
             List<TableInfo> tableList = new List<TableInfo>();
             SqlParameter[] pms = new SqlParameter[]
             {

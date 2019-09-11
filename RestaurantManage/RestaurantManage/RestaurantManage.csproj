@@ -2587,6 +2587,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\holdnum.Json" />
+    <Content Include="Data\isuse.Json" />
     <Content Include="Content\res\fonts\font-awesome\css\font-awesome.css.map" />
     <Content Include="Content\res\fonts\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\res\fonts\font-awesome\fonts\fontawesome-webfont.ttf" />
@@ -2608,7 +2610,6 @@
     <Content Include="Content\scripts\miniui\themes\blue2010\images\treegrid\Thumbs.db" />
     <Content Include="Content\scripts\miniui\themes\olive2003\images\buttonedit\Thumbs.db" />
     <Content Include="Content\scripts\miniui\themes\olive2003\images\tree\Thumbs.db" />
-    <Content Include="Data\holdnum.Json" />
     <None Include="packages.config" />
     <Content Include="TableInfoService.ashx" />
     <Content Include="ReserveInfoService.ashx" />

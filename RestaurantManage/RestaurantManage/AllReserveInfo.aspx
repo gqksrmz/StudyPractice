@@ -39,7 +39,7 @@
             <div field="ReserveNo" width="120" headeralign="center">预定编号</div>
             <div field="TableNo" width="120" headeralign="center" renderer="">餐桌编号</div>
             <div field="PeopleNum" width="120" headeralign="center" renderer="">用餐人数</div>
-            <div field="StartTime" width="120" headeralign="center"  renderer="onTimeRenderer">用餐开始时间</div>
+            <div field="StartTime" width="120" headeralign="center" renderer="onTimeRenderer">用餐开始时间</div>
             <div field="EndTime" width="120" headeralign="center" renderer="onTimeRenderer">用餐用餐结束时间</div>
             <div field="ReserveStatus" width="120" headeralign="center" renderer="onStatusRenderer">状态</div>
             <div field="Notes" width="120" headeralign="center">备注</div>
@@ -150,14 +150,26 @@
             var value = e.value;
             if (value) return mini.formatDate(value, 'yyyy-MM-dd HH:mm');
         }
+        var tableType = [{ id: 0, text: "预约中" },
+        { id: 1, text: "用餐中" },
+        { id: 2, text: "取消" }];
         function onStatusRenderer(e) {
-            if (e.value == 0) {
-                return "预约中";
-            } else if (e.value = 1) {
-                return "用餐中";
-            } else if (e.value = 2) {
-                return "取消";
+            for (var i = 0, l = tableType.length; i < l; i++) {
+                var d1 = e.row.StartTime;
+                var d2 = new Date();
+                var g = tableType[i];
+                if (((d2 - d1) / (1000 * 60)) > 15&& e.value == 0) {
+                    e.rowStyle = 'background:yellow';
+                    return "预约中";
+                } else if (e.value == 0) {
+                    return "预约中";
+                } else if (e.value = 1) {
+                    return "用餐中";
+                } else if (e.value = 2) {
+                    return "取消";
+                }
             }
+
             //var t1 = mini.getByName("Time").getValue()
             //var t2 = mini.getByName("EndTime").getValue()
             //var d1 = t1.replace(/\-/g, "/");

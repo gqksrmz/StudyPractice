@@ -36,9 +36,11 @@ namespace RestaurantManage
         /// <param name="context"></param>
         public void SearchAllTable(HttpContext context)
         {
+            string searchHoldNum= context.Request["SearchHoldNum"];
+            string searchIsUse= context.Request["SearchIsUse"];
             int pageIndex = Convert.ToInt32(context.Request["pageIndex"]);
-            int pageSize = Convert.ToInt32(context.Request["pageSize"]);
-            List<TableInfo> tableInfoList = tableInfoBLL.GetList(pageIndex, pageSize);
+            int pageSize = Convert.ToInt32(context.Request["pageSize"]);//string searchHoldNum,string searchIsUse
+            List<TableInfo> tableInfoList = tableInfoBLL.GetList(pageIndex, pageSize,searchHoldNum,searchIsUse);
             Hashtable result = new Hashtable
             {
                 ["data"] = tableInfoList,
@@ -60,7 +62,17 @@ namespace RestaurantManage
             {
                 Hashtable i = (Hashtable)item;
                 tableInfo.TableNo = (string)i["TableNo"];
-                tableInfo.HoldNum = Convert.ToInt32(i["HoldNum"]);
+                if (Convert.ToInt32(i["HoldNum"]) == 1)
+                {
+                    tableInfo.HoldNum = 2;
+                }else if(Convert.ToInt32(i["HoldNum"]) == 2)
+                {
+                    tableInfo.HoldNum = 4;
+                }
+                else if (Convert.ToInt32(i["HoldNum"]) == 3)
+                {
+                    tableInfo.HoldNum = 6;
+                }
                 tableInfo.IsUse = Convert.ToInt32(i["IsUse"]);
                 tableInfo.Notes = (string)i["Notes"];
                 status = (string)i["Status"];
@@ -82,15 +94,20 @@ namespace RestaurantManage
         public void RemoveTableInfo(HttpContext context)
         {
             string tableNo = context.Request["TableNo"];
-            bool r = tableInfoBLL.Delete(tableNo);
-            if (r)
+            string[] tableNoList = tableNo.Split(',');
+            for (int i = 0; i < tableNoList.Length; i++)
             {
-                context.Response.Write("成功!");
+                bool r = tableInfoBLL.Delete(tableNoList[i]);
+                if (r)
+                {
+                    context.Response.Write("成功!");
+                }
+                else
+                {
+                    context.Response.Write("失败！");
+                }
             }
-            else
-            {
-                context.Response.Write("失败！");
-            }
+           
         }
         /// <summary>
         /// 根据TableNo获取单个餐桌信息
