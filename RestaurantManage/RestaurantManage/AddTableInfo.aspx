@@ -66,15 +66,6 @@
 
 
         var form = new mini.Form("form1");
-        function SaveData() {
-            saveForm(form, {
-                url: "TableInfoService.ashx?action=SaveTableInfo",
-                callback: function (success) {
-                    if (success) CloseWindow("save");
-                    else CloseWindow();
-                }
-            });
-        }
 
         ////////////////////
         //标准方法接口定义
@@ -101,7 +92,7 @@
         }
         function CloseWindow(action) {
             if (action == "close" && form.isChanged()) {
-                if (confirm("数据被修改了，是否先保存？")) {
+                if (mini.confirm("数据被修改了，是否先保存？")) {
                     return false;
                 }
             }
@@ -109,7 +100,23 @@
             else window.close();
         }
         function onOk(e) {
-            SaveData();
+            var form = new mini.Form("form1");
+            var data = form.getData();
+            var json = mini.encode(data);
+            $.ajax({
+                url: "TableInfoService.ashx?action=SaveTableInfo",
+                type: "post",
+                data: {data:json},
+                success: function (text) {
+                    if (mini.confirm("提交成功，返回结果" + text)) {
+                        CloseWindow("save");
+                    }
+                    else {
+                        return false;
+                    }
+
+                }
+            });
         }
         function onCancel(e) {
             CloseWindow("cancel");

@@ -39,33 +39,22 @@ namespace RestaurantManage
             int pageIndex = Convert.ToInt32(context.Request["pageIndex"]);
             int pageSize = Convert.ToInt32(context.Request["pageSize"]);
             List<ReserveInfo> tableInfoList = reserveInfoBLL.GetList(pageIndex, pageSize);
-            ArrayList arrayList = new ArrayList(10);
+            Hashtable[] hs = new Hashtable[tableInfoList.Count];
             for (int i = 0; i < tableInfoList.Count; i++)
             {
-                Hashtable hs = new Hashtable();
-                hs["ReserveNo"] = tableInfoList[i].ReserveNo;
-                hs["TableNo"] = tableInfoList[i].TableNo;
-                hs["PeopleNum"] = tableInfoList[i].PeopleNum;
-                hs["StartTime"] = tableInfoList[i].StartTime;
-                hs["EndTime"] = tableInfoList[i].EndTime;
-                hs["ReserveStatus"] = tableInfoList[i].ReserveStatus;
-                hs["Notes"] = tableInfoList[i].Notes;
-                DateTime startTime = tableInfoList[i].StartTime;
-                DateTime endTime = tableInfoList[i].EndTime;
-                int minutes = (60 - Convert.ToInt32(startTime.Minute.ToString())) + Convert.ToInt32(endTime.Minute.ToString());
-                if (minutes > 15 && tableInfoList[i].ReserveStatus == 0)
-                {
-                    hs["Hide"] = true;
-                }
-                else
-                {
-                    hs["Hide"] = false;
-                }
-                arrayList.Add(hs);
+                Hashtable temp = new Hashtable();
+                temp["ReserveNo"] = tableInfoList[i].ReserveNo;
+                temp["TableNo"] = tableInfoList[i].TableNo;
+                temp["PeopleNum"] = tableInfoList[i].PeopleNum;
+                temp["StartTime"] = tableInfoList[i].StartTime;
+                temp["EndTime"] = tableInfoList[i].EndTime;
+                temp["ReserveStatus"] = tableInfoList[i].ReserveStatus;
+                temp["Notes"] = tableInfoList[i].Notes;
+                hs[i] = temp;
             }
             Hashtable result = new Hashtable
             {
-                ["data"] = arrayList,
+                ["data"] = hs,
                 ["total"] = reserveInfoBLL.GetTableCount()
             };
             String json = JSON.Encode(result);
@@ -77,55 +66,62 @@ namespace RestaurantManage
         /// <param name="context"></param>
         public void SaveReserveInfo(HttpContext context)
         {
-            ArrayList arrayList = (ArrayList)JSON.Decode(context.Request["data"]);
-            ReserveInfo reserveInfo = new ReserveInfo();
-            ReserveInfo r1 = new ReserveInfo();
-            string status = null;
-            foreach (var item in arrayList)
+            var data = JSON.Decode(context.Request["data"]);
+            if (data is Hashtable)
             {
-                Hashtable i = (Hashtable)item;
-                reserveInfo.ReserveNo = (string)i["ReserveNo"];
-                reserveInfo.TableNo = (string)i["TableNo"];
-                reserveInfo.PeopleNum = Convert.ToInt32(i["PeopleNum"]);
-                reserveInfo.StartTime = Convert.ToDateTime(i["StartTime"]);
-                reserveInfo.EndTime = Convert.ToDateTime(i["EndTime"]);
-                reserveInfo.ReserveStatus = Convert.ToInt32(i["ReserveStatus"]);
-                reserveInfo.Notes = (string)i["Notes"];
-                status = (string)i["Status"];
-                r1 = reserveInfoBLL.GetEntityByTableNo((string)i["TableNo"]);
-            }
-            if (status == "edit")
-            {
+                Hashtable hs = (Hashtable)JSON.Decode(context.Request["data"]);
+                ReserveInfo reserveInfo = new ReserveInfo();
+                string status = null;
+                reserveInfo.ReserveNo = (string)hs["ReserveNo"];
+                reserveInfo.TableNo = (string)hs["TableNo"];
+                reserveInfo.PeopleNum = Convert.ToInt32(hs["PeopleNum"]);
+                reserveInfo.StartTime = Convert.ToDateTime(hs["StartTime"]);
+                reserveInfo.EndTime = Convert.ToDateTime(hs["EndTime"]);
+                reserveInfo.ReserveStatus = Convert.ToInt32(hs["ReserveStatus"]);
+                reserveInfo.Notes = (string)hs["Notes"];
+                status = (string)hs["Status"];
                 bool r = reserveInfoBLL.SaveReserveInfo(reserveInfo, status);
                 if (r)
                 {
-                    context.Response.Write("成功！");
+                    String json = JSON.Encode("成功！");
+                    context.Response.Write(json);
                 }
                 else
                 {
-                    context.Response.Write("失败！");
+                    String json = JSON.Encode("失败！");
+                    context.Response.Write(json);
                 }
             }
-            else
+            else if (data is ArrayList)
             {
-                if (reserveInfo.StartTime >= r1.StartTime && reserveInfo.EndTime <= r1.EndTime ||
-                reserveInfo.EndTime <= r1.EndTime && reserveInfo.EndTime >= r1.StartTime)
+                ArrayList i = (ArrayList)JSON.Decode(context.Request["data"]);
+                ReserveInfo reserveInfo = new ReserveInfo();
+                string status = null;
+                foreach (var item in i)
                 {
-                    context.Response.Write("失败！");
+                    Hashtable hs = (Hashtable)item;
+                    reserveInfo.ReserveNo = (string)hs["ReserveNo"];
+                    reserveInfo.TableNo = (string)hs["TableNo"];
+                    reserveInfo.PeopleNum = Convert.ToInt32(hs["PeopleNum"]);
+                    reserveInfo.StartTime = Convert.ToDateTime(hs["StartTime"]);
+                    reserveInfo.EndTime = Convert.ToDateTime(hs["EndTime"]);
+                    reserveInfo.ReserveStatus = Convert.ToInt32(hs["ReserveStatus"]);
+                    reserveInfo.Notes = (string)hs["Notes"];
+                    status = (string)hs["Status"];
+                }
+                bool r = reserveInfoBLL.SaveReserveInfo(reserveInfo, status);
+                if (r)
+                {
+                    String json = JSON.Encode("成功！");
+                    context.Response.Write(json);
                 }
                 else
                 {
-                    bool r = reserveInfoBLL.SaveReserveInfo(reserveInfo, status);
-                    if (r)
-                    {
-                        context.Response.Write("成功！");
-                    }
-                    else
-                    {
-                        context.Response.Write("失败！");
-                    }
+                    String json = JSON.Encode("失败！");
+                    context.Response.Write(json);
                 }
             }
+
         }
 
         /// <summary>

@@ -47,13 +47,13 @@
                     </td>
                     <td>用餐开始时间：</td>
                     <td>
-                        <input name="StartTime" class="mini-datepicker" required="true" emptytext="请选择日期" renderer="onTimeRenderer" readonly="readonly"/>
+                        <input name="StartTime" class="mini-datepicker" required="true" emptytext="请选择日期" renderer="onTimeRenderer" readonly="readonly" format="yyyy-MM-dd HH:mm:ss" showtime="true"/>
                     </td>
                 </tr>
                 <tr>
                     <td>用餐结束时间：</td>
                     <td>
-                        <input name="EndTime" class="mini-datepicker" required="true" emptytext="请选择日期" renderer="onTimeRenderer" readonly="readonly"/>
+                        <input name="EndTime" class="mini-datepicker" required="true" emptytext="请选择日期" renderer="onTimeRenderer" readonly="readonly" format="yyyy-MM-dd HH:mm:ss" showtime="true"/>
                     </td>
                     <td>状态：</td>
                     <td>

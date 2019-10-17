@@ -113,6 +113,7 @@
                     $.ajax({
                         url: "ReserveInfoService.ashx?action=RemoveReserveInfo&ReserveNo=" + id,
                         success: function (text) {
+                            mini.alert("删除成功！" + text);
                             grid.reload();
                         },
                         error: function () {

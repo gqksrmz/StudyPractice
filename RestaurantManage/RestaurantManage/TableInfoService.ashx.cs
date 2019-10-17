@@ -36,11 +36,11 @@ namespace RestaurantManage
         /// <param name="context"></param>
         public void SearchAllTable(HttpContext context)
         {
-            string searchHoldNum= context.Request["SearchHoldNum"];
-            string searchIsUse= context.Request["SearchIsUse"];
+            string searchHoldNum = context.Request["SearchHoldNum"];
+            string searchIsUse = context.Request["SearchIsUse"];
             int pageIndex = Convert.ToInt32(context.Request["pageIndex"]);
             int pageSize = Convert.ToInt32(context.Request["pageSize"]);//string searchHoldNum,string searchIsUse
-            List<TableInfo> tableInfoList = tableInfoBLL.GetList(pageIndex, pageSize,searchHoldNum,searchIsUse);
+            List<TableInfo> tableInfoList = tableInfoBLL.GetList(pageIndex, pageSize, searchHoldNum, searchIsUse);
             Hashtable result = new Hashtable
             {
                 ["data"] = tableInfoList,
@@ -55,17 +55,18 @@ namespace RestaurantManage
         /// <param name="context"></param>
         public void SaveTableInfo(HttpContext context)
         {
-            ArrayList arrayList = (ArrayList)JSON.Decode(context.Request["data"]);
-            TableInfo tableInfo = new TableInfo();
-            string status = null;
-            foreach (var item in arrayList)
+            var data= JSON.Decode(context.Request["data"]);
+            if (data is Hashtable)
             {
-                Hashtable i = (Hashtable)item;
+                Hashtable i = (Hashtable)data;
+                TableInfo tableInfo = new TableInfo();
+                string status = null;
                 tableInfo.TableNo = (string)i["TableNo"];
                 if (Convert.ToInt32(i["HoldNum"]) == 1)
                 {
                     tableInfo.HoldNum = 2;
-                }else if(Convert.ToInt32(i["HoldNum"]) == 2)
+                }
+                else if (Convert.ToInt32(i["HoldNum"]) == 2)
                 {
                     tableInfo.HoldNum = 4;
                 }
@@ -76,16 +77,59 @@ namespace RestaurantManage
                 tableInfo.IsUse = Convert.ToInt32(i["IsUse"]);
                 tableInfo.Notes = (string)i["Notes"];
                 status = (string)i["Status"];
+
+                bool r = tableInfoBLL.SaveTableInfo(tableInfo, status);
+                if (r)
+                {
+                    String json = JSON.Encode("保存成功！");
+                    context.Response.Write(json);
+                }
+                else
+                {
+                    String json = JSON.Encode("保存失败！");
+                    context.Response.Write(json);
+                }
             }
-            bool r = tableInfoBLL.SaveTableInfo(tableInfo, status);
-            if (r)
+            else if(data is ArrayList)
             {
-                context.Response.Write("成功!");
+                ArrayList arryayList = (ArrayList)data;
+                TableInfo tableInfo = new TableInfo();
+                string status = null;   
+                foreach (var item in arryayList)
+                {
+                    Hashtable hs = (Hashtable)item;
+                    tableInfo.TableNo = (string)hs["TableNo"];
+                    if (Convert.ToInt32(hs["HoldNum"]) == 1)
+                    {
+                        tableInfo.HoldNum = 2;
+                    }
+                    else if (Convert.ToInt32(hs["HoldNum"]) == 2)
+                    {
+                        tableInfo.HoldNum = 4;
+                    }
+                    else if (Convert.ToInt32(hs["HoldNum"]) == 3)
+                    {
+                        tableInfo.HoldNum = 6;
+                    }
+                    tableInfo.IsUse = Convert.ToInt32(hs["IsUse"]);
+                    tableInfo.Notes = (string)hs["Notes"];
+                    status = (string)hs["Status"];
+                }
+                
+
+                bool r = tableInfoBLL.SaveTableInfo(tableInfo, status);
+                if (r)
+                {
+                    String json = JSON.Encode("保存成功！");
+                    context.Response.Write(json);
+                }
+                else
+                {
+                    String json = JSON.Encode("保存失败！");
+                    context.Response.Write(json);
+                }
             }
-            else
-            {
-                context.Response.Write("失败！");
-            }
+            
         }
         /// <summary>
         /// 根据TableNo删除餐桌信息
@@ -107,7 +151,7 @@ namespace RestaurantManage
                     context.Response.Write("失败！");
                 }
             }
-           
+
         }
         /// <summary>
         /// 根据TableNo获取单个餐桌信息

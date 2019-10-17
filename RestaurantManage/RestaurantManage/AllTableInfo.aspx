@@ -91,6 +91,7 @@
                     $.ajax({
                         url: "TableInfoService.ashx?action=RemoveTableInfo&TableNo=" + id,
                         success: function (text) {
+                            mini.alert("提交成功！" + text);
                             grid.reload();
                         },
                         error: function () {

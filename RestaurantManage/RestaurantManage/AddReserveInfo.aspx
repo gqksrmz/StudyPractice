@@ -92,18 +92,6 @@
 
         });
 
-        function SaveData() {
-            saveForm(form, {
-                url: "ReserveInfoService.ashx?action=SaveReserveInfo",
-                callback: function (success) {
-                    if (success) CloseWindow("save");
-                    else {
-                        mini.alert("失败！");
-                        CloseWindow();
-                    }
-                }
-            });
-        }
 
         ////////////////////
         //标准方法接口定义
@@ -116,6 +104,7 @@
                     url: "AjaxService.aspx?method=GetBook&id=" + data.id,
                     cache: false,
                     success: function (text) {
+                        mini.alert("添加成功！");
                         var o = mini.decode(text);
                         form.setData(o);
                         form.setChanged(false);
@@ -138,7 +127,24 @@
             else window.close();
         }
         function onOk(e) {
-            SaveData();
+
+            var form = new mini.Form("form1");
+            var data = form.getData();
+            var json = mini.encode(data);
+            $.ajax({
+                url: "ReserveInfoService.ashx?action=SaveReserveInfo",
+                type: "post",
+                data: { data: json },
+                success: function (text) {
+                    if (mini.confirm("提交成功，返回结果" + text)) {
+                        CloseWindow("save");
+                    }
+                    else {
+                        return false;
+                    }
+
+                }
+            });
         }
         function onCancel(e) {
             CloseWindow("cancel");
