@@ -2,22 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Introduction = Wrox.ProCSharp.Basics;
 namespace DotNetFramework
 {
     class Program
     {
         static void Main(string[] args)
         {
-            TimeOfDay time = (TimeOfDay)Enum.Parse(typeof(TimeOfDay), "afternoon", true);
-            //第一个参数是要使用的枚举类型 第二个参数是要转换的字符串，第三个参数是一个bool，指定转换时是否忽略大小写
+            Introduction::NamespaceExamle NSEx = new Introduction::NamespaceExamle();
+            Console.WriteLine(NSEx.GetNamespace());
             Console.ReadLine();
         }
-        public enum TimeOfDay
+    }
+}
+namespace Wrox.ProCSharp.Basics
+{
+    class NamespaceExamle
+    {
+        public string GetNamespace()
         {
-            Morning =0,
-            Afternonn=1,
-            Evening=2
+            return this.GetType().Namespace;
         }
     }
 }
